@@ -1,0 +1,101 @@
+question_index,choice1,choice2,choice3,choice4,correct_choice
+1,Berlin,Paris,Londres,Rome,2
+2,Or,Oxygène,Hydrogène,Carbone,2
+3,6,7,5,8,2
+4,Victor Hugo,Antoine de Saint-Exupéry,Molière,Albert Camus,2
+5,Mandarin,Anglais,Espagnol,Hindi,1
+6,Océan Indien,Océan Pacifique,Océan Atlantique,Océan Arctique,2
+7,1979,1991,1989,1969,3
+8,5,7,8,6,2
+9,Mars,Saturne,Jupiter,Vénus,1
+10,Euro,Yen,Won,Dollar,2
+11,Raphaël,Monet,Michel-Ange,Léonard de Vinci,4
+12,Russie,Canada,États-Unis,Chine,1
+13,Melbourne,Sydney,Canberra,Adélaïde,3
+14,K2,Everest,Mont Blanc,Kilimandjaro,2
+15,1979,1969,1959,1989,2
+16,Cu,Ag,Au,Fe,3
+17,Balzac,Victor Hugo,Zola,Flaubert,2
+18,Guépard,Lion,Gazelle,Tigre,1
+19,11,12,7,10,1
+20,Rome,Paris,Berlin,Londres,2
+21,Nirvana,AC/DC,Queen,The Beatles,3
+22,Guitare,Piano,Batterie,Violoncelle,2
+23,Memphis,Dallas,Detroit,Nashville,1
+24,Blues,Jazz,Rock,Reggae,4
+25,Prince,Michael Jackson,Elvis Presley,Freddie Mercury,2
+26,Saxophone,Guitare,Piano,Trompette,2
+27,Rihanna,Adele,Beyonce,Lady Gaga,2
+28,Rock,Musique improvisée,Pop,Classique,2
+29,Bach,Ludwig van Beethoven,Vivaldi,Mozart,2
+30,Queen,Nirvana,U2,Muse,2
+31,Piano,Violon,Guitare,Flûte,2
+32,John Lennon,Jim Morrison,David Bowie,Bob Dylan,4
+33,Whitney Houston,Aretha Franklin,Adele,Mariah Carey,2
+34,Contrebasse,Violon,Guitare,Violoncelle,2
+35,Jazz,Rap,Soul,Pop,3
+36,Elvis Presley,Prince,Freddie Mercury,Michael Jackson,2
+37,Salsa,Tango,Valse,Rock,1
+38,House,Disco,Jazz,Techno,4
+39,Bach,Mozart,Chopin,Handel,2
+40,Ska,Reggae,Blues,Rock,2
+41,Steven Spielberg,James Cameron,Quentin Tarantino,George Lucas,2
+42,Cobb,Bruce,Jack,Maximus,1
+43,Gladiator,Forrest Gump,Le Parrain,Titanic,2
+44,Gal Gadot,Scarlett Johansson,Emma Watson,Jennifer Lawrence,1
+45,Pulp Fiction,Forrest Gump,Braveheart,Shawshank Redemption,2
+46,Christopher Nolan,Martin Scorsese,Quentin Tarantino,James Cameron,3
+47,Harry Potter,Draco Malfoy,Hermione Granger,Ron Weasley,1
+48,Sony Pictures,Pixar,Disney,DreamWorks,2
+49,Conjuring,Ça (It),Shining,Carrie,2
+50,Tom Cruise,Johnny Depp,Leonardo DiCaprio,Brad Pitt,2
+51,Saw,Le Silence des agneaux,Seven,Inception,2
+52,C-3PO,R2-D2,BB-8,Wall-E,2
+53,Sean Connery,Pierce Brosnan,Daniel Craig,Roger Moore,3
+54,Le Roi Lion,Bambi,Shrek,Aladdin,1
+55,Chine,Japon,Corée du Sud,Inde,2
+56,L'Empire contre-attaque,Un Nouvel Espoir (A New Hope),La Menace fantôme,Le Retour du Jedi,2
+57,Russell Crowe,Brad Pitt,Tom Hanks,Matt Damon,1
+58,Avatar,The Matrix,Inception,Interstellar,2
+59,Hercule Poirot,Sherlock Holmes,Columbo,Maigret,2
+60,Ratatouille,Toy Story,Cars,Monstres & Cie,1
+61,Rugby,Football,Handball,Basket,1
+62,9,12,11,10,3
+63,LeBron James,Michael Jordan,Stephen Curry,Kobe Bryant,1
+64,Natation,Course à pied,Boxe,Ski,2
+65,France,Italie,Brésil,Allemagne,1
+66,Badminton,Golf,Tennis,Squash,3
+67,5,7,6,9,1
+68,Angleterre,France,Espagne,Italie,1
+69,Patinage artistique,Curling,Hockey sur glace,Baseball,3
+70,Vuelta,Tour de France,Giro,Paris-Roubaix,2
+71,Tennis,Volley,Badminton,Ping-pong,3
+72,10 km,42,195 km,21 km,5 km,2
+73,Gymnastique,Natation,Athlétisme,Football,2
+74,Basketball,Football (soccer),Rugby,Tennis,2
+75,Zinedine Zidane,Diego Maradona,Pelé,Lionel Messi,2
+76,Cricket,Golf,Rugby,Baseball,4
+77,Surf,Ski,Skateboard,Snowboard,1
+78,Christian Coleman,Justin Gatlin,Carl Lewis,Usain Bolt,4
+79,Football américain,Rugby,Basket,Handball,1
+80,Roland-Garros,US Open,Wimbledon,Australian Open,3
+81,Canberra,Perth,Sydney,Melbourne,1
+82,Kalahari,Sahara,Gobi,Désert d'Arabie,2
+83,Afrique,Amérique du Nord,Europe,Amérique du Sud,4
+84,Nil,Mississippi,Amazon,Yangtsé,1
+85,Océan Pacifique,Mer Méditerranée,Océan Atlantique,Océan Indien,3
+86,Rome,Florence,Milan,Naples,1
+87,États-Unis,Russie,Chine,Inde,3
+88,30,27,25,35,2
+89,K2,Everest,Mont Blanc,Kangchenjunga,2
+90,Thaïlande,Japon,Chine,Corée du Sud,2
+91,Paris,Venise,Rome,Athènes,3
+92,Mer Rouge,Mer Noire,Mer Égée,Mer Méditerranée,4
+93,Algérie,Égypte,Nigeria,Maroc,1
+94,Seine,Garonne,Rhône,Loire,1
+95,Montréal,Ottawa,Toronto,Vancouver,2
+96,Texas,Alaska,Nevada,Californie,2
+97,Asie,Afrique,Europe,Amérique,2
+98,Pays-Bas,Allemagne,Belgique,Danemark,1
+99,San Francisco,Los Angeles,Miami,New York,2
+100,Groenland,Islande,Australie,Madagascar,1
