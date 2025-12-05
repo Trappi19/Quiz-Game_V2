@@ -1,4 +1,4 @@
-using MySqlConnector;
+Ôªøusing MySqlConnector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class QuizManager_p1 : MonoBehaviour
 {
+    private int questionIndex = 0; // ‚Üê AJOUTE √áA (compteur s√©quentiel)
+
     public List<QuestionAndAnswer> QnA = new List<QuestionAndAnswer>();
     public GameObject[] options;
     public int currentQuestion;
@@ -18,16 +20,19 @@ public class QuizManager_p1 : MonoBehaviour
     public Text QuestionTxt;
     public Text ScoreTxt;
 
-    int totalQuestions = 0;          // Nombre de questions ‡ poser pour CE thËme (20)
-    int questionsAskedThisTheme = 0; // Compteur de questions dÈj‡ posÈes
+    int totalQuestions = 0;          // Nombre de questions √† poser pour CE th√®me (20)
+    int questionsAskedThisTheme = 0; // Compteur de questions d√©j√† pos√©es
 
     string connStr = "Server=localhost;Database=quizgame;User ID=root;Password=rootroot;Port=3306;";
 
     private void Start()
     {
+        questionIndex = 0;
+        questionsAskedThisTheme = 0;
+
         LoadQuestionsFromDatabase();
 
-        // On limite ‡ 20 questions (ou GameManager.questionPerTheme)
+        // On limite √† 20 questions (ou GameManager.questionPerTheme)
         totalQuestions = GameManager.Instance.questionPerTheme;
 
         NextPanel.SetActive(false);
@@ -43,78 +48,56 @@ public class QuizManager_p1 : MonoBehaviour
             try
             {
                 conn.Open();
-                Debug.Log("Connexion MariaDB rÈussie !");
+                Debug.Log("Connexion MariaDB r√©ussie !");
 
-                // VERSION SIMPLE : on prend toutes les questions dans l'ordre
-                // et on s'en sert diffÈremment selon la scËne.
-                //
-                // Si tu veux VRAIMENT filtrer par thËme en SQL,
-                // on adaptera ce SELECT avec un WHERE theme = 'xxx'.
-                string query = @"
-                SELECT q.id,
-                       q.question,
-                       qc.choice1,
-                       qc.choice2,
-                       qc.choice3,
-                       qc.choice4,
-                       qc.correct_choice
+                // On charge SEULEMENT les questions du th√®me courant
+                string[] themes = { "Culture g√©n√©rale", "Musique", "Sport", "Histoire", "G√©ographie" };
+                string currentTheme = themes[GameManager.Instance.currentThemeIndex];
+
+                string query = $@"
+                SELECT q.id, q.question, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
                 FROM quiz_questions q
                 JOIN quiz_choices qc ON qc.question_index = q.id
-                ORDER BY q.id;";
+                WHERE q.theme = @theme
+                ORDER BY q.id ASC;";  // ORDRE FIXE par ID
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    cmd.Parameters.AddWithValue("@theme", currentTheme);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        string questionText = reader.GetString("question");
-                        string c1 = reader.GetString("choice1");
-                        string c2 = reader.GetString("choice2");
-                        string c3 = reader.GetString("choice3");
-                        string c4 = reader.GetString("choice4");
-                        int correct = reader.GetInt32("correct_choice"); // 1..4
-
-                        QuestionAndAnswer qa = new QuestionAndAnswer
+                        while (reader.Read())
                         {
-                            Question = questionText,
-                            Answers = new string[4] { c1, c2, c3, c4 },
-                            CorrectAnswer = correct
-                        };
-
-                        QnA.Add(qa);
+                            QuestionAndAnswer qa = new QuestionAndAnswer
+                            {
+                                Question = reader.GetString("question"),
+                                Answers = new string[4]
+                                {
+                                reader.GetString("choice1"),
+                                reader.GetString("choice2"),
+                                reader.GetString("choice3"),
+                                reader.GetString("choice4")
+                                },
+                                CorrectAnswer = reader.GetInt32("correct_choice")
+                            };
+                            QnA.Add(qa);
+                        }
                     }
                 }
 
-                Debug.Log("Questions chargÈes : " + QnA.Count);
+                Debug.Log($"Th√®me {GameManager.Instance.currentThemeIndex + 1} '{currentTheme}' : {QnA.Count} questions charg√©es");
             }
             catch (Exception ex)
             {
                 Debug.LogError("Erreur MariaDB : " + ex.Message);
             }
         }
-
-        // ICI : si tu veux que chaque scËne ne voie que 20 questions,
-        // tu peux dÈcouper en fonction de currentThemeIndex
-        // (par ex. questions 0-19 pour thËme 0, 20-39 pour thËme 1, etc.)
-        int themeIndex = GameManager.Instance.currentThemeIndex; // 0..4
-        int startIndex = themeIndex * GameManager.Instance.questionPerTheme;
-        int count = GameManager.Instance.questionPerTheme;
-
-        // On sÈcurise au cas o˘ il y aurait moins de questions en BDD
-        if (startIndex < 0) startIndex = 0;
-        if (startIndex >= QnA.Count) startIndex = 0;
-        if (startIndex + count > QnA.Count)
-        {
-            count = QnA.Count - startIndex;
-        }
-
-        // On ne garde que les questions de ce "bloc" pour ce thËme
-        QnA = QnA.GetRange(startIndex, count);
     }
+
 
     public void retry()
     {
-        // Relancer le mÍme thËme (mÍmes 20 questions)
+        // Relancer le m√™me th√®me (m√™mes 20 questions)
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -124,27 +107,24 @@ public class QuizManager_p1 : MonoBehaviour
         NextPanel.SetActive(true);
 
         int themeScore = GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex];
-        ScoreTxt.text = "Score du thËme : " + themeScore + " / " + GameManager.Instance.questionPerTheme;
+        ScoreTxt.text = "Score du th√®me : " + themeScore + " / " + GameManager.Instance.questionPerTheme;
     }
 
     public void correct()
     {
-        // On ajoute un point au thËme courant dans le GameManager
         GameManager.Instance.AddPointToCurrentTheme();
-
-        QnA.RemoveAt(currentQuestion);
+        QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux √©viter les doublons
         questionsAskedThisTheme++;
-
         StartCoroutine(WaitForNext());
     }
 
     public void wrong()
     {
-        QnA.RemoveAt(currentQuestion);
+        QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux √©viter les doublons  
         questionsAskedThisTheme++;
-
         StartCoroutine(WaitForNext());
     }
+
 
     IEnumerator WaitForNext()
     {
@@ -171,29 +151,24 @@ public class QuizManager_p1 : MonoBehaviour
 
     void generateQuestion()
     {
-        // Si on a dÈj‡ posÈ 20 questions pour ce thËme, on arrÍte
-        if (questionsAskedThisTheme >= GameManager.Instance.questionPerTheme)
+        // Arr√™t apr√®s 20 questions OU fin de liste
+        if (questionIndex >= QnA.Count || questionsAskedThisTheme >= GameManager.Instance.questionPerTheme)
         {
-            Debug.Log("20 questions du thËme terminÈes");
+            Debug.Log($"Fin th√®me {GameManager.Instance.currentThemeIndex + 1}");
             GameOver();
             return;
         }
 
-        if (QnA.Count > 0)
-        {
-            currentQuestion = UnityEngine.Random.Range(0, QnA.Count);
+        // QUESTION DANS L'ORDRE FIXE (pas de random !)
+        currentQuestion = questionIndex;
+        QuestionTxt.text = QnA[currentQuestion].Question;
+        SetAnswers();
 
-            QuestionTxt.text = QnA[currentQuestion].Question;
-            SetAnswers();
-        }
-        else
-        {
-            Debug.Log("Plus de questions dans la liste");
-            GameOver();
-        }
+        questionIndex++; // On passe √† la suivante
     }
 
-    // ¿ lier ‡ un bouton "Continuer" sur ton GoPanel
+
+    // √Ä lier √† un bouton "Continuer" sur ton GoPanel
     public void NextTheme()
     {
         GameManager.Instance.currentThemeIndex++;
