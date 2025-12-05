@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class AnswerScript : MonoBehaviour
 {
     public bool isCorrect = false;
-    public QuizManager_p1 quizManager;
+    public QuizManager quizManager;
 
     public Color startColor;
 

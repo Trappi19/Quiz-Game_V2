@@ -13,7 +13,7 @@ EditorBuildSettings:
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
     path: Assets/Scenes/Theme2.unity
-    guid: 523545f7427a5554bb31feced1a383f4
+    guid: 5da3c22e50e4bb141beb72fbae403b1c
   - enabled: 1
     path: Assets/Scenes/Theme3.unity
     guid: b3c19b9b3f971f244b97eb2e7a97297b
@@ -24,8 +24,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Theme5.unity
     guid: eed09127ecf7731449c8dbebc05bc699
   - enabled: 1
-    path: Assets/Scenes/EndGame.unity
-    guid: 0aaf33bac5fd686438defd91ce9dbc5c
+    path: Assets/Scenes/EndScene.unity
+    guid: 29195cf0bb9b52644abcc734922ec4ce
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

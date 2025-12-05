@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class QuizManager_p1 : MonoBehaviour
+public class QuizManager : MonoBehaviour
 {
     private int questionIndex = 0; // ← AJOUTE ÇA (compteur séquentiel)
 
@@ -183,4 +183,4 @@ public class QuizManager_p1 : MonoBehaviour
             SceneManager.LoadScene("EndScene");
         }
     }
-}
+}   
