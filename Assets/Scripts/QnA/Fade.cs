@@ -15,7 +15,7 @@ public class Fade : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("EndScene");
+            StartCoroutine(LoadEndLevel());
         }
     }
     IEnumerator LoadLevel()
@@ -26,5 +26,13 @@ public class Fade : MonoBehaviour
 
         string nextSceneName = "Theme" + (GameManager.Instance.currentThemeIndex + 1);
         SceneManager.LoadScene(nextSceneName);
+    }
+
+    IEnumerator LoadEndLevel()
+    {
+        transition.SetTrigger("FadeOut");
+
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("EndScene");
     }
 }

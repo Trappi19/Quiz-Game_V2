@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour
 {
-    private int questionIndex = 0; // ← AJOUTE ÇA (compteur séquentiel)
+    private int questionIndex = 0; //compteur séquentiel
 
     public List<QuestionAndAnswer> QnA = new List<QuestionAndAnswer>();
     public GameObject[] options;
@@ -51,7 +51,7 @@ public class QuizManager : MonoBehaviour
                 Debug.Log("Connexion MariaDB réussie !");
 
                 // On charge SEULEMENT les questions du thème courant
-                string[] themes = { "Culture générale", "Musique", "Sport", "Histoire", "Géographie" };
+                string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
                 string currentTheme = themes[GameManager.Instance.currentThemeIndex];
 
                 string query = $@"
@@ -68,6 +68,10 @@ public class QuizManager : MonoBehaviour
                     {
                         while (reader.Read())
                         {
+                            Debug.Log("currentThemeIndex = " + GameManager.Instance.currentThemeIndex);
+                            Debug.Log("currentTheme = " + currentTheme);
+                            Debug.Log("QnA.Count après chargement = " + QnA.Count);
+
                             QuestionAndAnswer qa = new QuestionAndAnswer
                             {
                                 Question = reader.GetString("question"),

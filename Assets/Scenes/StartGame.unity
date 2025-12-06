@@ -1365,7 +1365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!328 &1201778471
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -1433,7 +1433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1408139303
 Transform:
   m_ObjectHideFlags: 0
@@ -1497,42 +1497,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fader
       objectReference: {fileID: 0}
-    - target: {fileID: 6506300675646752324, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6506300675646752324, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6506300675646752324, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 6506300675646752324, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 6885283561684831596, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6885283561684831596, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6885283561684831596, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6885283561684831596, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6885283561684831596, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7975115160100257637, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1563,18 +1527,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7975115160100257637, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7975115160100257637, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7975115160100257637, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7975115160100257637, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7975115160100257637, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
@@ -1624,14 +1576,6 @@ PrefabInstance:
     - target: {fileID: 7975115160100257637, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8412634398228675444, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8412634398228675444, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
-      propertyPath: m_VertexColorAlwaysGammaSpace
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public int currentThemeIndex = 1;   // 0..5
+    public int currentThemeIndex = 0;   // 0..4
     public int[] themeScores = new int[5];
     public int questionPerTheme = 20;
     
