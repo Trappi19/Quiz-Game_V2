@@ -18,6 +18,11 @@ public class Fade : MonoBehaviour
             StartCoroutine(LoadEndLevel());
         }
     }
+
+    public void ReturnToMenu()
+    {
+        StartCoroutine(ReturnToMenue());
+    }
     IEnumerator LoadLevel()
     {
         transition.SetTrigger("FadeOut");
@@ -34,5 +39,12 @@ public class Fade : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("EndScene");
+    }
+    IEnumerator ReturnToMenue()
+    {
+        transition.SetTrigger("FadeOut");
+
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("StartGame");
     }
 }

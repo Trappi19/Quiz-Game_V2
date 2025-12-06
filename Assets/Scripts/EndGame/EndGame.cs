@@ -1,31 +1,34 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EndScreen : MonoBehaviour
+public class EndGame : MonoBehaviour
 {
-    public Text totalScoreText;
-    public Text detailText;
+    public Text totalScoreText;   // Texte pour "Score total : X / 100"
+    public Text detailScoreText;  // Texte optionnel avec le détail par thème
 
     void Start()
     {
         int total = GameManager.Instance.GetTotalScore(); // 0..100
+
+        // Score total
         totalScoreText.text = "Score total : " + total + " / 100";
 
-        detailText.text =
-            "Thème 1 : " + GameManager.Instance.themeScores[0] + "/20\n" +
-            "Thème 2 : " + GameManager.Instance.themeScores[1] + "/20\n" +
-            "Thème 3 : " + GameManager.Instance.themeScores[2] + "/20\n" +
-            "Thème 4 : " + GameManager.Instance.themeScores[3] + "/20\n" +
-            "Thème 5 : " + GameManager.Instance.themeScores[4] + "/20";
+        // Détail par thème (optionnel)
+        detailScoreText.text =
+            "Culture générale : " + GameManager.Instance.themeScores[0] + "/20\n" +
+            "Musique : " + GameManager.Instance.themeScores[1] + "/20\n" +
+            "Cinéma : " + GameManager.Instance.themeScores[2] + "/20\n" +
+            "Sport : " + GameManager.Instance.themeScores[3] + "/20\n" +
+            "Géographie : " + GameManager.Instance.themeScores[4] + "/20";
     }
 
     public void Replay()
     {
-        GameManager.Instance.currentThemeIndex = 0;
+        // Reset des scores et retour au Theme1
         for (int i = 0; i < GameManager.Instance.themeScores.Length; i++)
             GameManager.Instance.themeScores[i] = 0;
 
-        SceneManager.LoadScene("Theme1");
+        GameManager.Instance.currentThemeIndex = 0;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Theme1");
     }
 }
