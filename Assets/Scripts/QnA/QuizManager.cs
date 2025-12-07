@@ -19,6 +19,8 @@ public class QuizManager : MonoBehaviour
 
     public Text QuestionTxt;
     public Text ScoreTxt;
+    public Text CurrentTheme;
+    string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
 
     int totalQuestions = 0;          // Nombre de questions à poser pour CE thème (20)
     int questionsAskedThisTheme = 0; // Compteur de questions déjà posées
@@ -34,6 +36,8 @@ public class QuizManager : MonoBehaviour
 
         // On limite à 20 questions (ou GameManager.questionPerTheme)
         totalQuestions = GameManager.Instance.questionPerTheme;
+
+        CurrentTheme.text = "Theme : " + themes[GameManager.Instance.currentThemeIndex];
 
         NextPanel.SetActive(false);
         generateQuestion();
@@ -88,7 +92,7 @@ public class QuizManager : MonoBehaviour
                         }
                     }
                 }
-
+                
                 Debug.Log($"Thème {GameManager.Instance.currentThemeIndex + 1} '{currentTheme}' : {QnA.Count} questions chargées");
             }
             catch (Exception ex)
@@ -117,14 +121,14 @@ public class QuizManager : MonoBehaviour
     public void correct()
     {
         GameManager.Instance.AddPointToCurrentTheme();
-        QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux éviter les doublons
+        //QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux éviter les doublons
         questionsAskedThisTheme++;
         StartCoroutine(WaitForNext());
     }
 
     public void wrong()
     {
-        QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux éviter les doublons  
+        //QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux éviter les doublons  
         questionsAskedThisTheme++;
         StartCoroutine(WaitForNext());
     }
