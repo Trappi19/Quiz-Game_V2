@@ -4,12 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class StartOption : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject MenueChargement;
+    public GameObject MenuePanel;
+    private object MenueManager;
 
-    //public void Start()
-    //{
-    //    Text MenuSelect = GetComponent<string>().color;
-    //}
     public void StartGame()
     {
         SceneManager.LoadScene("Theme1");
@@ -20,5 +18,6 @@ public class StartOption : MonoBehaviour
         Application.Quit();
         Debug.Log("Quit Game");
     }
+    
 
 }

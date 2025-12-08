@@ -29,6 +29,20 @@ public class QuizManager : MonoBehaviour
 
     private void Start()
     {
+
+        // RESTAURATION SAUVEGARDE (si existe)
+        if (PlayerPrefs.HasKey("Save" + (GameManager.Instance.currentThemeIndex + 1) + "_PlayerName"))
+        {
+            questionIndex = PlayerPrefs.GetInt("Save" + (GameManager.Instance.currentThemeIndex + 1) + "_Question", 0);
+            Debug.Log($"🔄 Restauration: question {questionIndex}");
+        }
+        else
+        {
+            questionIndex = 0;  // Nouvelle partie
+        }
+
+        questionsAskedThisTheme = questionIndex;  // Synchro
+
         questionIndex = 0;
         questionsAskedThisTheme = 0;
 
@@ -100,6 +114,17 @@ public class QuizManager : MonoBehaviour
                 Debug.LogError("Erreur MariaDB : " + ex.Message);
             }
         }
+    }
+
+    public void Sauvegarder()
+    {
+        string prefix = "Save1_"; // Slot 1 pour test
+        PlayerPrefs.SetString(prefix + "PlayerName", PlayerPrefs.GetString("PlayerName"));
+        PlayerPrefs.SetInt(prefix + "Theme", GameManager.Instance.currentThemeIndex + 1);
+        PlayerPrefs.SetInt(prefix + "Question", questionIndex);
+        PlayerPrefs.SetInt(prefix + "Score", GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]);
+        PlayerPrefs.Save();
+        Debug.Log("✅ SAUVEGARDÉ Slot 1");
     }
 
 
@@ -190,5 +215,11 @@ public class QuizManager : MonoBehaviour
         {
             SceneManager.LoadScene("EndScene");
         }
+    }
+
+    // Ajoutez cette propriété publique à la classe QuizManager pour exposer questionIndex
+    public int QuestionIndex
+    {
+        get { return questionIndex; }
     }
 }   
