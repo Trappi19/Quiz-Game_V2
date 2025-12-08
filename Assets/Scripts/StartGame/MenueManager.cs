@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -23,7 +23,7 @@ public class MenuManager : MonoBehaviour
         btnConfirmer.onClick.AddListener(ConfirmerNom);
         UImenuChargementPanel.SetActive(false);
         MenuePanel.SetActive(true);
-        RefreshSaves();
+        //RefreshSaves();
     }
 
     public void NouvellePartie()
@@ -40,7 +40,7 @@ public class MenuManager : MonoBehaviour
         {
             PlayerPrefs.SetString("PlayerName", pseudo); // Sauvegarde nom
             //nomJoueurPanel.SetActive(false); Facultatif
-            StartCoroutine(Starttheme1()); // Charge th�me 1
+            StartCoroutine(Starttheme1()); // Charge thème 1
         }
     }
 
@@ -55,18 +55,31 @@ public class MenuManager : MonoBehaviour
     public void OuvrirMenuChargement()
     {
         MenuePanel.SetActive(false);
-        RefreshSaves();
+        RefreshSaves();                // ← on met à jour les slots ici
         UImenuChargementPanel.SetActive(true);
+
+        Debug.Log(">>> OuvrirMenuChargement appelé");
     }
 
     public void RefreshSaves()
     {
+        // Sécurité de base
+        if (slot1Text == null || slot1Btn == null ||
+            slot2Text == null || slot2Btn == null ||
+            slot3Text == null || slot3Btn == null)
+        {
+            Debug.LogError("Un des slots n'est pas assigné dans l'Inspector !");
+            return;
+        }
+
         // SLOT 1
         if (PlayerPrefs.HasKey("Save1_PlayerName"))
         {
-            slot1Text.text = PlayerPrefs.GetString("Save1_PlayerName") + " - T" +
-                           PlayerPrefs.GetInt("Save1_Theme");
+            string nom = PlayerPrefs.GetString("Save1_PlayerName");
+            int theme = PlayerPrefs.GetInt("Save1_Theme", 1);
+            slot1Text.text = nom + " - T" + theme;
             slot1Btn.interactable = true;
+
             slot1Btn.onClick.RemoveAllListeners();
             slot1Btn.onClick.AddListener(() => LoadSave(1));
         }
@@ -76,24 +89,61 @@ public class MenuManager : MonoBehaviour
             slot1Btn.interactable = false;
         }
 
-        // SLOT 2 (copiez-collez pour 2 et 3)
+        // SLOT 2
         if (PlayerPrefs.HasKey("Save2_PlayerName"))
         {
-            slot2Text.text = PlayerPrefs.GetString("Save2_PlayerName") + " - T" +
-                           PlayerPrefs.GetInt("Save2_Theme");
+            string nom = PlayerPrefs.GetString("Save2_PlayerName");
+            int theme = PlayerPrefs.GetInt("Save2_Theme", 1);
+            slot2Text.text = nom + " - T" + theme;
             slot2Btn.interactable = true;
+
+            slot2Btn.onClick.RemoveAllListeners();
+            slot2Btn.onClick.AddListener(() => LoadSave(2));
         }
         else
         {
             slot2Text.text = "Vide";
             slot2Btn.interactable = false;
         }
+
+        // SLOT 3
+        if (PlayerPrefs.HasKey("Save3_PlayerName"))
+        {
+            string nom = PlayerPrefs.GetString("Save3_PlayerName");
+            int theme = PlayerPrefs.GetInt("Save3_Theme", 1);
+            slot3Text.text = nom + " - T" + theme;
+            slot3Btn.interactable = true;
+
+            slot3Btn.onClick.RemoveAllListeners();
+            slot3Btn.onClick.AddListener(() => LoadSave(3));
+        }
+        else
+        {
+            slot3Text.text = "Vide";
+            slot3Btn.interactable = false;
+        }
     }
 
-    void LoadSave(int slot)
+
+
+
+    public void LoadSave(int slot)
     {
         string prefix = "Save" + slot + "_";
-        PlayerPrefs.SetString("PlayerName", PlayerPrefs.GetString(prefix + "PlayerName"));
-        SceneManager.LoadScene("Theme" + PlayerPrefs.GetInt(prefix + "Theme"));
+
+        string nom = PlayerPrefs.GetString(prefix + "PlayerName", "Inconnu");
+        int theme = PlayerPrefs.GetInt(prefix + "Theme", 1);
+        int question = PlayerPrefs.GetInt(prefix + "Question", 0);
+        int score = PlayerPrefs.GetInt(prefix + "Score", 0);
+
+        PlayerPrefs.SetString("PlayerName", nom);
+        PlayerPrefs.SetInt("Resume_Question", question);
+        PlayerPrefs.SetInt("Resume_Score", score);
+        PlayerPrefs.SetInt("Resume_Theme", theme);
+
+        SceneManager.LoadScene("Theme" + theme);
     }
+
+
+
 }

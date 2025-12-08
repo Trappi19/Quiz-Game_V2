@@ -146,13 +146,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 37492592}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 96353536}
-  m_Father: {fileID: 283739085}
+  m_Father: {fileID: 1005669755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -345,52 +345,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96353535}
   m_CullTransparentMesh: 1
---- !u!1 &110021401
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 110021403}
-  - component: {fileID: 110021402}
-  m_Layer: 0
-  m_Name: Save
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &110021402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110021401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be5fa00351b79d44da31fbe3f68c593e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Save
-  btnSauvegarder: {fileID: 1682178689}
-  quizManager: {fileID: 1273031301}
---- !u!4 &110021403
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 110021401}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 618.24036, y: 307.03693, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &196584564
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,43 +424,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 196584564}
   m_CullTransparentMesh: 1
---- !u!1 &283739084
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 283739085}
-  m_Layer: 5
-  m_Name: Button Save/Quit
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &283739085
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 283739084}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1682178688}
-  - {fileID: 37492593}
-  m_Father: {fileID: 1005669755}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &301283985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,7 +1594,8 @@ RectTransform:
   - {fileID: 1271718597}
   - {fileID: 1228240412}
   - {fileID: 1489607425}
-  - {fileID: 283739085}
+  - {fileID: 1682178688}
+  - {fileID: 37492593}
   m_Father: {fileID: 553988522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2911,13 +2829,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682178687}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1069508037}
-  m_Father: {fileID: 283739085}
+  m_Father: {fileID: 1005669755}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3029,15 +2947,19 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69adb2eaf6dbcd24ba6c4c841866884d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::QuizManager
+  m_EditorClassIdentifier: '::'
   QnA: []
-  options: []
+  options:
+  - {fileID: 536326399}
+  - {fileID: 1271718596}
+  - {fileID: 1228240411}
+  - {fileID: 1489607424}
   currentQuestion: 0
-  Quizpanel: {fileID: 0}
-  NextPanel: {fileID: 0}
-  QuestionTxt: {fileID: 0}
-  ScoreTxt: {fileID: 0}
-  CurrentTheme: {fileID: 0}
+  Quizpanel: {fileID: 1005669754}
+  NextPanel: {fileID: 337081323}
+  QuestionTxt: {fileID: 196584567}
+  ScoreTxt: {fileID: 1269187026}
+  CurrentTheme: {fileID: 741524839}
 --- !u!1001 &1746278088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3427,5 +3349,4 @@ SceneRoots:
   - {fileID: 1162682132}
   - {fileID: 619394802}
   - {fileID: 519420032}
-  - {fileID: 110021403}
   - {fileID: 1791029728}

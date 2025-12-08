@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour
 {
+    private int saveQuestionIndex = 0;   // index de la dernière question jouée
     private int questionIndex = 0; //compteur séquentiel
 
     public List<QuestionAndAnswer> QnA = new List<QuestionAndAnswer>();
@@ -29,33 +30,38 @@ public class QuizManager : MonoBehaviour
 
     private void Start()
     {
+        int resumeTheme = PlayerPrefs.GetInt("Resume_Theme", -1);
+        int resumeQuestion = PlayerPrefs.GetInt("Resume_Question", 0);
+        int resumeScore = PlayerPrefs.GetInt("Resume_Score", 0);
 
-        // RESTAURATION SAUVEGARDE (si existe)
-        if (PlayerPrefs.HasKey("Save" + (GameManager.Instance.currentThemeIndex + 1) + "_PlayerName"))
+        if (resumeTheme == GameManager.Instance.currentThemeIndex + 1)
         {
-            questionIndex = PlayerPrefs.GetInt("Save" + (GameManager.Instance.currentThemeIndex + 1) + "_Question", 0);
-            Debug.Log($"🔄 Restauration: question {questionIndex}");
+            questionIndex = resumeQuestion;
+            questionsAskedThisTheme = resumeQuestion;
+            GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex] = resumeScore;
+
+            Debug.Log($"🔄 Reprise sauvegarde: questionIndex={questionIndex}, score={resumeScore}");
         }
         else
         {
-            questionIndex = 0;  // Nouvelle partie
+            questionIndex = 0;
+            questionsAskedThisTheme = 0;
         }
 
-        questionsAskedThisTheme = questionIndex;  // Synchro
 
-        questionIndex = 0;
-        questionsAskedThisTheme = 0;
 
         LoadQuestionsFromDatabase();
-
-        // On limite à 20 questions (ou GameManager.questionPerTheme)
         totalQuestions = GameManager.Instance.questionPerTheme;
-
         CurrentTheme.text = "Theme : " + themes[GameManager.Instance.currentThemeIndex];
-
         NextPanel.SetActive(false);
         generateQuestion();
+
+        // Optionnel : nettoyer les clés de reprise
+        PlayerPrefs.DeleteKey("Resume_Theme");
+        PlayerPrefs.DeleteKey("Resume_Question");
+        PlayerPrefs.DeleteKey("Resume_Score");
     }
+
 
     void LoadQuestionsFromDatabase()
     {
@@ -86,9 +92,9 @@ public class QuizManager : MonoBehaviour
                     {
                         while (reader.Read())
                         {
-                            Debug.Log("currentThemeIndex = " + GameManager.Instance.currentThemeIndex);
-                            Debug.Log("currentTheme = " + currentTheme);
-                            Debug.Log("QnA.Count après chargement = " + QnA.Count);
+                            //Debug.Log("currentThemeIndex = " + GameManager.Instance.currentThemeIndex);
+                            //Debug.Log("currentTheme = " + currentTheme);
+                            //Debug.Log("QnA.Count après chargement = " + QnA.Count);
 
                             QuestionAndAnswer qa = new QuestionAndAnswer
                             {
@@ -118,14 +124,19 @@ public class QuizManager : MonoBehaviour
 
     public void Sauvegarder()
     {
-        string prefix = "Save1_"; // Slot 1 pour test
-        PlayerPrefs.SetString(prefix + "PlayerName", PlayerPrefs.GetString("PlayerName"));
+        Debug.Log($"[Sauvegarder] saveQuestionIndex={saveQuestionIndex}");
+
+        string prefix = "Save1_";
+        PlayerPrefs.SetString(prefix + "PlayerName", PlayerPrefs.GetString("PlayerName", "Inconnu"));
         PlayerPrefs.SetInt(prefix + "Theme", GameManager.Instance.currentThemeIndex + 1);
-        PlayerPrefs.SetInt(prefix + "Question", questionIndex);
+        PlayerPrefs.SetInt(prefix + "Question", saveQuestionIndex);   // ← index figé ici
         PlayerPrefs.SetInt(prefix + "Score", GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]);
         PlayerPrefs.Save();
+
         Debug.Log("✅ SAUVEGARDÉ Slot 1");
     }
+
+
 
 
     public void retry()
@@ -143,20 +154,49 @@ public class QuizManager : MonoBehaviour
         ScoreTxt.text = "Score du thème : " + themeScore + " / " + GameManager.Instance.questionPerTheme;
     }
 
+    //public void correct()
+    //{
+    //    Debug.Log($"[correct()] avant: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
+
+    //    GameManager.Instance.AddPointToCurrentTheme();
+    //    questionsAskedThisTheme++;
+    //    StartCoroutine(WaitForNext());
+
+    //    Debug.Log($"[correct()] après: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
+    //}
+
     public void correct()
     {
+        Debug.Log($"[correct()] avant: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
+
         GameManager.Instance.AddPointToCurrentTheme();
-        //QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux éviter les doublons
         questionsAskedThisTheme++;
+
+        // On enregistre l'index de la question QUI VIENT D'ÊTRE RÉPONDUE
+        saveQuestionIndex = questionIndex - 1;
+        Debug.Log($"[correct()] saveQuestionIndex mis à {saveQuestionIndex}");
+
         StartCoroutine(WaitForNext());
+
+        Debug.Log($"[correct()] après: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
     }
 
     public void wrong()
     {
-        //QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux éviter les doublons  
         questionsAskedThisTheme++;
+
+        saveQuestionIndex = questionIndex - 1;
+        Debug.Log($"[wrong()] saveQuestionIndex mis à {saveQuestionIndex}");
+
         StartCoroutine(WaitForNext());
     }
+
+    //public void wrong()
+    //{
+    //    //QnA.RemoveAt(currentQuestion);  // Optionnel si tu veux éviter les doublons  
+    //    questionsAskedThisTheme++;
+    //    StartCoroutine(WaitForNext());
+    //}
 
 
     IEnumerator WaitForNext()
@@ -184,7 +224,6 @@ public class QuizManager : MonoBehaviour
 
     void generateQuestion()
     {
-        // Arrêt après 20 questions OU fin de liste
         if (questionIndex >= QnA.Count || questionsAskedThisTheme >= GameManager.Instance.questionPerTheme)
         {
             Debug.Log($"Fin thème {GameManager.Instance.currentThemeIndex + 1}");
@@ -192,13 +231,16 @@ public class QuizManager : MonoBehaviour
             return;
         }
 
-        // QUESTION DANS L'ORDRE FIXE (pas de random !)
         currentQuestion = questionIndex;
         QuestionTxt.text = QnA[currentQuestion].Question;
         SetAnswers();
 
-        questionIndex++; // On passe à la suivante
+        // On mémorise explicitement l'index de la question affichée
+        //saveQuestionIndex = currentQuestion;
+
+        questionIndex++;
     }
+
 
 
     // À lier à un bouton "Continuer" sur ton GoPanel
