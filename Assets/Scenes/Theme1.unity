@@ -2814,7 +2814,6 @@ GameObject:
   - component: {fileID: 1682178691}
   - component: {fileID: 1682178690}
   - component: {fileID: 1682178689}
-  - component: {fileID: 1682178692}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -2886,7 +2885,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1682178692}
+      - m_Target: {fileID: 1273031301}
         m_TargetAssemblyTypeName: QuizManager, Assembly-CSharp
         m_MethodName: Sauvegarder
         m_Mode: 1
@@ -2936,30 +2935,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682178687}
   m_CullTransparentMesh: 1
---- !u!114 &1682178692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1682178687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69adb2eaf6dbcd24ba6c4c841866884d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  QnA: []
-  options:
-  - {fileID: 536326399}
-  - {fileID: 1271718596}
-  - {fileID: 1228240411}
-  - {fileID: 1489607424}
-  currentQuestion: 0
-  Quizpanel: {fileID: 1005669754}
-  NextPanel: {fileID: 337081323}
-  QuestionTxt: {fileID: 196584567}
-  ScoreTxt: {fileID: 1269187026}
-  CurrentTheme: {fileID: 741524839}
 --- !u!1001 &1746278088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3057,50 +3032,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d77f48675a00bb49af70e6239b2e096, type: 3}
---- !u!1 &1791029726
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1791029728}
-  - component: {fileID: 1791029727}
-  m_Layer: 0
-  m_Name: SaveManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1791029727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791029726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e00ff84b0f0a0894394c9280bb6eb02d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SaveManager
---- !u!4 &1791029728
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791029726}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 576.8045, y: 267.4773, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1965629834
 GameObject:
   m_ObjectHideFlags: 0
@@ -3349,4 +3280,3 @@ SceneRoots:
   - {fileID: 1162682132}
   - {fileID: 619394802}
   - {fileID: 519420032}
-  - {fileID: 1791029728}

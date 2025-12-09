@@ -124,9 +124,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-
-
-
     public void LoadSave(int slot)
     {
         string prefix = "Save" + slot + "_";
@@ -134,16 +131,23 @@ public class MenuManager : MonoBehaviour
         string nom = PlayerPrefs.GetString(prefix + "PlayerName", "Inconnu");
         int theme = PlayerPrefs.GetInt(prefix + "Theme", 1);
         int question = PlayerPrefs.GetInt(prefix + "Question", 0);
-        int score = PlayerPrefs.GetInt(prefix + "Score", 0);
+
+        // CHARGE TOUS LES SCORES DES 5 THÈMES
+        for (int i = 0; i < 5; i++)
+        {
+            GameManager.Instance.themeScores[i] = PlayerPrefs.GetInt(prefix + "ScoreTheme" + i, 0);
+        }
+
+        Debug.Log($"LOAD SAVE slot {slot}: theme={theme}, question={question}, scores=[{string.Join(",", GameManager.Instance.themeScores)}]");
 
         PlayerPrefs.SetString("PlayerName", nom);
         PlayerPrefs.SetInt("Resume_Question", question);
-        PlayerPrefs.SetInt("Resume_Score", score);
         PlayerPrefs.SetInt("Resume_Theme", theme);
+
+        GameManager.Instance.currentThemeIndex = theme - 1;
 
         SceneManager.LoadScene("Theme" + theme);
     }
-
 
 
 }

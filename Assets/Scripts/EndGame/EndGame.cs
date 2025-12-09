@@ -13,13 +13,15 @@ public class EndGame : MonoBehaviour
         // Score total
         totalScoreText.text = "Score total : " + total + " / 100";
 
-        // Détail par thème (optionnel)
-        detailScoreText.text =
-            "Culture générale : " + GameManager.Instance.themeScores[0] + "/20\n" +
-            "Musique : " + GameManager.Instance.themeScores[1] + "/20\n" +
-            "Cinéma : " + GameManager.Instance.themeScores[2] + "/20\n" +
-            "Sport : " + GameManager.Instance.themeScores[3] + "/20\n" +
-            "Géographie : " + GameManager.Instance.themeScores[4] + "/20";
+        // Tableau des noms de thèmes (le même que dans QuizManager)
+        string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
+
+        // Détail par thème avec les bons noms
+        detailScoreText.text = "";
+        for (int i = 0; i < 5; i++)
+        {
+            detailScoreText.text += themes[i] + " : " + GameManager.Instance.themeScores[i] + "/20\n";
+        }
     }
 
     public void Replay()

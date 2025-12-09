@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
 
     public int currentThemeIndex = 0;   // 0..4
     public int[] themeScores = new int[5];
