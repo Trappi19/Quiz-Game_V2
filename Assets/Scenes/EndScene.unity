@@ -1494,9 +1494,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655577df06009804896841ac65bef67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  themes:
+  - "Culture g\xE9n\xE9rale"
+  - Musique
+  - "Cin\xE9ma"
+  - Sport
+  - "G\xE9ographie"
   currentThemeIndex: 0
   themeScores: 0000000000000000000000000000000000000000
   questionPerTheme: 20
+  currentSaveSlot: 1
 --- !u!4 &1162682132
 Transform:
   m_ObjectHideFlags: 0

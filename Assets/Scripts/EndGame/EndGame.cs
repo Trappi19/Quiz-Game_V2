@@ -8,6 +8,9 @@ public class EndGame : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Historique enregistré.");
+        HistorySystem.AddRunToHistory();
+
         int total = GameManager.Instance.GetTotalScore(); // 0..100
 
         // Score total
@@ -24,13 +27,10 @@ public class EndGame : MonoBehaviour
         }
     }
 
-    public void Replay()
+    public void QuitGame()
     {
-        // Reset des scores et retour au Theme1
-        for (int i = 0; i < GameManager.Instance.themeScores.Length; i++)
-            GameManager.Instance.themeScores[i] = 0;
-
-        GameManager.Instance.currentThemeIndex = 0;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Theme1");
+        Application.Quit();
+        Debug.Log("Quit Game");
     }
+
 }

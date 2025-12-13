@@ -10,6 +10,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject MenuePanel;
     [SerializeField] private InputField inputNomJoueur;
     [SerializeField] private Button btnConfirmer;
+    [SerializeField] private GameObject HistoryPanel;
+
 
     [Header("UI Chargement")]
     [SerializeField] private GameObject UImenuChargementPanel;
@@ -30,10 +32,16 @@ public class MenuManager : MonoBehaviour
         btnConfirmer.onClick.AddListener(ConfirmerNom);
         UImenuChargementPanel.SetActive(false);
         MenuePanel.SetActive(true);
+        HistoryPanel.SetActive(false);
     }
 
     public void NouvellePartie()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetRun();   // appel sécurisé
+        }
+
         nomJoueurPanel.SetActive(true);
         inputNomJoueur.ActivateInputField();
         Debug.Log("Nouvelle Partie");
@@ -197,6 +205,18 @@ public class MenuManager : MonoBehaviour
         MenuePanel.SetActive(true);
         UImenuChargementPanel.SetActive(false);
         DeleteSavePanel.SetActive(false);
+        HistoryPanel.SetActive(false);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+        Debug.Log("Quit Game");
+    }
+
+    public void OpenHistoryPanel()
+    {
+        MenuePanel.SetActive(false);
+        HistoryPanel.SetActive(true);
+    }
 }

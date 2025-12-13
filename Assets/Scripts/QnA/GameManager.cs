@@ -36,4 +36,15 @@ public class GameManager : MonoBehaviour
             total += themeScores[i];
         return total;
     }
+
+    public void ResetRun()
+    {
+        currentThemeIndex = 0;
+        for (int i = 0; i < themeScores.Length; i++)
+            themeScores[i] = 0;
+
+        PlayerPrefs.DeleteKey("Resume_Theme");
+        PlayerPrefs.DeleteKey("Resume_Question");
+        PlayerPrefs.DeleteKey("Resume_Score");
+    }
 }
