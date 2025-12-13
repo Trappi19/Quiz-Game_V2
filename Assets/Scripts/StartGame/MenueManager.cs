@@ -196,6 +196,7 @@ public class MenuManager : MonoBehaviour
     {
         MenuePanel.SetActive(true);
         UImenuChargementPanel.SetActive(false);
+        DeleteSavePanel.SetActive(false);
     }
 
 }

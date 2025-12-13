@@ -22,6 +22,12 @@ public class QuizManager : MonoBehaviour
     public Text CurrentTheme;
     string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
 
+    [Header("Save System")]
+    [SerializeField] public GameObject saveSlotsPanel;   // assigné dans l’Inspector
+    [SerializeField]  public GameObject overwritePanel;   // petit panel "Écraser ?"
+    [SerializeField] public Text overwriteText;          // "Écraser la sauvegarde du slot X ?"
+    private int pendingSlot = 1;
+
 
     int totalQuestions = 0;          // Nombre de questions à poser pour CE thème (20)
     int questionsAskedThisTheme = 0; // Compteur de questions déjà posées
@@ -125,26 +131,69 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    public void Sauvegarder()
+    public void SauvegarderDansSlot(int slot)
     {
         int indexToSave = currentQuestion;
+        string prefix = "Save" + slot + "_";
 
-        Debug.Log($">>> [Sauvegarder] appelé, currentQuestion={currentQuestion}, indexToSave={indexToSave} <<<");
+        Debug.Log($">>> [Sauvegarder] slot={slot}, currentQuestion={currentQuestion}, indexToSave={indexToSave} <<<");
 
-        string prefix = "Save1_";
         PlayerPrefs.SetString(prefix + "PlayerName", PlayerPrefs.GetString("PlayerName", "Inconnu"));
         PlayerPrefs.SetInt(prefix + "Theme", GameManager.Instance.currentThemeIndex + 1);
         PlayerPrefs.SetInt(prefix + "Question", indexToSave);
 
-        // SAUVEGARDE TOUS LES SCORES DES 5 THÈMES
+        // Tous les scores 5 thèmes
         for (int i = 0; i < 5; i++)
-        {
             PlayerPrefs.SetInt(prefix + "ScoreTheme" + i, GameManager.Instance.themeScores[i]);
-        }
 
         PlayerPrefs.Save();
 
-        Debug.Log("✅ SAUVEGARDÉ Slot 1");
+        Debug.Log("✅ SAUVEGARDÉ Slot " + slot);
+    }
+
+
+    public void OuvrirChoixSlot()
+    {
+        saveSlotsPanel.SetActive(true);
+    }
+
+    public void FermerChoixSlot()
+    {
+        saveSlotsPanel.SetActive(false);
+        overwritePanel.SetActive(false);
+    }
+
+    public void ChoisirSlot(int slot)
+    {
+        pendingSlot = slot;
+
+        string prefix = "Save" + slot + "_";
+        bool existe = PlayerPrefs.HasKey(prefix + "PlayerName");
+
+        if (existe)
+        {
+            // Demander confirmation
+            overwriteText.text = "Écraser la sauvegarde du slot " + slot + " ?";
+            overwritePanel.SetActive(true);
+        }
+        else
+        {
+            // Slot vide → on sauvegarde direct
+            SauvegarderDansSlot(slot);
+            saveSlotsPanel.SetActive(false);
+        }
+    }
+
+    public void ConfirmerOverwriteOui()
+    {
+        SauvegarderDansSlot(pendingSlot);
+        overwritePanel.SetActive(false);
+        saveSlotsPanel.SetActive(false);
+    }
+
+    public void ConfirmerOverwriteNon()
+    {
+        overwritePanel.SetActive(false);
     }
 
 
