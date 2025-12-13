@@ -15,15 +15,21 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject UImenuChargementPanel;
     [SerializeField] private Text slot1Text, slot2Text, slot3Text;
     [SerializeField] private Button slot1Btn, slot2Btn, slot3Btn;
+    //[SerializeField] private Button slot1DeleteBtn, slot2DeleteBtn, slot3DeleteBtn;
 
+    [Header("MenueSelect")]
+    [SerializeField] private GameObject DeleteSavePanel;
+
+    [Header("Transition")]
     public Animator transition;
+
+    bool actived = false;
 
     void Start()
     {
         btnConfirmer.onClick.AddListener(ConfirmerNom);
         UImenuChargementPanel.SetActive(false);
         MenuePanel.SetActive(true);
-        //RefreshSaves();
     }
 
     public void NouvellePartie()
@@ -149,5 +155,47 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Theme" + theme);
     }
 
+    public void DeleteSave(int slot)
+    {
+        string prefix = "Save" + slot + "_";
+
+        // Supprime TOUTES les clés de ce slot
+        PlayerPrefs.DeleteKey(prefix + "PlayerName");
+        PlayerPrefs.DeleteKey(prefix + "Theme");
+        PlayerPrefs.DeleteKey(prefix + "Question");
+
+        // Supprime tous les scores des 5 thèmes
+        for (int i = 0; i < 5; i++)
+        {
+            PlayerPrefs.DeleteKey(prefix + "ScoreTheme" + i);
+        }
+
+        PlayerPrefs.Save();
+
+        Debug.Log($"❌ Sauvegarde slot {slot} supprimée");
+
+        // Rafraîchit l'affichage
+        RefreshSaves();
+    }
+    
+    public void ExtendDeleteSave()
+    {
+        if (actived == false)
+        {
+            DeleteSavePanel.SetActive(true);
+            actived = true;
+        }
+        else
+        {
+            DeleteSavePanel.SetActive(false);
+            actived = false;
+        }
+    }
+
+    public void ReturnToMenue()
+    {
+        MenuePanel.SetActive(true);
+        UImenuChargementPanel.SetActive(false);
+    }
 
 }

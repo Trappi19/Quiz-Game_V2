@@ -150,7 +150,6 @@ public class QuizManager : MonoBehaviour
 
 
 
-
     public void retry()
     {
         // Relancer le même thème (mêmes 20 questions)
