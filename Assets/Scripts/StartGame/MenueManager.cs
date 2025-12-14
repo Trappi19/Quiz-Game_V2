@@ -68,6 +68,7 @@ public class MenuManager : MonoBehaviour
 
     public void OuvrirMenuChargement()
     {
+        nomJoueurPanel.SetActive(false);
         MenuePanel.SetActive(false);
         RefreshSaves();                // ← on met à jour les slots ici
         UImenuChargementPanel.SetActive(true);
@@ -216,6 +217,7 @@ public class MenuManager : MonoBehaviour
 
     public void OpenHistoryPanel()
     {
+        nomJoueurPanel.SetActive(false);
         MenuePanel.SetActive(false);
         HistoryPanel.SetActive(true);
     }
