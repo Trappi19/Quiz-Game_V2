@@ -12,8 +12,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button btnConfirmer;
     [SerializeField] private GameObject HistoryPanel;
 
+    [Header("Règles")]
+    [SerializeField] private Button btnCancel;
+    [SerializeField] private GameObject reglePanel;
+    [SerializeField] private Image clavierDorImage;
 
-    [Header("UI Chargement")]
+
+    [Header("UI Sauvegarde")]
     [SerializeField] private GameObject UImenuChargementPanel;
     [SerializeField] private Text slot1Text, slot2Text, slot3Text;
     [SerializeField] private Button slot1Btn, slot2Btn, slot3Btn;
@@ -33,6 +38,7 @@ public class MenuManager : MonoBehaviour
         UImenuChargementPanel.SetActive(false);
         MenuePanel.SetActive(true);
         HistoryPanel.SetActive(false);
+        reglePanel.SetActive(false);
     }
 
     public void NouvellePartie()
@@ -199,6 +205,20 @@ public class MenuManager : MonoBehaviour
             DeleteSavePanel.SetActive(false);
             actived = false;
         }
+    }
+
+    public void OpenReglePanel()
+    {
+        MenuePanel.SetActive(false);
+        reglePanel.SetActive(true);
+        clavierDorImage.gameObject.SetActive(false);
+    }
+
+    public void CloseReglePanel()
+    {
+        reglePanel.SetActive(false);
+        MenuePanel.SetActive(true);
+        clavierDorImage.gameObject.SetActive(true);
     }
 
     public void ReturnToMenue()

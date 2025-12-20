@@ -29,6 +29,13 @@ public class GameManager : MonoBehaviour
         themeScores[currentThemeIndex]++;
     }
 
+    public void AddPointsToCurrentTheme(int amount)
+    {
+        themeScores[currentThemeIndex] += amount;
+    }
+
+
+
     public int GetTotalScore()
     {
         int total = 0;

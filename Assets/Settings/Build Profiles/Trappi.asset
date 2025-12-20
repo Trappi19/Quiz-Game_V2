@@ -25,14 +25,6 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/Theme1.unity
   - m_enabled: 1
-    m_path: Assets/Scenes/Theme2.unity
-  - m_enabled: 1
-    m_path: Assets/Scenes/Theme3.unity
-  - m_enabled: 1
-    m_path: Assets/Scenes/Theme4.unity
-  - m_enabled: 1
-    m_path: Assets/Scenes/Theme5.unity
-  - m_enabled: 1
     m_path: Assets/Scenes/EndScene.unity
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

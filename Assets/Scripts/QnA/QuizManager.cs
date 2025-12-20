@@ -17,6 +17,10 @@ public class QuizManager : MonoBehaviour
     public GameObject Quizpanel;
     public GameObject NextPanel;
 
+    [Header("Boss Question")]
+    public Text bossWarningText;
+
+    [Header("Panel + Themes")]
     public Text QuestionTxt;
     public Text ScoreTxt;
     public Text CurrentTheme;
@@ -69,6 +73,9 @@ public class QuizManager : MonoBehaviour
         PlayerPrefs.DeleteKey("Resume_Theme");
         PlayerPrefs.DeleteKey("Resume_Question");
         PlayerPrefs.DeleteKey("Resume_Score");
+
+        if (bossWarningText != null)
+            bossWarningText.gameObject.SetActive(false);
     }
 
 
@@ -130,6 +137,14 @@ public class QuizManager : MonoBehaviour
             }
         }
     }
+
+    bool IsBossQuestion()
+    {
+        int remaining = GameManager.Instance.questionPerTheme - questionsAskedThisTheme;
+        return remaining <= 3; // les 3 dernières questions
+    }
+
+
 
     public void SauvegarderDansSlot(int slot)
     {
@@ -218,13 +233,29 @@ public class QuizManager : MonoBehaviour
     {
         Debug.Log($"[correct()] avant: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
 
-        GameManager.Instance.AddPointToCurrentTheme();
+        // questionsAskedThisTheme compte combien de questions ont déjà été posées
+        // On veut que les 3 DERNIÈRES (sur questionPerTheme) valent 2 points
+        int remaining = GameManager.Instance.questionPerTheme - questionsAskedThisTheme;
+
+        if (remaining <= 3)
+        {
+            // Question boss
+            GameManager.Instance.AddPointsToCurrentTheme(2);
+            Debug.Log("✅ Question BOSS -> +2 points");
+        }
+        else
+        {
+            // Question normale
+            GameManager.Instance.AddPointToCurrentTheme();
+        }
+
         questionsAskedThisTheme++;
 
         StartCoroutine(WaitForNext());
 
         Debug.Log($"[correct()] après: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
     }
+
 
     public void wrong()
     {
@@ -271,6 +302,9 @@ public class QuizManager : MonoBehaviour
         currentQuestion = questionIndex;
         QuestionTxt.text = QnA[currentQuestion].Question;
         SetAnswers();
+
+        if (bossWarningText != null)
+            bossWarningText.gameObject.SetActive(IsBossQuestion());
 
         questionIndex++;
     }
