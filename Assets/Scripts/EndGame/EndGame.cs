@@ -13,6 +13,11 @@ public class EndGame : MonoBehaviour
 
         int total = GameManager.Instance.GetTotalScore(); // 0..100
 
+        if (total > 100)
+        {
+            total = 100;
+        }
+
         // Score total
         totalScoreText.text = "Score total : " + total + " / 100";
 

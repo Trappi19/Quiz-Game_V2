@@ -188,7 +188,7 @@ public class QuizManager : MonoBehaviour
         if (existe)
         {
             // Demander confirmation
-            overwriteText.text = "Écraser la sauvegarde du slot " + slot + " ?";
+            overwriteText.text = "Écraser la sauvegarde de l'emplacement " + slot + " ?";
             overwritePanel.SetActive(true);
         }
         else

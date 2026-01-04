@@ -1344,8 +1344,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030518, y: 245}
-  m_SizeDelta: {x: 1247.7947, y: 250.0265}
+  m_AnchoredPosition: {x: 0.00001812, y: 236}
+  m_SizeDelta: {x: 1766.8174, y: 185.9769}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &386112471
 MonoBehaviour:
@@ -1380,7 +1380,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Select a slot
+  m_Text: Choisissez un emplacement
 --- !u!222 &386112472
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2339,7 +2339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &803962422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2367,7 +2367,7 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 150
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2398,8 +2398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.7863, y: 235.9017}
-  m_SizeDelta: {x: 1225.175, y: 180.1115}
+  m_AnchoredPosition: {x: -3.9438, y: 178.4779}
+  m_SizeDelta: {x: 1836.959, y: 325.8797}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &962038026
 GameObject:
