@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class EndGame : MonoBehaviour
 {
     public Text totalScoreText;   // Texte pour "Score total : X / 100"
-    public Text detailScoreText;  // Texte optionnel avec le détail par thème
+    public Text detailScoreText;  // Texte avec le détail par thème
 
     void Start()
     {

@@ -27,13 +27,13 @@ public class QuizManager : MonoBehaviour
     string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
 
     [Header("Save System")]
-    [SerializeField] public GameObject saveSlotsPanel;   // assigné dans l’Inspector
-    [SerializeField]  public GameObject overwritePanel;   // petit panel "Écraser ?"
+    [SerializeField] public GameObject saveSlotsPanel;   // Save Panel
+    [SerializeField]  public GameObject overwritePanel;   // panel "Écraser ?"
     [SerializeField] public Text overwriteText;          // "Écraser la sauvegarde du slot X ?"
     private int pendingSlot = 1;
 
 
-    int totalQuestions = 0;          // Nombre de questions à poser pour CE thème (20)
+    int totalQuestions = 0;
     int questionsAskedThisTheme = 0; // Compteur de questions déjà posées
 
     string connStr = "Server=localhost;Database=quizgame;User ID=root;Password=rootroot;Port=3306;";
@@ -69,7 +69,6 @@ public class QuizManager : MonoBehaviour
         NextPanel.SetActive(false);
         generateQuestion();
 
-        // Optionnel : nettoyer les clés de reprise
         PlayerPrefs.DeleteKey("Resume_Theme");
         PlayerPrefs.DeleteKey("Resume_Question");
         PlayerPrefs.DeleteKey("Resume_Score");
@@ -90,7 +89,7 @@ public class QuizManager : MonoBehaviour
                 conn.Open();
                 Debug.Log("Connexion MariaDB réussie !");
 
-                // On charge SEULEMENT les questions du thème courant
+                // On charge les questions du thème courant
                 string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
                 string currentTheme = themes[GameManager.Instance.currentThemeIndex];
 
@@ -99,7 +98,7 @@ public class QuizManager : MonoBehaviour
                 FROM quiz_questions q
                 JOIN quiz_choices qc ON qc.question_index = q.id
                 WHERE q.theme = @theme
-                ORDER BY q.id ASC;";  // ORDRE FIXE par ID
+                ORDER BY q.id ASC;";  // Ordre fixe par ID croissant
 
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
@@ -193,7 +192,7 @@ public class QuizManager : MonoBehaviour
         }
         else
         {
-            // Slot vide → on sauvegarde direct
+            // Slot vide -> on sauvegarde direct
             SauvegarderDansSlot(slot);
             saveSlotsPanel.SetActive(false);
         }
@@ -214,7 +213,7 @@ public class QuizManager : MonoBehaviour
 
 
 
-    public void retry()
+    public void retry() // Inutiliser
     {
         // Relancer le même thème (mêmes 20 questions)
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -233,8 +232,8 @@ public class QuizManager : MonoBehaviour
     {
         Debug.Log($"[correct()] avant: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
 
-        // questionsAskedThisTheme compte combien de questions ont déjà été posées
-        // On veut que les 3 DERNIÈRES (sur questionPerTheme) valent 2 points
+        // QuestionsAskedThisTheme compte combien de questions ont déjà été posées
+        // Les 3 dernières (sur questionPerTheme) valent 2 points
         int remaining = GameManager.Instance.questionPerTheme - questionsAskedThisTheme;
 
         if (remaining <= 3)
@@ -311,7 +310,7 @@ public class QuizManager : MonoBehaviour
 
 
 
-    // À lier à un bouton "Continuer" sur ton GoPanel
+    // Action bouton "Continuer" sur le panel de fin de thème
     public void NextTheme()
     {
         GameManager.Instance.currentThemeIndex++;
@@ -327,7 +326,6 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    // Ajoutez cette propriété publique à la classe QuizManager pour exposer questionIndex
     public int QuestionIndex
     {
         get { return questionIndex; }

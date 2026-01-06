@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public int[] themeScores = new int[5];
     public int questionPerTheme = 20;
 
-    public int currentSaveSlot = 1; // slot choisi pour la prochaine sauvegarde
+    public int currentSaveSlot = 1;
 
     private void Awake()
     {

@@ -8,7 +8,7 @@ public class FadeTransition : MonoBehaviour
     {
         canvasGroup = GetComponent<CanvasGroup>();
         canvasGroup.interactable = false;  // ← CLÉ : bloque PAS les clics !
-        canvasGroup.blocksRaycasts = false;  // ← Bonus : ignore raycasts
+        canvasGroup.blocksRaycasts = false;
         GetComponent<Canvas>().sortingOrder = 999;
     }
 

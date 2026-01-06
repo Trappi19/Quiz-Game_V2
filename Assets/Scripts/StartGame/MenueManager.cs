@@ -22,7 +22,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject UImenuChargementPanel;
     [SerializeField] private Text slot1Text, slot2Text, slot3Text;
     [SerializeField] private Button slot1Btn, slot2Btn, slot3Btn;
-    //[SerializeField] private Button slot1DeleteBtn, slot2DeleteBtn, slot3DeleteBtn;
 
     [Header("MenueSelect")]
     [SerializeField] private GameObject DeleteSavePanel;
@@ -45,7 +44,7 @@ public class MenuManager : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.ResetRun();   // appel sécurisé
+            GameManager.Instance.ResetRun();
         }
 
         nomJoueurPanel.SetActive(true);
@@ -58,8 +57,7 @@ public class MenuManager : MonoBehaviour
         string pseudo = inputNomJoueur.text;
         if (!string.IsNullOrEmpty(pseudo))
         {
-            PlayerPrefs.SetString("PlayerName", pseudo); // Sauvegarde nom
-            //nomJoueurPanel.SetActive(false); Facultatif
+            PlayerPrefs.SetString("PlayerName", pseudo);
             StartCoroutine(Starttheme1()); // Charge thème 1
         }
     }
@@ -76,7 +74,7 @@ public class MenuManager : MonoBehaviour
     {
         nomJoueurPanel.SetActive(false);
         MenuePanel.SetActive(false);
-        RefreshSaves();                // ← on met à jour les slots ici
+        RefreshSaves();
         UImenuChargementPanel.SetActive(true);
 
         Debug.Log(">>> OuvrirMenuChargement appelé");
@@ -153,7 +151,7 @@ public class MenuManager : MonoBehaviour
         int theme = PlayerPrefs.GetInt(prefix + "Theme", 1);
         int question = PlayerPrefs.GetInt(prefix + "Question", 0);
 
-        // CHARGE TOUS LES SCORES DES 5 THÈMES
+        // Charge les scores des 5 thèmes
         for (int i = 0; i < 5; i++)
         {
             GameManager.Instance.themeScores[i] = PlayerPrefs.GetInt(prefix + "ScoreTheme" + i, 0);
@@ -174,12 +172,11 @@ public class MenuManager : MonoBehaviour
     {
         string prefix = "Save" + slot + "_";
 
-        // Supprime TOUTES les clés de ce slot
+        // Supprime toutes les clés de ce slot
         PlayerPrefs.DeleteKey(prefix + "PlayerName");
         PlayerPrefs.DeleteKey(prefix + "Theme");
         PlayerPrefs.DeleteKey(prefix + "Question");
 
-        // Supprime tous les scores des 5 thèmes
         for (int i = 0; i < 5; i++)
         {
             PlayerPrefs.DeleteKey(prefix + "ScoreTheme" + i);
