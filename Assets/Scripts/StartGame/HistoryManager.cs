@@ -11,7 +11,9 @@ public class HistoryManager : MonoBehaviour
     [SerializeField] private GameObject detailPanel;
     [SerializeField] private Text detailTitleText;
     [SerializeField] private Text[] themeLines;
-    // 5 Text dans l’ordre des thèmes (assignés dans l’Inspector)
+    [SerializeField] private Button dowloadPdfButton;
+
+    private int currentDetailIndex = -1;
 
     private void OnEnable()
     {
@@ -61,6 +63,10 @@ public class HistoryManager : MonoBehaviour
             themeLines[i].text = themeName + " : " + scoreTheme + " / 20";
         }
 
+        currentDetailIndex = index; // on mémorise quelle run est affichée
+
+        detailPanel.SetActive(true);
+
         detailPanel.SetActive(true);
     }
 
@@ -97,5 +103,27 @@ public class HistoryManager : MonoBehaviour
     public void CloseHistoryDetailPanel()
     {
         detailPanel.SetActive(false);
+    }
+
+    public void DownloadCurrentHistoryPDF()
+    {
+        if (currentDetailIndex <= 0) return;
+
+        string prefix = "History_" + currentDetailIndex + "_";
+
+        string playerName = PlayerPrefs.GetString(prefix + "PlayerName", "Inconnu");
+        int total = PlayerPrefs.GetInt(prefix + "TotalScore", 0);
+
+        // reconstruire le tableau des scores de thèmes
+        int[] themeScores = new int[5];
+        string[] themes = new string[5];
+        for (int i = 0; i < 5; i++)
+        {
+            themeScores[i] = PlayerPrefs.GetInt(prefix + "ScoreTheme" + i, 0);
+            themes[i] = PlayerPrefs.GetString(prefix + "ThemeName" + i, "Thème " + (i + 1));
+        }
+
+        // appel à ton générateur PDF (on peut surcharger la méthode pour passer aussi les noms de thèmes)
+        PDFGenerator.GenerateScorePDF(playerName, total, themeScores, themes);
     }
 }

@@ -10,7 +10,10 @@ using iTextImage = iTextSharp.text.Image;
 
 public class PDFGenerator : MonoBehaviour
 {
-    public static void GenerateScorePDF(string playerName, int totalScore, int[] themeScores)
+
+    public string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
+
+    public static void GenerateScorePDF(string playerName, int totalScore, int[] themeScores, string[] themes)
     {
         string fileName = "QuizScore_" + playerName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".pdf";
         string path = Path.Combine(Application.persistentDataPath, fileName);
@@ -61,8 +64,6 @@ public class PDFGenerator : MonoBehaviour
             // === Détail par thème ===
             document.Add(new Paragraph("Détail par thème :", boldFont));
             document.Add(Chunk.NEWLINE);
-
-            string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
 
             // Création d'un tableau pour les scores
             PdfPTable table = new PdfPTable(2);

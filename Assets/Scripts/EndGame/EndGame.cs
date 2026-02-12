@@ -33,20 +33,18 @@ public class EndGame : MonoBehaviour
         {
             detailScoreText.text += themes[i] + " : " + GameManager.Instance.themeScores[i] + "/20\n";
         }
-
-        //downloadPDFButton.onClick.AddListener(DownloadPDF);
-
     }
 
     public void DownloadPDF()
     {
+        string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
         string playerName = PlayerPrefs.GetString("PlayerName", "Inconnu");
 
         int total = GameManager.Instance.GetTotalScore();
         int[] scores = GameManager.Instance.themeScores;
 
         // Générer le PDF
-        PDFGenerator.GenerateScorePDF(playerName, total, scores);
+        PDFGenerator.GenerateScorePDF(playerName, total, scores, themes);
     }
 
     public void QuitGame()
