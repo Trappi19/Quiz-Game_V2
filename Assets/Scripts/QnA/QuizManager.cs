@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class QuizManager : MonoBehaviour
 {
     private int questionIndex = 0; //compteur séquentiel
+    private bool waitingForNextQuestion = false;
 
     public List<QuestionAndAnswer> QnA = new List<QuestionAndAnswer>();
     public GameObject[] options;
@@ -46,24 +47,25 @@ public class QuizManager : MonoBehaviour
 
         int resumeTheme = PlayerPrefs.GetInt("Resume_Theme", -1);
         int resumeQuestion = PlayerPrefs.GetInt("Resume_Question", 0);
-        int resumeScore = PlayerPrefs.GetInt("Resume_Score", 0);
+        int resumeQuestionsAsked = PlayerPrefs.GetInt("Resume_QuestionsAsked", -1);
+        string resumeQuestionOrder = PlayerPrefs.GetString("Resume_QuestionOrder", string.Empty);
 
         if (resumeTheme == GameManager.Instance.currentThemeIndex + 1)
         {
             questionIndex = resumeQuestion;
-            questionsAskedThisTheme = resumeQuestion;
-            GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex] = resumeScore;
+            questionsAskedThisTheme = resumeQuestionsAsked >= 0 ? resumeQuestionsAsked : resumeQuestion;
 
-            Debug.Log($"🔄 Reprise sauvegarde: questionIndex={questionIndex}, score={resumeScore}");
+            Debug.Log($"🔄 Reprise sauvegarde: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
         }
         else
         {
             questionIndex = 0;
             questionsAskedThisTheme = 0;
+            resumeQuestionOrder = string.Empty;
         }
 
 
-        LoadQuestionsFromDatabase();
+        LoadQuestionsFromDatabase(resumeQuestionOrder);
         totalQuestions = GameManager.Instance.questionPerTheme;
         CurrentTheme.text = "Theme : " + themes[GameManager.Instance.currentThemeIndex];
         NextPanel.SetActive(false);
@@ -71,14 +73,16 @@ public class QuizManager : MonoBehaviour
 
         PlayerPrefs.DeleteKey("Resume_Theme");
         PlayerPrefs.DeleteKey("Resume_Question");
+        PlayerPrefs.DeleteKey("Resume_QuestionsAsked");
         PlayerPrefs.DeleteKey("Resume_Score");
+        PlayerPrefs.DeleteKey("Resume_QuestionOrder");
 
         if (bossWarningText != null)
             bossWarningText.gameObject.SetActive(false);
     }
 
 
-    void LoadQuestionsFromDatabase()
+    void LoadQuestionsFromDatabase(string forcedQuestionOrder)
     {
         QnA.Clear();
 
@@ -89,52 +93,215 @@ public class QuizManager : MonoBehaviour
                 conn.Open();
                 Debug.Log("Connexion MariaDB réussie !");
 
-                // On charge les questions du thème courant
+                int themeId = GameManager.Instance.currentThemeIndex + 1;
+                int questionsToLoad = Mathf.Min(GameManager.Instance.questionPerTheme, 20);
+
+                List<int> forcedIds = ParseQuestionOrder(forcedQuestionOrder);
+                if (forcedIds.Count > 0)
+                {
+                    bool exactLoaded = TryLoadQuestionsInExactOrder(conn, forcedIds);
+                    if (exactLoaded)
+                    {
+                        Debug.Log($"Thème {themeId} : reprise exacte avec {QnA.Count} questions sauvegardées.");
+                        return;
+                    }
+
+                    Debug.LogWarning("Impossible de restaurer exactement l'ordre sauvegardé. Fallback sur chargement aléatoire.");
+                    QnA.Clear();
+                }
+
                 string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
                 string currentTheme = themes[GameManager.Instance.currentThemeIndex];
 
-                string query = $@"
-                SELECT q.id, q.question, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
-                FROM quiz_questions q
-                JOIN quiz_choices qc ON qc.question_index = q.id
-                WHERE q.theme = @theme
-                ORDER BY q.id ASC;";  // Ordre fixe par ID croissant
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                string[] queries =
                 {
-                    cmd.Parameters.AddWithValue("@theme", currentTheme);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            //Debug.Log("currentThemeIndex = " + GameManager.Instance.currentThemeIndex);
-                            //Debug.Log("currentTheme = " + currentTheme);
-                            //Debug.Log("QnA.Count après chargement = " + QnA.Count);
+                    @"SELECT q.id, q.question, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
+                      FROM quiz_question q
+                      JOIN quiz_choices qc ON qc.question_index = q.id
+                      WHERE q.theme_id = @themeId;",
 
-                            QuestionAndAnswer qa = new QuestionAndAnswer
+                    @"SELECT q.id, q.question, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
+                      FROM quiz_questions q
+                      JOIN quiz_choices qc ON qc.question_index = q.id
+                      WHERE q.theme_id = @themeId;",
+
+                    @"SELECT q.id, q.question, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
+                      FROM quiz_questions q
+                      JOIN quiz_choices qc ON qc.question_index = q.id
+                      WHERE q.theme = @theme;"
+                };
+
+                bool loaded = false;
+
+                foreach (string query in queries)
+                {
+                    List<QuestionAndAnswer> loadedQuestions = new List<QuestionAndAnswer>();
+                    HashSet<int> loadedIds = new HashSet<int>();
+
+                    try
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@themeId", themeId);
+                            cmd.Parameters.AddWithValue("@theme", currentTheme);
+
+                            using (MySqlDataReader reader = cmd.ExecuteReader())
                             {
-                                Question = reader.GetString("question"),
-                                Answers = new string[4]
+                                while (reader.Read())
                                 {
-                                reader.GetString("choice1"),
-                                reader.GetString("choice2"),
-                                reader.GetString("choice3"),
-                                reader.GetString("choice4")
-                                },
-                                CorrectAnswer = reader.GetInt32("correct_choice")
-                            };
-                            QnA.Add(qa);
+                                    int questionId = Convert.ToInt32(reader["id"]);
+                                    if (!loadedIds.Add(questionId))
+                                        continue;
+
+                                    QuestionAndAnswer qa = new QuestionAndAnswer
+                                    {
+                                        Id = questionId,
+                                        Question = reader.GetString("question"),
+                                        Answers = new string[4]
+                                        {
+                                            reader.GetString("choice1"),
+                                            reader.GetString("choice2"),
+                                            reader.GetString("choice3"),
+                                            reader.GetString("choice4")
+                                        },
+                                        CorrectAnswer = reader.GetInt32("correct_choice")
+                                    };
+                                    loadedQuestions.Add(qa);
+                                }
+                            }
                         }
+
+                        for (int i = loadedQuestions.Count - 1; i > 0; i--)
+                        {
+                            int j = UnityEngine.Random.Range(0, i + 1);
+                            QuestionAndAnswer temp = loadedQuestions[i];
+                            loadedQuestions[i] = loadedQuestions[j];
+                            loadedQuestions[j] = temp;
+                        }
+
+                        int count = Mathf.Min(questionsToLoad, loadedQuestions.Count);
+                        for (int i = 0; i < count; i++)
+                            QnA.Add(loadedQuestions[i]);
+
+                        loaded = true;
+                        break;
+                    }
+                    catch (MySqlException)
+                    {
+                        QnA.Clear();
                     }
                 }
-                
-                Debug.Log($"Thème {GameManager.Instance.currentThemeIndex + 1} '{currentTheme}' : {QnA.Count} questions chargées");
+
+                if (!loaded)
+                {
+                    Debug.LogError("Aucune requête de chargement des questions n'a fonctionné (vérifie le schéma de la BDD).");
+                    return;
+                }
+
+                Debug.Log($"Thème {themeId} : {QnA.Count} questions uniques chargées aléatoirement (max {questionsToLoad})");
             }
             catch (Exception ex)
             {
                 Debug.LogError("Erreur MariaDB : " + ex.Message);
             }
         }
+    }
+
+    private List<int> ParseQuestionOrder(string raw)
+    {
+        List<int> ids = new List<int>();
+        if (string.IsNullOrWhiteSpace(raw))
+            return ids;
+
+        string[] parts = raw.Split(',');
+        for (int i = 0; i < parts.Length; i++)
+        {
+            if (int.TryParse(parts[i], out int id) && id > 0)
+                ids.Add(id);
+        }
+
+        return ids;
+    }
+
+    private string BuildCurrentQuestionOrder()
+    {
+        List<string> ids = new List<string>();
+        for (int i = 0; i < QnA.Count; i++)
+        {
+            if (QnA[i] != null && QnA[i].Id > 0)
+                ids.Add(QnA[i].Id.ToString());
+        }
+
+        return string.Join(",", ids);
+    }
+
+    private bool TryLoadQuestionsInExactOrder(MySqlConnection conn, List<int> orderedIds)
+    {
+        string[] singleQuestionQueries =
+        {
+            @"SELECT q.id, q.question, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
+              FROM quiz_question q
+              JOIN quiz_choices qc ON qc.question_index = q.id
+              WHERE q.id = @id
+              LIMIT 1;",
+
+            @"SELECT q.id, q.question, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
+              FROM quiz_questions q
+              JOIN quiz_choices qc ON qc.question_index = q.id
+              WHERE q.id = @id
+              LIMIT 1;"
+        };
+
+        for (int i = 0; i < orderedIds.Count; i++)
+        {
+            int id = orderedIds[i];
+            bool found = false;
+
+            for (int q = 0; q < singleQuestionQueries.Length; q++)
+            {
+                try
+                {
+                    using (MySqlCommand cmd = new MySqlCommand(singleQuestionQueries[q], conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                QuestionAndAnswer qa = new QuestionAndAnswer
+                                {
+                                    Id = Convert.ToInt32(reader["id"]),
+                                    Question = reader.GetString("question"),
+                                    Answers = new string[4]
+                                    {
+                                        reader.GetString("choice1"),
+                                        reader.GetString("choice2"),
+                                        reader.GetString("choice3"),
+                                        reader.GetString("choice4")
+                                    },
+                                    CorrectAnswer = reader.GetInt32("correct_choice")
+                                };
+
+                                QnA.Add(qa);
+                                found = true;
+                            }
+                        }
+                    }
+                }
+                catch (MySqlException)
+                {
+                    // essaye la requête suivante
+                }
+
+                if (found)
+                    break;
+            }
+
+            if (!found)
+                return false;
+        }
+
+        return QnA.Count == orderedIds.Count;
     }
 
     bool IsBossQuestion()
@@ -147,7 +314,7 @@ public class QuizManager : MonoBehaviour
 
     public void SauvegarderDansSlot(int slot)
     {
-        int indexToSave = currentQuestion;
+        int indexToSave = waitingForNextQuestion ? questionIndex : currentQuestion;
         string prefix = "Save" + slot + "_";
 
         Debug.Log($">>> [Sauvegarder] slot={slot}, currentQuestion={currentQuestion}, indexToSave={indexToSave} <<<");
@@ -155,6 +322,8 @@ public class QuizManager : MonoBehaviour
         PlayerPrefs.SetString(prefix + "PlayerName", PlayerPrefs.GetString("PlayerName", "Inconnu"));
         PlayerPrefs.SetInt(prefix + "Theme", GameManager.Instance.currentThemeIndex + 1);
         PlayerPrefs.SetInt(prefix + "Question", indexToSave);
+        PlayerPrefs.SetInt(prefix + "QuestionsAsked", questionsAskedThisTheme);
+        PlayerPrefs.SetString(prefix + "QuestionOrder", BuildCurrentQuestionOrder());
 
         // Tous les scores 5 thèmes
         for (int i = 0; i < 5; i++)
@@ -232,6 +401,9 @@ public class QuizManager : MonoBehaviour
     {
         Debug.Log($"[correct()] avant: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
 
+        if (currentQuestion >= 0 && currentQuestion < QnA.Count)
+            GameManager.Instance.RegisterAnsweredQuestion(QnA[currentQuestion]);
+
         // QuestionsAskedThisTheme compte combien de questions ont déjà été posées
         // Les 3 dernières (sur questionPerTheme) valent 2 points
         int remaining = GameManager.Instance.questionPerTheme - questionsAskedThisTheme;
@@ -249,6 +421,7 @@ public class QuizManager : MonoBehaviour
         }
 
         questionsAskedThisTheme++;
+        waitingForNextQuestion = true;
 
         StartCoroutine(WaitForNext());
 
@@ -258,7 +431,11 @@ public class QuizManager : MonoBehaviour
 
     public void wrong()
     {
+        if (currentQuestion >= 0 && currentQuestion < QnA.Count)
+            GameManager.Instance.RegisterAnsweredQuestion(QnA[currentQuestion]);
+
         questionsAskedThisTheme++;
+        waitingForNextQuestion = true;
 
         StartCoroutine(WaitForNext());
     }
@@ -289,6 +466,7 @@ public class QuizManager : MonoBehaviour
 
     void generateQuestion()
     {
+        waitingForNextQuestion = false;
         Debug.Log($">>> generateQuestion() appelé, questionIndex={questionIndex} <<<");
 
         if (questionIndex >= QnA.Count || questionsAskedThisTheme >= GameManager.Instance.questionPerTheme)

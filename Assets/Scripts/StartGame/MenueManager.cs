@@ -145,11 +145,18 @@ public class MenuManager : MonoBehaviour
 
     public void LoadSave(int slot)
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ResetRun();
+        }
+
         string prefix = "Save" + slot + "_";
 
         string nom = PlayerPrefs.GetString(prefix + "PlayerName", "Inconnu");
         int theme = PlayerPrefs.GetInt(prefix + "Theme", 1);
         int question = PlayerPrefs.GetInt(prefix + "Question", 0);
+        int questionsAsked = PlayerPrefs.GetInt(prefix + "QuestionsAsked", question);
+        string questionOrder = PlayerPrefs.GetString(prefix + "QuestionOrder", string.Empty);
 
         // Charge les scores des 5 thèmes
         for (int i = 0; i < 5; i++)
@@ -157,11 +164,13 @@ public class MenuManager : MonoBehaviour
             GameManager.Instance.themeScores[i] = PlayerPrefs.GetInt(prefix + "ScoreTheme" + i, 0);
         }
 
-        Debug.Log($"LOAD SAVE slot {slot}: theme={theme}, question={question}, scores=[{string.Join(",", GameManager.Instance.themeScores)}]");
+        Debug.Log($"LOAD SAVE slot {slot}: theme={theme}, question={question}, questionsAsked={questionsAsked}, scores=[{string.Join(",", GameManager.Instance.themeScores)}]");
 
         PlayerPrefs.SetString("PlayerName", nom);
         PlayerPrefs.SetInt("Resume_Question", question);
+        PlayerPrefs.SetInt("Resume_QuestionsAsked", questionsAsked);
         PlayerPrefs.SetInt("Resume_Theme", theme);
+        PlayerPrefs.SetString("Resume_QuestionOrder", questionOrder);
 
         GameManager.Instance.currentThemeIndex = theme - 1;
 
@@ -176,6 +185,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey(prefix + "PlayerName");
         PlayerPrefs.DeleteKey(prefix + "Theme");
         PlayerPrefs.DeleteKey(prefix + "Question");
+        PlayerPrefs.DeleteKey(prefix + "QuestionsAsked");
+        PlayerPrefs.DeleteKey(prefix + "QuestionOrder");
 
         for (int i = 0; i < 5; i++)
         {
