@@ -17,7 +17,7 @@ public class RoleSystem : MonoBehaviour
     [SerializeField] private int port = 3306;
     [SerializeField] private string database = "quizgame";
     [SerializeField] private string user = "root";
-    [SerializeField] private string password = "";
+    [SerializeField] private string password = "rootroot";
 
     private List<RoleData> roles = new List<RoleData>();
     private bool showDescriptions = false;
@@ -101,16 +101,18 @@ public class RoleSystem : MonoBehaviour
         for (int i = 0; i < roleButtons.Count; i++)
         {
             Text txt = roleButtons[i].GetComponentInChildren<Text>();
+            if (txt == null) continue;
 
             if (i < roles.Count)
             {
-                // Nom ou description selon le mode
                 txt.text = showDescriptions ? roles[i].description : roles[i].name;
+                txt.resizeTextForBestFit = showDescriptions;
                 roleButtons[i].interactable = true;
             }
             else
             {
                 txt.text = "-";
+                txt.resizeTextForBestFit = false;
                 roleButtons[i].interactable = false;
             }
         }
