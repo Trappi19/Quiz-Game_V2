@@ -5,6 +5,7 @@ public class EndGame : MonoBehaviour
 {
     public Text totalScoreText;   // Texte pour "Score total : X / 100"
     public Text detailScoreText;  // Texte avec le détail par thème
+    public Text roleText;
     public Button downloadPDFButton;
 
 
@@ -15,6 +16,7 @@ public class EndGame : MonoBehaviour
         HistorySystem.AddRunToHistory();
 
         int total = GameManager.Instance.GetTotalScore(); // 0..100
+        string roleName = PlayerPrefs.GetString("SelectedRoleName", "Aucun rôle");
 
         if (total > 100)
         {
@@ -23,6 +25,8 @@ public class EndGame : MonoBehaviour
 
         // Score total
         totalScoreText.text = "Score total : " + total + " / 100";
+        if (roleText != null)
+            roleText.text = "Rôle : " + roleName;
 
         // Tableau des noms de thèmes (le même que dans QuizManager)
         string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
@@ -39,12 +43,13 @@ public class EndGame : MonoBehaviour
     {
         string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
         string playerName = PlayerPrefs.GetString("PlayerName", "Inconnu");
+        string roleName = PlayerPrefs.GetString("SelectedRoleName", "Aucun rôle");
 
         int total = GameManager.Instance.GetTotalScore();
         int[] scores = GameManager.Instance.themeScores;
 
         // Générer le PDF
-        PDFGenerator.GenerateScorePDF(playerName, total, scores, themes);
+        PDFGenerator.GenerateScorePDF(playerName, roleName, total, scores, themes);
     }
 
     public void QuitGame()

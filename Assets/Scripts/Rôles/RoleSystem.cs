@@ -1,6 +1,7 @@
 using MySqlConnector;   // Pense à ajouter le connector .dll
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RoleSystem : MonoBehaviour
@@ -11,6 +12,9 @@ public class RoleSystem : MonoBehaviour
     [Header("Boutons UI")]
     [SerializeField] private Button infoButton;
     [SerializeField] private Button saveButton;
+
+    [Header("Navigation")]
+    [SerializeField] private string firstThemeSceneName = "Theme1";
 
     [Header("Config BDD")]
     [SerializeField] private string host = "localhost";
@@ -146,13 +150,14 @@ public class RoleSystem : MonoBehaviour
 
         RoleData chosen = roles[selectedRoleIndex];
 
-        // Exemple basique : on stocke dans PlayerPrefs (pseudo + rôle)
-        // Tu pourras remplacer ça par une écriture en BDD joueur plus tard.
         PlayerPrefs.SetInt("SelectedRoleId", chosen.id);
+        PlayerPrefs.SetString("SelectedRoleName", chosen.name ?? string.Empty);
         PlayerPrefs.Save();
 
         Debug.Log("Rôle sauvegardé : " + chosen.name);
-        // Ensuite tu peux charger la scène de jeu, etc.
+
+        if (!string.IsNullOrEmpty(firstThemeSceneName))
+            SceneManager.LoadScene(firstThemeSceneName);
     }
 
     public RoleData GetSelectedRole()

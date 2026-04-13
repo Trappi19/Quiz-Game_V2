@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
 
         ClearAnsweredQuestionsHistory();
 
+        PlayerPrefs.DeleteKey("SelectedRoleId");
+        PlayerPrefs.DeleteKey("SelectedRoleName");
         PlayerPrefs.DeleteKey("Resume_Theme");
         PlayerPrefs.DeleteKey("Resume_Question");
         PlayerPrefs.DeleteKey("Resume_QuestionsAsked");

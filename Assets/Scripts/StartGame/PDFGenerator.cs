@@ -13,7 +13,7 @@ public class PDFGenerator : MonoBehaviour
 
     public string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
 
-    public static void GenerateScorePDF(string playerName, int totalScore, int[] themeScores, string[] themes)
+    public static void GenerateScorePDF(string playerName, string roleName, int totalScore, int[] themeScores, string[] themes)
     {
         string fileName = "QuizScore_" + playerName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".pdf";
         string path = Path.Combine(Application.persistentDataPath, fileName);
@@ -52,6 +52,7 @@ public class PDFGenerator : MonoBehaviour
 
             // === Informations du joueur ===
             document.Add(new Paragraph("Joueur : " + playerName, boldFont));
+            document.Add(new Paragraph("Rôle : " + roleName, boldFont));
             document.Add(new Paragraph("Date et heure : " + DateTime.Now.ToString("dd/MM/yyyy à HH:mm"), normalFont));
             document.Add(Chunk.NEWLINE);
 

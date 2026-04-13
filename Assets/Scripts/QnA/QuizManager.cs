@@ -10,6 +10,7 @@ public class QuizManager : MonoBehaviour
 {
     private int questionIndex = 0; //compteur séquentiel
     private bool waitingForNextQuestion = false;
+    private IRoleEffect roleEffect;
 
     public List<QuestionAndAnswer> QnA = new List<QuestionAndAnswer>();
     public GameObject[] options;
@@ -33,6 +34,13 @@ public class QuizManager : MonoBehaviour
     [SerializeField] public Text overwriteText;          // "Écraser la sauvegarde du slot X ?"
     private int pendingSlot = 1;
 
+
+    [Header("Rôle")]
+    [SerializeField] private Button skipButton;
+    [SerializeField] private Text playerRoleText;
+
+    [Header("Progression")]
+    [SerializeField] private Text questionNumberText;
 
     int totalQuestions = 0;
     int questionsAskedThisTheme = 0; // Compteur de questions déjà posées
@@ -64,6 +72,10 @@ public class QuizManager : MonoBehaviour
             resumeQuestionOrder = string.Empty;
         }
 
+        int selectedRoleId = PlayerPrefs.GetInt("SelectedRoleId", -1);
+        roleEffect = RoleEffectFactory.Create(selectedRoleId);
+
+        ConfigureRoleUI();
 
         LoadQuestionsFromDatabase(resumeQuestionOrder);
         totalQuestions = GameManager.Instance.questionPerTheme;
@@ -81,6 +93,62 @@ public class QuizManager : MonoBehaviour
             bossWarningText.gameObject.SetActive(false);
     }
 
+    private void ConfigureRoleUI()
+    {
+        string selectedRoleName = PlayerPrefs.GetString("SelectedRoleName", "Aucun rôle");
+
+        if (playerRoleText != null)
+            playerRoleText.text = "Rôle : " + selectedRoleName;
+
+        if (skipButton != null)
+        {
+            skipButton.onClick.RemoveAllListeners();
+
+            bool canSkip = roleEffect != null && roleEffect.ShowsSkipButton;
+            skipButton.gameObject.SetActive(canSkip);
+            skipButton.interactable = canSkip;
+
+            if (canSkip)
+                skipButton.onClick.AddListener(SkipQuestion);
+        }
+    }
+
+    private void UpdateQuestionNumberUI()
+    {
+        if (questionNumberText == null)
+            return;
+
+        int maxQuestions = Mathf.Min(GameManager.Instance.questionPerTheme, 20);
+        int currentDisplay = Mathf.Clamp(questionsAskedThisTheme + 1, 1, maxQuestions);
+        questionNumberText.text = "Question " + currentDisplay + " / " + maxQuestions;
+    }
+
+    private void SkipQuestion()
+    {
+        if (roleEffect == null)
+            return;
+
+        roleEffect.TryUseSkip(this);
+    }
+
+    public bool TrySkipQuestionWithPoints(int points)
+    {
+        if (waitingForNextQuestion)
+            return false;
+
+        if (currentQuestion < 0 || currentQuestion >= QnA.Count)
+            return false;
+
+        GameManager.Instance.RegisterAnsweredQuestion(QnA[currentQuestion]);
+        GameManager.Instance.AddPointsToCurrentTheme(points);
+
+        questionsAskedThisTheme++;
+        waitingForNextQuestion = true;
+
+        Debug.Log("⏭ Skip utilisé : +" + points + " point(s)");
+        StartCoroutine(WaitForNext());
+        return true;
+    }
 
     void LoadQuestionsFromDatabase(string forcedQuestionOrder)
     {
@@ -323,6 +391,8 @@ public class QuizManager : MonoBehaviour
         PlayerPrefs.SetInt(prefix + "Theme", GameManager.Instance.currentThemeIndex + 1);
         PlayerPrefs.SetInt(prefix + "Question", indexToSave);
         PlayerPrefs.SetInt(prefix + "QuestionsAsked", questionsAskedThisTheme);
+        PlayerPrefs.SetInt(prefix + "RoleId", PlayerPrefs.GetInt("SelectedRoleId", -1));
+        PlayerPrefs.SetString(prefix + "RoleName", PlayerPrefs.GetString("SelectedRoleName", "Aucun rôle"));
         PlayerPrefs.SetString(prefix + "QuestionOrder", BuildCurrentQuestionOrder());
 
         // Tous les scores 5 thèmes
@@ -399,6 +469,9 @@ public class QuizManager : MonoBehaviour
 
     public void correct()
     {
+        if (waitingForNextQuestion)
+            return;
+
         Debug.Log($"[correct()] avant: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
 
         if (currentQuestion >= 0 && currentQuestion < QnA.Count)
@@ -431,6 +504,9 @@ public class QuizManager : MonoBehaviour
 
     public void wrong()
     {
+        if (waitingForNextQuestion)
+            return;
+
         if (currentQuestion >= 0 && currentQuestion < QnA.Count)
             GameManager.Instance.RegisterAnsweredQuestion(QnA[currentQuestion]);
 
@@ -477,6 +553,7 @@ public class QuizManager : MonoBehaviour
         }
 
         currentQuestion = questionIndex;
+        UpdateQuestionNumberUI();
         QuestionTxt.text = QnA[currentQuestion].Question;
         SetAnswers();
 

@@ -5,6 +5,7 @@ public static class HistorySystem
     public static void AddRunToHistory()
     {
         string playerName = PlayerPrefs.GetString("PlayerName", "Inconnu");
+        string roleName = PlayerPrefs.GetString("SelectedRoleName", "Aucun rôle");
 
         int totalScore = GameManager.Instance.GetTotalScore(); // 0..100
         int[] themeScores = GameManager.Instance.themeScores;
@@ -16,6 +17,7 @@ public static class HistorySystem
         string prefix = "History_" + index + "_";
 
         PlayerPrefs.SetString(prefix + "PlayerName", playerName);
+        PlayerPrefs.SetString(prefix + "RoleName", roleName);
         PlayerPrefs.SetInt(prefix + "TotalScore", totalScore);
 
         // 5 thèmes

@@ -51,9 +51,10 @@ public class HistoryManager : MonoBehaviour
     {
         string prefix = "History_" + index + "_";
         string playerName = PlayerPrefs.GetString(prefix + "PlayerName", "Inconnu");
+        string roleName = PlayerPrefs.GetString(prefix + "RoleName", "Aucun rôle");
         int total = PlayerPrefs.GetInt(prefix + "TotalScore", 0);
 
-        detailTitleText.text = playerName + " - " + total + " / 100";
+        detailTitleText.text = playerName + " (" + roleName + ") - " + total + " / 100";
 
         for (int i = 0; i < themeLines.Length; i++)
         {
@@ -83,6 +84,7 @@ public class HistoryManager : MonoBehaviour
         {
             string prefix = "History_" + i + "_";
             PlayerPrefs.DeleteKey(prefix + "PlayerName");
+            PlayerPrefs.DeleteKey(prefix + "RoleName");
             PlayerPrefs.DeleteKey(prefix + "TotalScore");
             for (int t = 0; t < 5; t++)
             {
@@ -112,6 +114,7 @@ public class HistoryManager : MonoBehaviour
         string prefix = "History_" + currentDetailIndex + "_";
 
         string playerName = PlayerPrefs.GetString(prefix + "PlayerName", "Inconnu");
+        string roleName = PlayerPrefs.GetString(prefix + "RoleName", "Aucun rôle");
         int total = PlayerPrefs.GetInt(prefix + "TotalScore", 0);
 
         // reconstruire le tableau des scores de thèmes
@@ -123,7 +126,6 @@ public class HistoryManager : MonoBehaviour
             themes[i] = PlayerPrefs.GetString(prefix + "ThemeName" + i, "Thème " + (i + 1));
         }
 
-        // appel à ton générateur PDF (on peut surcharger la méthode pour passer aussi les noms de thèmes)
-        PDFGenerator.GenerateScorePDF(playerName, total, themeScores, themes);
+        PDFGenerator.GenerateScorePDF(playerName, roleName, total, themeScores, themes);
     }
 }

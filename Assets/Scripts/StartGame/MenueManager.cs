@@ -29,6 +29,9 @@ public class MenuManager : MonoBehaviour
     [Header("Transition")]
     public Animator transition;
 
+    [Header("Navigation")]
+    [SerializeField] private string roleSelectionSceneName = "RoleScene";
+
     bool actived = false;
 
     void Start()
@@ -58,16 +61,16 @@ public class MenuManager : MonoBehaviour
         if (!string.IsNullOrEmpty(pseudo))
         {
             PlayerPrefs.SetString("PlayerName", pseudo);
-            StartCoroutine(Starttheme1()); // Charge thème 1
+            StartCoroutine(StartRoleSelection());
         }
     }
 
-    public IEnumerator Starttheme1()
+    public IEnumerator StartRoleSelection()
     {
         transition.SetTrigger("FadeOut");
 
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene("Theme1");
+        SceneManager.LoadScene(roleSelectionSceneName);
     }
 
     public void OuvrirMenuChargement()
@@ -96,7 +99,8 @@ public class MenuManager : MonoBehaviour
         {
             string nom = PlayerPrefs.GetString("Save1_PlayerName");
             int theme = PlayerPrefs.GetInt("Save1_Theme", 1);
-            slot1Text.text = nom + " - T" + theme;
+            string role = PlayerPrefs.GetString("Save1_RoleName", "Aucun rôle");
+            slot1Text.text = nom + " - T" + theme + " - " + role;
             slot1Btn.interactable = true;
 
             slot1Btn.onClick.RemoveAllListeners();
@@ -113,7 +117,8 @@ public class MenuManager : MonoBehaviour
         {
             string nom = PlayerPrefs.GetString("Save2_PlayerName");
             int theme = PlayerPrefs.GetInt("Save2_Theme", 1);
-            slot2Text.text = nom + " - T" + theme;
+            string role = PlayerPrefs.GetString("Save2_RoleName", "Aucun rôle");
+            slot2Text.text = nom + " - T" + theme + " - " + role;
             slot2Btn.interactable = true;
 
             slot2Btn.onClick.RemoveAllListeners();
@@ -130,7 +135,8 @@ public class MenuManager : MonoBehaviour
         {
             string nom = PlayerPrefs.GetString("Save3_PlayerName");
             int theme = PlayerPrefs.GetInt("Save3_Theme", 1);
-            slot3Text.text = nom + " - T" + theme;
+            string role = PlayerPrefs.GetString("Save3_RoleName", "Aucun rôle");
+            slot3Text.text = nom + " - T" + theme + " - " + role;
             slot3Btn.interactable = true;
 
             slot3Btn.onClick.RemoveAllListeners();
@@ -156,6 +162,8 @@ public class MenuManager : MonoBehaviour
         int theme = PlayerPrefs.GetInt(prefix + "Theme", 1);
         int question = PlayerPrefs.GetInt(prefix + "Question", 0);
         int questionsAsked = PlayerPrefs.GetInt(prefix + "QuestionsAsked", question);
+        int roleId = PlayerPrefs.GetInt(prefix + "RoleId", -1);
+        string roleName = PlayerPrefs.GetString(prefix + "RoleName", "Aucun rôle");
         string questionOrder = PlayerPrefs.GetString(prefix + "QuestionOrder", string.Empty);
 
         // Charge les scores des 5 thèmes
@@ -167,6 +175,8 @@ public class MenuManager : MonoBehaviour
         Debug.Log($"LOAD SAVE slot {slot}: theme={theme}, question={question}, questionsAsked={questionsAsked}, scores=[{string.Join(",", GameManager.Instance.themeScores)}]");
 
         PlayerPrefs.SetString("PlayerName", nom);
+        PlayerPrefs.SetInt("SelectedRoleId", roleId);
+        PlayerPrefs.SetString("SelectedRoleName", roleName);
         PlayerPrefs.SetInt("Resume_Question", question);
         PlayerPrefs.SetInt("Resume_QuestionsAsked", questionsAsked);
         PlayerPrefs.SetInt("Resume_Theme", theme);
@@ -186,6 +196,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey(prefix + "Theme");
         PlayerPrefs.DeleteKey(prefix + "Question");
         PlayerPrefs.DeleteKey(prefix + "QuestionsAsked");
+        PlayerPrefs.DeleteKey(prefix + "RoleId");
+        PlayerPrefs.DeleteKey(prefix + "RoleName");
         PlayerPrefs.DeleteKey(prefix + "QuestionOrder");
 
         for (int i = 0; i < 5; i++)
