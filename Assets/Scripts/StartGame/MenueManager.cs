@@ -165,6 +165,10 @@ public class MenuManager : MonoBehaviour
         int roleId = PlayerPrefs.GetInt(prefix + "RoleId", -1);
         string roleName = PlayerPrefs.GetString(prefix + "RoleName", "Aucun rôle");
         string questionOrder = PlayerPrefs.GetString(prefix + "QuestionOrder", string.Empty);
+        int debuggerSkipsUsedThisTheme = PlayerPrefs.GetInt(prefix + "DebuggerSkipsUsedThisTheme", 0);
+        int hackerUsesThisTheme = PlayerPrefs.GetInt(prefix + "HackerUsesThisTheme", 0);
+        int fullstackSkipsUsedInRun = PlayerPrefs.GetInt(prefix + "FullstackSkipsUsedInRun", 0);
+        int compilerHintsUsedThisTheme = PlayerPrefs.GetInt(prefix + "CompilerHintsUsedThisTheme", 0);
 
         // Charge les scores des 5 thèmes
         for (int i = 0; i < 5; i++)
@@ -181,6 +185,11 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("Resume_QuestionsAsked", questionsAsked);
         PlayerPrefs.SetInt("Resume_Theme", theme);
         PlayerPrefs.SetString("Resume_QuestionOrder", questionOrder);
+        PlayerPrefs.SetInt("Resume_DebuggerSkipsUsedThisTheme", debuggerSkipsUsedThisTheme);
+        PlayerPrefs.SetInt("Resume_HackerUsesThisTheme", hackerUsesThisTheme);
+        PlayerPrefs.SetInt("Resume_FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
+        PlayerPrefs.SetInt("Run_FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
+        PlayerPrefs.SetInt("Resume_CompilerHintsUsedThisTheme", compilerHintsUsedThisTheme);
 
         GameManager.Instance.currentThemeIndex = theme - 1;
 
@@ -199,6 +208,10 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey(prefix + "RoleId");
         PlayerPrefs.DeleteKey(prefix + "RoleName");
         PlayerPrefs.DeleteKey(prefix + "QuestionOrder");
+        PlayerPrefs.DeleteKey(prefix + "DebuggerSkipsUsedThisTheme");
+        PlayerPrefs.DeleteKey(prefix + "HackerUsesThisTheme");
+        PlayerPrefs.DeleteKey(prefix + "FullstackSkipsUsedInRun");
+        PlayerPrefs.DeleteKey(prefix + "CompilerHintsUsedThisTheme");
 
         for (int i = 0; i < 5; i++)
         {

@@ -93,10 +93,15 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.DeleteKey("SelectedRoleId");
         PlayerPrefs.DeleteKey("SelectedRoleName");
+        PlayerPrefs.DeleteKey("Run_FullstackSkipsUsedInRun");
         PlayerPrefs.DeleteKey("Resume_Theme");
         PlayerPrefs.DeleteKey("Resume_Question");
         PlayerPrefs.DeleteKey("Resume_QuestionsAsked");
         PlayerPrefs.DeleteKey("Resume_Score");
         PlayerPrefs.DeleteKey("Resume_QuestionOrder");
+        PlayerPrefs.DeleteKey("Resume_DebuggerSkipsUsedThisTheme");
+        PlayerPrefs.DeleteKey("Resume_HackerUsesThisTheme");
+        PlayerPrefs.DeleteKey("Resume_FullstackSkipsUsedInRun");
+        PlayerPrefs.DeleteKey("Resume_CompilerHintsUsedThisTheme");
     }
 }

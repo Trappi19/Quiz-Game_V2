@@ -1,4 +1,4 @@
-public class DebuggerRoleEffect : IRoleEffect
+public class HackerRoleEffect : IRoleEffect
 {
     public bool ShowsSkipButton => true;
     public bool ShowsHintButton => false;
@@ -8,7 +8,7 @@ public class DebuggerRoleEffect : IRoleEffect
         if (quizManager == null)
             return false;
 
-        return quizManager.TryUseDebuggerSkip();
+        return quizManager.TryUseHackerHack();
     }
 
     public bool TryUseHint(QuizManager quizManager)

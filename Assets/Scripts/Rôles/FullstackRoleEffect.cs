@@ -1,4 +1,4 @@
-public class DebuggerRoleEffect : IRoleEffect
+public class FullstackRoleEffect : IRoleEffect
 {
     public bool ShowsSkipButton => true;
     public bool ShowsHintButton => false;
@@ -8,7 +8,7 @@ public class DebuggerRoleEffect : IRoleEffect
         if (quizManager == null)
             return false;
 
-        return quizManager.TryUseDebuggerSkip();
+        return quizManager.TryUseFullstackSkip();
     }
 
     public bool TryUseHint(QuizManager quizManager)
