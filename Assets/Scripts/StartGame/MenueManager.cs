@@ -167,8 +167,11 @@ public class MenuManager : MonoBehaviour
         string questionOrder = PlayerPrefs.GetString(prefix + "QuestionOrder", string.Empty);
         int debuggerSkipsUsedThisTheme = PlayerPrefs.GetInt(prefix + "DebuggerSkipsUsedThisTheme", 0);
         int hackerUsesThisTheme = PlayerPrefs.GetInt(prefix + "HackerUsesThisTheme", 0);
+        int devOpsUsesThisTheme = PlayerPrefs.GetInt(prefix + "DevOpsUsesThisTheme", 0);
+        int devOpsQuestionActive = PlayerPrefs.GetInt(prefix + "DevOpsQuestionActive", 0);
         int fullstackSkipsUsedInRun = PlayerPrefs.GetInt(prefix + "FullstackSkipsUsedInRun", 0);
         int compilerHintsUsedThisTheme = PlayerPrefs.GetInt(prefix + "CompilerHintsUsedThisTheme", 0);
+        int multiLanguageUsesThisTheme = PlayerPrefs.GetInt(prefix + "MultiLanguageUsesThisTheme", 0);
 
         // Charge les scores des 5 thèmes
         for (int i = 0; i < 5; i++)
@@ -187,9 +190,12 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetString("Resume_QuestionOrder", questionOrder);
         PlayerPrefs.SetInt("Resume_DebuggerSkipsUsedThisTheme", debuggerSkipsUsedThisTheme);
         PlayerPrefs.SetInt("Resume_HackerUsesThisTheme", hackerUsesThisTheme);
+        PlayerPrefs.SetInt("Resume_DevOpsUsesThisTheme", devOpsUsesThisTheme);
+        PlayerPrefs.SetInt("Resume_DevOpsQuestionActive", devOpsQuestionActive);
         PlayerPrefs.SetInt("Resume_FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
         PlayerPrefs.SetInt("Run_FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
         PlayerPrefs.SetInt("Resume_CompilerHintsUsedThisTheme", compilerHintsUsedThisTheme);
+        PlayerPrefs.SetInt("Resume_MultiLanguageUsesThisTheme", multiLanguageUsesThisTheme);
 
         GameManager.Instance.currentThemeIndex = theme - 1;
 
@@ -210,8 +216,11 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey(prefix + "QuestionOrder");
         PlayerPrefs.DeleteKey(prefix + "DebuggerSkipsUsedThisTheme");
         PlayerPrefs.DeleteKey(prefix + "HackerUsesThisTheme");
+        PlayerPrefs.DeleteKey(prefix + "DevOpsUsesThisTheme");
+        PlayerPrefs.DeleteKey(prefix + "DevOpsQuestionActive");
         PlayerPrefs.DeleteKey(prefix + "FullstackSkipsUsedInRun");
         PlayerPrefs.DeleteKey(prefix + "CompilerHintsUsedThisTheme");
+        PlayerPrefs.DeleteKey(prefix + "MultiLanguageUsesThisTheme");
 
         for (int i = 0; i < 5; i++)
         {

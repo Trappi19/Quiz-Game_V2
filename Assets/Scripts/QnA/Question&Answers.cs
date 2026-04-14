@@ -9,4 +9,5 @@ public class QuestionAndAnswer
     public string[] Answers;
     public int CorrectAnswer;
     public string Hint;
+    public bool IsDevOpsQuestion;
 }

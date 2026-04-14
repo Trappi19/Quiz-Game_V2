@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ public class QuizManager : MonoBehaviour
     private const int DebuggerRoleId = 1;
     private const int HackerRoleId = 2;
     private const int CompilateurRoleId = 3;
+    private const int DevOpsRoleId = 5;
+    private const int MultiLanguageRoleId = 6;
     private const int FullstackRoleId = 9;
     private const int MaxCompilerHintsPerTheme = 5;
     private const int MaxHackerUsesPerTheme = 2;
@@ -24,6 +27,11 @@ public class QuizManager : MonoBehaviour
     private int hackerUsesThisTheme = 0;
     private int fullstackSkipsUsedInRun = 0;
     private int compilerHintsUsedThisTheme = 0;
+    private int multiLanguageUsesThisTheme = 0;
+    private int devOpsUsesThisTheme = 0;
+    private bool compilerHintUsedOnCurrentQuestion = false;
+    private bool devOpsQuestionUsedOnCurrentQuestion = false;
+    private bool resumeDevOpsQuestionActive = false;
 
     public List<QuestionAndAnswer> QnA = new List<QuestionAndAnswer>();
     public GameObject[] options;
@@ -49,7 +57,6 @@ public class QuizManager : MonoBehaviour
 
     [Header("Rôle")]
     [SerializeField] private Button skipButton;
-    [SerializeField] private Button hintButton;
     [SerializeField] private Text hintButtonText;
     [SerializeField] private Text hintDisplayText;
     [SerializeField] private Text playerRoleText;
@@ -64,7 +71,7 @@ public class QuizManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"!!! QuizManager.Start() DEBUT questionIndex={questionIndex} !!!");
+        Debug.Log($"!!! QuizManager.Start() DEBUT questionIndex={questionIndex}!!!");
 
         CurrentTheme.text = "Theme : " + GameManager.Instance.themes[GameManager.Instance.currentThemeIndex];
 
@@ -82,6 +89,9 @@ public class QuizManager : MonoBehaviour
             debuggerSkipsUsedThisTheme = PlayerPrefs.GetInt("Resume_DebuggerSkipsUsedThisTheme", 0);
             hackerUsesThisTheme = PlayerPrefs.GetInt("Resume_HackerUsesThisTheme", 0);
             compilerHintsUsedThisTheme = PlayerPrefs.GetInt("Resume_CompilerHintsUsedThisTheme", 0);
+            multiLanguageUsesThisTheme = PlayerPrefs.GetInt("Resume_MultiLanguageUsesThisTheme", 0);
+            devOpsUsesThisTheme = PlayerPrefs.GetInt("Resume_DevOpsUsesThisTheme", 0);
+            resumeDevOpsQuestionActive = PlayerPrefs.GetInt("Resume_DevOpsQuestionActive", 0) == 1;
             fullstackSkipsUsedInRun = PlayerPrefs.GetInt("Resume_FullstackSkipsUsedInRun", PlayerPrefs.GetInt("Run_FullstackSkipsUsedInRun", 0));
 
             Debug.Log($"🔄 Reprise sauvegarde: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
@@ -93,6 +103,9 @@ public class QuizManager : MonoBehaviour
             debuggerSkipsUsedThisTheme = 0;
             hackerUsesThisTheme = 0;
             compilerHintsUsedThisTheme = 0;
+            multiLanguageUsesThisTheme = 0;
+            devOpsUsesThisTheme = 0;
+            resumeDevOpsQuestionActive = false;
             fullstackSkipsUsedInRun = PlayerPrefs.GetInt("Run_FullstackSkipsUsedInRun", 0);
             resumeQuestionOrder = string.Empty;
         }
@@ -103,6 +116,17 @@ public class QuizManager : MonoBehaviour
         ConfigureRoleUI();
 
         LoadQuestionsFromDatabase(resumeQuestionOrder);
+
+        if (isResume && resumeDevOpsQuestionActive && resumeQuestion >= 0 && resumeQuestion < QnA.Count)
+        {
+            if (TryLoadDevOpsQuestionForCurrentTheme(out QuestionAndAnswer difficultQuestion))
+            {
+                difficultQuestion.Id = QnA[resumeQuestion].Id;
+                difficultQuestion.IsDevOpsQuestion = true;
+                QnA[resumeQuestion] = difficultQuestion;
+            }
+        }
+
         totalQuestions = GameManager.Instance.questionPerTheme;
         CurrentTheme.text = "Theme : " + themes[GameManager.Instance.currentThemeIndex];
         NextPanel.SetActive(false);
@@ -117,6 +141,9 @@ public class QuizManager : MonoBehaviour
         PlayerPrefs.DeleteKey("Resume_HackerUsesThisTheme");
         PlayerPrefs.DeleteKey("Resume_FullstackSkipsUsedInRun");
         PlayerPrefs.DeleteKey("Resume_CompilerHintsUsedThisTheme");
+        PlayerPrefs.DeleteKey("Resume_MultiLanguageUsesThisTheme");
+        PlayerPrefs.DeleteKey("Resume_DevOpsUsesThisTheme");
+        PlayerPrefs.DeleteKey("Resume_DevOpsQuestionActive");
 
         if (bossWarningText != null)
             bossWarningText.gameObject.SetActive(false);
@@ -128,9 +155,6 @@ public class QuizManager : MonoBehaviour
 
         if (playerRoleText != null)
             playerRoleText.text = "Rôle : " + selectedRoleName;
-
-        if (hintButton != null)
-            hintButton.gameObject.SetActive(false);
 
         if (skipButton != null)
             skipButton.onClick.RemoveAllListeners();
@@ -151,6 +175,23 @@ public class QuizManager : MonoBehaviour
         }
 
         UpdateRoleActionButtonUI();
+    }
+
+    private void SetActionButtonLabel(string label)
+    {
+        if (skipButton != null)
+        {
+            Text legacyText = skipButton.GetComponentInChildren<Text>(true);
+            if (legacyText != null)
+                legacyText.text = label;
+
+            TMP_Text tmpText = skipButton.GetComponentInChildren<TMP_Text>(true);
+            if (tmpText != null)
+                tmpText.text = label;
+        }
+
+        if (hintButtonText != null)
+            hintButtonText.text = label;
     }
 
     private void UpdateRoleActionButtonUI()
@@ -183,6 +224,20 @@ public class QuizManager : MonoBehaviour
             canUse = canUse && remaining > 0;
             buttonLabel = "Hack x" + remaining;
         }
+        else if (selectedRoleId == DevOpsRoleId)
+        {
+            int remaining = Mathf.Max(0, 1 - devOpsUsesThisTheme);
+            showButton = remaining > 0;
+            canUse = canUse && remaining > 0;
+            buttonLabel = "DevOps x" + remaining;
+        }
+        else if (selectedRoleId == MultiLanguageRoleId)
+        {
+            int remaining = Mathf.Max(0, 1 - multiLanguageUsesThisTheme);
+            showButton = remaining > 0;
+            canUse = canUse && remaining > 0;
+            buttonLabel = "Langue x" + remaining;
+        }
         else if (selectedRoleId == FullstackRoleId)
         {
             int remaining = Mathf.Max(0, 1 - fullstackSkipsUsedInRun);
@@ -194,7 +249,7 @@ public class QuizManager : MonoBehaviour
         {
             int remaining = Mathf.Max(0, MaxCompilerHintsPerTheme - compilerHintsUsedThisTheme);
             showButton = true;
-            canUse = canUse && remaining > 0;
+            canUse = canUse && remaining > 0 && !compilerHintUsedOnCurrentQuestion;
             buttonLabel = "Indice x" + remaining;
         }
 
@@ -202,8 +257,7 @@ public class QuizManager : MonoBehaviour
         if (showButton)
             skipButton.interactable = canUse;
 
-        if (hintButtonText != null)
-            hintButtonText.text = buttonLabel;
+        SetActionButtonLabel(buttonLabel);
     }
 
     private void UpdateQuestionNumberUI()
@@ -288,6 +342,94 @@ public class QuizManager : MonoBehaviour
         return true;
     }
 
+    public bool TryUseDevOpsSwap()
+    {
+        if (selectedRoleId != DevOpsRoleId)
+            return false;
+
+        if (waitingForNextQuestion)
+            return false;
+
+        if (devOpsUsesThisTheme >= 1)
+            return false;
+
+        if (currentQuestion < 0 || currentQuestion >= QnA.Count)
+            return false;
+
+        if (!TryLoadDevOpsQuestionForCurrentTheme(out QuestionAndAnswer difficultQuestion))
+            return false;
+
+        int originalId = QnA[currentQuestion].Id;
+        difficultQuestion.Id = originalId;
+        QnA[currentQuestion] = difficultQuestion;
+
+        QuestionTxt.text = QnA[currentQuestion].Question;
+        SetAnswers();
+
+        if (hintDisplayText != null)
+            hintDisplayText.text = string.Empty;
+
+        compilerHintUsedOnCurrentQuestion = false;
+        devOpsQuestionUsedOnCurrentQuestion = true;
+        devOpsUsesThisTheme++;
+        UpdateRoleActionButtonUI();
+
+        Debug.Log("⚙ DevOps utilisé : question remplacée par question_difficile");
+        return true;
+    }
+
+    private bool TryLoadDevOpsQuestionForCurrentTheme(out QuestionAndAnswer difficultQuestion)
+    {
+        difficultQuestion = null;
+        int themeId = GameManager.Instance.currentThemeIndex + 1;
+
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            try
+            {
+                conn.Open();
+
+                string query = @"SELECT id_theme, question_difficile AS question_text, choice1, choice2, choice3, choice4, correct_choice
+                                 FROM question_difficile
+                                 WHERE id_theme = @themeId
+                                 LIMIT 1;";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@themeId", themeId);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                            return false;
+
+                        difficultQuestion = new QuestionAndAnswer
+                        {
+                            Question = reader["question_text"] != DBNull.Value ? reader["question_text"].ToString() : string.Empty,
+                            Answers = new string[4]
+                            {
+                                reader["choice1"] != DBNull.Value ? reader["choice1"].ToString() : string.Empty,
+                                reader["choice2"] != DBNull.Value ? reader["choice2"].ToString() : string.Empty,
+                                reader["choice3"] != DBNull.Value ? reader["choice3"].ToString() : string.Empty,
+                                reader["choice4"] != DBNull.Value ? reader["choice4"].ToString() : string.Empty
+                            },
+                            CorrectAnswer = reader["correct_choice"] != DBNull.Value ? Convert.ToInt32(reader["correct_choice"]) : 1,
+                            Hint = string.Empty
+                        };
+
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Erreur chargement question_difficile : " + ex.Message);
+            }
+        }
+
+        return false;
+    }
+
     public bool TryUseFullstackSkip()
     {
         if (fullstackSkipsUsedInRun >= 1)
@@ -316,14 +458,20 @@ public class QuizManager : MonoBehaviour
         if (compilerHintsUsedThisTheme >= MaxCompilerHintsPerTheme)
             return false;
 
+        if (compilerHintUsedOnCurrentQuestion)
+            return false;
+
         string hint = QnA[currentQuestion].Hint;
         if (string.IsNullOrEmpty(hint))
             hint = "Aucun indice disponible.";
 
         if (hintDisplayText != null)
             hintDisplayText.text = "Indice : " + hint;
+        else
+            QuestionTxt.text = QnA[currentQuestion].Question + "\nIndice : " + hint;
 
         compilerHintsUsedThisTheme++;
+        compilerHintUsedOnCurrentQuestion = true;
         UpdateRoleActionButtonUI();
         return true;
     }
@@ -593,8 +741,11 @@ public class QuizManager : MonoBehaviour
         PlayerPrefs.SetString(prefix + "QuestionOrder", BuildCurrentQuestionOrder());
         PlayerPrefs.SetInt(prefix + "DebuggerSkipsUsedThisTheme", debuggerSkipsUsedThisTheme);
         PlayerPrefs.SetInt(prefix + "HackerUsesThisTheme", hackerUsesThisTheme);
+        PlayerPrefs.SetInt(prefix + "DevOpsUsesThisTheme", devOpsUsesThisTheme);
+        PlayerPrefs.SetInt(prefix + "DevOpsQuestionActive", devOpsQuestionUsedOnCurrentQuestion ? 1 : 0);
         PlayerPrefs.SetInt(prefix + "FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
         PlayerPrefs.SetInt(prefix + "CompilerHintsUsedThisTheme", compilerHintsUsedThisTheme);
+        PlayerPrefs.SetInt(prefix + "MultiLanguageUsesThisTheme", multiLanguageUsesThisTheme);
 
         for (int i = 0; i < 5; i++)
             PlayerPrefs.SetInt(prefix + "ScoreTheme" + i, GameManager.Instance.themeScores[i]);
@@ -670,17 +821,26 @@ public class QuizManager : MonoBehaviour
         if (currentQuestion >= 0 && currentQuestion < QnA.Count)
             GameManager.Instance.RegisterAnsweredQuestion(QnA[currentQuestion]);
 
-        int remaining = GameManager.Instance.questionPerTheme - questionsAskedThisTheme;
-
-        if (remaining <= 3)
+        if (devOpsQuestionUsedOnCurrentQuestion)
         {
-            GameManager.Instance.AddPointsToCurrentTheme(2);
-            Debug.Log("✅ Question BOSS -> +2 points");
+            GameManager.Instance.AddPointsToCurrentTheme(3);
         }
         else
         {
-            GameManager.Instance.AddPointToCurrentTheme();
+            int remaining = GameManager.Instance.questionPerTheme - questionsAskedThisTheme;
+
+            if (remaining <= 3)
+            {
+                GameManager.Instance.AddPointsToCurrentTheme(2);
+                Debug.Log("✅ Question BOSS -> +2 points");
+            }
+            else
+            {
+                GameManager.Instance.AddPointToCurrentTheme();
+            }
         }
+
+        Debug.Log($"[DevScore] Après réponse correcte: total={GameManager.Instance.GetTotalScore()}, theme={GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]}");
 
         questionsAskedThisTheme++;
         waitingForNextQuestion = true;
@@ -698,6 +858,13 @@ public class QuizManager : MonoBehaviour
 
         if (currentQuestion >= 0 && currentQuestion < QnA.Count)
             GameManager.Instance.RegisterAnsweredQuestion(QnA[currentQuestion]);
+
+        if (devOpsQuestionUsedOnCurrentQuestion)
+        {
+            GameManager.Instance.AddPointsToCurrentTheme(-1);
+        }
+
+        Debug.Log($"[DevScore] Après réponse fausse: total={GameManager.Instance.GetTotalScore()}, theme={GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]}");
 
         questionsAskedThisTheme++;
         waitingForNextQuestion = true;
@@ -738,6 +905,7 @@ public class QuizManager : MonoBehaviour
     {
         waitingForNextQuestion = false;
         Debug.Log($">>> generateQuestion() appelé, questionIndex={questionIndex} <<<");
+        Debug.Log($"[DevScore] Avant affichage question suivante: total={GameManager.Instance.GetTotalScore()}, theme={GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]}, questionsAsked={questionsAskedThisTheme}");
 
         if (questionIndex >= QnA.Count || questionsAskedThisTheme >= GameManager.Instance.questionPerTheme)
         {
@@ -747,6 +915,8 @@ public class QuizManager : MonoBehaviour
         }
 
         currentQuestion = questionIndex;
+        compilerHintUsedOnCurrentQuestion = false;
+        devOpsQuestionUsedOnCurrentQuestion = QnA[currentQuestion].IsDevOpsQuestion;
         UpdateQuestionNumberUI();
 
         if (hintDisplayText != null)
@@ -767,6 +937,9 @@ public class QuizManager : MonoBehaviour
         debuggerSkipsUsedThisTheme = 0;
         hackerUsesThisTheme = 0;
         compilerHintsUsedThisTheme = 0;
+        multiLanguageUsesThisTheme = 0;
+        devOpsUsesThisTheme = 0;
+        devOpsQuestionUsedOnCurrentQuestion = false;
 
         GameManager.Instance.currentThemeIndex++;
 
@@ -784,5 +957,93 @@ public class QuizManager : MonoBehaviour
     public int QuestionIndex
     {
         get { return questionIndex; }
+    }
+
+    public bool TryUseMultiLanguageSwap()
+    {
+        if (selectedRoleId != MultiLanguageRoleId)
+            return false;
+
+        if (waitingForNextQuestion)
+            return false;
+
+        if (multiLanguageUsesThisTheme >= 1)
+            return false;
+
+        if (currentQuestion < 0 || currentQuestion >= QnA.Count)
+            return false;
+
+        if (!TryLoadSecoursQuestionForCurrentTheme(out QuestionAndAnswer secoursQuestion))
+            return false;
+
+        int originalId = QnA[currentQuestion].Id;
+        secoursQuestion.Id = originalId;
+        secoursQuestion.IsDevOpsQuestion = false;
+        QnA[currentQuestion] = secoursQuestion;
+
+        QuestionTxt.text = QnA[currentQuestion].Question;
+        SetAnswers();
+
+        if (hintDisplayText != null)
+            hintDisplayText.text = string.Empty;
+
+        compilerHintUsedOnCurrentQuestion = false;
+        multiLanguageUsesThisTheme++;
+        UpdateRoleActionButtonUI();
+
+        Debug.Log("🌐 Multi Langage utilisé : question remplacée par question_secoure");
+        return true;
+    }
+
+    private bool TryLoadSecoursQuestionForCurrentTheme(out QuestionAndAnswer secoursQuestion)
+    {
+        secoursQuestion = null;
+        int themeId = GameManager.Instance.currentThemeIndex + 1;
+
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            try
+            {
+                conn.Open();
+
+                string query = @"SELECT id_theme, question_secoure AS question_text, choice1, choice2, choice3, choice4, correct_choice
+                                 FROM question_secoure
+                                 WHERE id_theme = @themeId
+                                 LIMIT 1;";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@themeId", themeId);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                            return false;
+
+                        secoursQuestion = new QuestionAndAnswer
+                        {
+                            Question = reader["question_text"] != DBNull.Value ? reader["question_text"].ToString() : string.Empty,
+                            Answers = new string[4]
+                            {
+                                reader["choice1"] != DBNull.Value ? reader["choice1"].ToString() : string.Empty,
+                                reader["choice2"] != DBNull.Value ? reader["choice2"].ToString() : string.Empty,
+                                reader["choice3"] != DBNull.Value ? reader["choice3"].ToString() : string.Empty,
+                                reader["choice4"] != DBNull.Value ? reader["choice4"].ToString() : string.Empty
+                            },
+                            CorrectAnswer = reader["correct_choice"] != DBNull.Value ? Convert.ToInt32(reader["correct_choice"]) : 1,
+                            Hint = string.Empty
+                        };
+
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError("Erreur chargement question_secoure : " + ex.Message);
+            }
+        }
+
+        return false;
     }
 }

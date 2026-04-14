@@ -10,6 +10,10 @@ public static class RoleEffectFactory
                 return new HackerRoleEffect();
             case 3:
                 return new CompilateurRoleEffect();
+            case 5:
+                return new DevOpsRoleEffect();
+            case 6:
+                return new MultiLanguageRoleEffect();
             case 9:
                 return new FullstackRoleEffect();
             default:
