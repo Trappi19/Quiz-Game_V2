@@ -1,4 +1,5 @@
 using MySqlConnector;   // Pense à ajouter le connector .dll
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,12 @@ public class RoleSystem : MonoBehaviour
 
     [Header("Navigation")]
     [SerializeField] private string firstThemeSceneName = "Theme1";
+    [SerializeField] private string quitSceneName = "Menu";
+
+    [Header("Transition")]
+    [SerializeField] private Animator transition;
+    [SerializeField] private string transitionTriggerName = "FadeOut";
+    [SerializeField] private float transitionDuration = 1f;
 
     [Header("Config BDD")]
     [SerializeField] private string host = "localhost";
@@ -157,7 +164,40 @@ public class RoleSystem : MonoBehaviour
         Debug.Log("Rôle sauvegardé : " + chosen.name);
 
         if (!string.IsNullOrEmpty(firstThemeSceneName))
-            SceneManager.LoadScene(firstThemeSceneName);
+            StartCoroutine(LoadSceneWithTransition(firstThemeSceneName));
+    }
+
+    public void QuitRoleScene()
+    {
+        if (!string.IsNullOrEmpty(quitSceneName))
+        {
+            StartCoroutine(LoadSceneWithTransition(quitSceneName));
+            return;
+        }
+
+        StartCoroutine(QuitApplicationWithTransition());
+    }
+
+    private IEnumerator LoadSceneWithTransition(string sceneName)
+    {
+        if (transition != null && !string.IsNullOrEmpty(transitionTriggerName))
+            transition.SetTrigger(transitionTriggerName);
+
+        if (transitionDuration > 0f)
+            yield return new WaitForSeconds(transitionDuration);
+
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private IEnumerator QuitApplicationWithTransition()
+    {
+        if (transition != null && !string.IsNullOrEmpty(transitionTriggerName))
+            transition.SetTrigger(transitionTriggerName);
+
+        if (transitionDuration > 0f)
+            yield return new WaitForSeconds(transitionDuration);
+
+        Application.Quit();
     }
 
     public RoleData GetSelectedRole()

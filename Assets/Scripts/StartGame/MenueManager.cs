@@ -167,6 +167,8 @@ public class MenuManager : MonoBehaviour
         string questionOrder = PlayerPrefs.GetString(prefix + "QuestionOrder", string.Empty);
         int debuggerSkipsUsedThisTheme = PlayerPrefs.GetInt(prefix + "DebuggerSkipsUsedThisTheme", 0);
         int hackerUsesThisTheme = PlayerPrefs.GetInt(prefix + "HackerUsesThisTheme", 0);
+        int cacheUsesThisTheme = PlayerPrefs.GetInt(prefix + "CacheUsesThisTheme", 0);
+        int cacheQuestionActive = PlayerPrefs.GetInt(prefix + "CacheQuestionActive", 0);
         int devOpsUsesThisTheme = PlayerPrefs.GetInt(prefix + "DevOpsUsesThisTheme", 0);
         int devOpsQuestionActive = PlayerPrefs.GetInt(prefix + "DevOpsQuestionActive", 0);
         int fullstackSkipsUsedInRun = PlayerPrefs.GetInt(prefix + "FullstackSkipsUsedInRun", 0);
@@ -190,6 +192,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetString("Resume_QuestionOrder", questionOrder);
         PlayerPrefs.SetInt("Resume_DebuggerSkipsUsedThisTheme", debuggerSkipsUsedThisTheme);
         PlayerPrefs.SetInt("Resume_HackerUsesThisTheme", hackerUsesThisTheme);
+        PlayerPrefs.SetInt("Resume_CacheUsesThisTheme", cacheUsesThisTheme);
+        PlayerPrefs.SetInt("Resume_CacheQuestionActive", cacheQuestionActive);
         PlayerPrefs.SetInt("Resume_DevOpsUsesThisTheme", devOpsUsesThisTheme);
         PlayerPrefs.SetInt("Resume_DevOpsQuestionActive", devOpsQuestionActive);
         PlayerPrefs.SetInt("Resume_FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
@@ -216,6 +220,8 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.DeleteKey(prefix + "QuestionOrder");
         PlayerPrefs.DeleteKey(prefix + "DebuggerSkipsUsedThisTheme");
         PlayerPrefs.DeleteKey(prefix + "HackerUsesThisTheme");
+        PlayerPrefs.DeleteKey(prefix + "CacheUsesThisTheme");
+        PlayerPrefs.DeleteKey(prefix + "CacheQuestionActive");
         PlayerPrefs.DeleteKey(prefix + "DevOpsUsesThisTheme");
         PlayerPrefs.DeleteKey(prefix + "DevOpsQuestionActive");
         PlayerPrefs.DeleteKey(prefix + "FullstackSkipsUsedInRun");

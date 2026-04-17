@@ -10,4 +10,5 @@ public class QuestionAndAnswer
     public int CorrectAnswer;
     public string Hint;
     public bool IsDevOpsQuestion;
+    public bool IsCacheQuestion;
 }

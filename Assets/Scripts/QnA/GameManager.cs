@@ -101,6 +101,8 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("Resume_QuestionOrder");
         PlayerPrefs.DeleteKey("Resume_DebuggerSkipsUsedThisTheme");
         PlayerPrefs.DeleteKey("Resume_HackerUsesThisTheme");
+        PlayerPrefs.DeleteKey("Resume_CacheUsesThisTheme");
+        PlayerPrefs.DeleteKey("Resume_CacheQuestionActive");
         PlayerPrefs.DeleteKey("Resume_DevOpsUsesThisTheme");
         PlayerPrefs.DeleteKey("Resume_DevOpsQuestionActive");
         PlayerPrefs.DeleteKey("Resume_FullstackSkipsUsedInRun");
