@@ -111,12 +111,12 @@ public class PDFGenerator : MonoBehaviour
             document.Close();
             writer.Close();
 
-            Debug.Log("PDF généré avec succès : " + path);
+            Debug.Log("[PDF] Export terminé : " + path);
             Application.OpenURL("file://" + path);
         }
         catch (Exception e)
         {
-            Debug.LogError("Erreur lors de la génération du PDF : " + e.Message);
+            Debug.LogError("[PDF] Échec de l'export : " + e.Message);
         }
     }
 }

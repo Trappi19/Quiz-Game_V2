@@ -17,21 +17,22 @@ public class MariaDBConnection : MonoBehaviour
             try
             {
                 conn.Open();
-                Debug.Log("Connexion MariaDB réussie !");
-                // Exemple simple de lecture
+                Debug.Log("[SqlExample] Connexion MariaDB réussie.");
+
                 string query = "SELECT * FROM themes LIMIT 10;";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Debug.Log("Donnée : " + reader[0].ToString());
+                    Debug.Log("[SqlExample] Ligne thème : " + reader[0]);
                 }
+
                 reader.Close();
             }
             catch (Exception ex)
             {
-                Debug.LogError("Erreur MariaDB : " + ex.Message);
+                Debug.LogError("[SqlExample] Erreur MariaDB : " + ex.Message);
             }
         }
     }

@@ -7,7 +7,7 @@ public class GameRoleManager : MonoBehaviour
     private void Awake()
     {
         currentRoleId = PlayerPrefs.GetInt("SelectedRoleId", -1);
-        Debug.Log("Role courant : " + currentRoleId);
+        Debug.Log("[Role] Id du rôle actif : " + currentRoleId);
 
         // Ensuite tu appliques les bonus selon l'id
         // ex: switch(currentRoleId) { case 1: // Debugueur ... }

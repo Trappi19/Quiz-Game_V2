@@ -1,5 +1,4 @@
-﻿using MySqlConnector;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -72,12 +71,14 @@ public class QuizManager : MonoBehaviour
     int questionsAskedThisTheme = 0;
 
     string connStr = "Server=localhost;Database=quizgame;User ID=root;Password=rootroot;Port=3306;";
+    private QuizRepository quizRepository;
 
     private void Start()
     {
-        Debug.Log($"!!! QuizManager.Start() DEBUT questionIndex={questionIndex}!!!");
+        Debug.Log("[Quiz] Initialisation du gestionnaire de quiz.");
 
         CurrentTheme.text = "Theme : " + GameManager.Instance.themes[GameManager.Instance.currentThemeIndex];
+        quizRepository = new QuizRepository(connStr);
 
         int resumeTheme = PlayerPrefs.GetInt("Resume_Theme", -1);
         int resumeQuestion = PlayerPrefs.GetInt("Resume_Question", 0);
@@ -100,7 +101,7 @@ public class QuizManager : MonoBehaviour
             resumeCacheQuestionActive = PlayerPrefs.GetInt("Resume_CacheQuestionActive", 0) == 1;
             fullstackSkipsUsedInRun = PlayerPrefs.GetInt("Resume_FullstackSkipsUsedInRun", PlayerPrefs.GetInt("Run_FullstackSkipsUsedInRun", 0));
 
-            Debug.Log($"🔄 Reprise sauvegarde: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
+            Debug.Log($"[Quiz] Reprise détectée: questionIndex={questionIndex}, questionsRépondues={questionsAskedThisTheme}.");
         }
         else
         {
@@ -406,7 +407,7 @@ public class QuizManager : MonoBehaviour
         cacheUsesThisTheme++;
         UpdateRoleActionButtonUI();
 
-        Debug.Log("🗂 Cache utilisé : question déjà répondue rejouée");
+        Debug.Log("[Quiz][Rôle Cache] Question historique rejouée.");
         return true;
     }
 
@@ -476,7 +477,7 @@ public class QuizManager : MonoBehaviour
         devOpsUsesThisTheme++;
         UpdateRoleActionButtonUI();
 
-        Debug.Log("⚙ DevOps utilisé : question remplacée par question_difficile");
+        Debug.Log("[Quiz][Rôle DevOps] Question remplacée par une question difficile.");
         return true;
     }
 
@@ -485,53 +486,22 @@ public class QuizManager : MonoBehaviour
         difficultQuestion = null;
         int themeId = GameManager.Instance.currentThemeIndex + 1;
 
-        using (MySqlConnection conn = new MySqlConnection(connStr))
+        try
         {
-            try
-            {
-                conn.Open();
+            difficultQuestion = quizRepository.LoadDevOpsQuestionByTheme(themeId);
+            if (difficultQuestion == null)
+                return false;
 
-                string query = @"SELECT id_theme, question_difficile AS question_text, choice1, choice2, choice3, choice4, correct_choice
-                                 FROM question_difficile
-                                 WHERE id_theme = @themeId
-                                 LIMIT 1;";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@themeId", themeId);
-
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (!reader.Read())
-                            return false;
-
-                        difficultQuestion = new QuestionAndAnswer
-                        {
-                            Question = reader["question_text"] != DBNull.Value ? reader["question_text"].ToString() : string.Empty,
-                            Answers = new string[4]
-                            {
-                                reader["choice1"] != DBNull.Value ? reader["choice1"].ToString() : string.Empty,
-                                reader["choice2"] != DBNull.Value ? reader["choice2"].ToString() : string.Empty,
-                                reader["choice3"] != DBNull.Value ? reader["choice3"].ToString() : string.Empty,
-                                reader["choice4"] != DBNull.Value ? reader["choice4"].ToString() : string.Empty
-                            },
-                            CorrectAnswer = reader["correct_choice"] != DBNull.Value ? Convert.ToInt32(reader["correct_choice"]) : 1,
-                            Hint = string.Empty,
-                            IsDevOpsQuestion = true,
-                            IsCacheQuestion = false
-                        };
-
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Erreur chargement question_difficile : " + ex.Message);
-            }
+            difficultQuestion.Hint = string.Empty;
+            difficultQuestion.IsDevOpsQuestion = true;
+            difficultQuestion.IsCacheQuestion = false;
+            return true;
         }
-
-        return false;
+        catch (Exception ex)
+        {
+            Debug.LogError("[Quiz][Rôle DevOps] Échec du chargement de la question difficile : " + ex.Message);
+            return false;
+        }
     }
 
     public bool TryUseFullstackSkip()
@@ -594,7 +564,7 @@ public class QuizManager : MonoBehaviour
         questionsAskedThisTheme++;
         waitingForNextQuestion = true;
 
-        Debug.Log("⏭ Skip utilisé : +" + points + " point(s)");
+        Debug.Log($"[Quiz][Action] Question passée avec bonus de {points} point(s).");
         UpdateRoleActionButtonUI();
         StartCoroutine(WaitForNext());
         return true;
@@ -604,125 +574,51 @@ public class QuizManager : MonoBehaviour
     {
         QnA.Clear();
 
-        using (MySqlConnection conn = new MySqlConnection(connStr))
+        try
         {
-            try
+            int themeId = GameManager.Instance.currentThemeIndex + 1;
+            int questionsToLoad = Mathf.Min(GameManager.Instance.questionPerTheme, 20);
+
+            List<int> forcedIds = ParseQuestionOrder(forcedQuestionOrder);
+            if (forcedIds.Count > 0)
             {
-                conn.Open();
-                Debug.Log("Connexion MariaDB réussie !");
-
-                int themeId = GameManager.Instance.currentThemeIndex + 1;
-                int questionsToLoad = Mathf.Min(GameManager.Instance.questionPerTheme, 20);
-
-                List<int> forcedIds = ParseQuestionOrder(forcedQuestionOrder);
-                if (forcedIds.Count > 0)
+                bool exactLoaded = TryLoadQuestionsInExactOrder(forcedIds);
+                if (exactLoaded)
                 {
-                    bool exactLoaded = TryLoadQuestionsInExactOrder(conn, forcedIds);
-                    if (exactLoaded)
-                    {
-                        Debug.Log($"Thème {themeId} : reprise exacte avec {QnA.Count} questions sauvegardées.");
-                        return;
-                    }
-
-                    Debug.LogWarning("Impossible de restaurer exactement l'ordre sauvegardé. Fallback sur chargement aléatoire.");
-                    QnA.Clear();
-                }
-
-                string[] themes = { "Culture générale", "Musique", "Cinéma", "Sport", "Géographie" };
-                string currentTheme = themes[GameManager.Instance.currentThemeIndex];
-
-                string[] queries =
-                {
-                    @"SELECT q.id, q.question, q.indice, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
-                      FROM quiz_question q
-                      JOIN quiz_choices qc ON qc.question_index = q.id
-                      WHERE q.theme_id = @themeId;",
-
-                    @"SELECT q.id, q.question, q.indice, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
-                      FROM quiz_questions q
-                      JOIN quiz_choices qc ON qc.question_index = q.id
-                      WHERE q.theme_id = @themeId;",
-
-                    @"SELECT q.id, q.question, q.indice, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
-                      FROM quiz_questions q
-                      JOIN quiz_choices qc ON qc.question_index = q.id
-                      WHERE q.theme = @theme;"
-                };
-
-                bool loaded = false;
-
-                foreach (string query in queries)
-                {
-                    List<QuestionAndAnswer> loadedQuestions = new List<QuestionAndAnswer>();
-                    HashSet<int> loadedIds = new HashSet<int>();
-
-                    try
-                    {
-                        using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@themeId", themeId);
-                            cmd.Parameters.AddWithValue("@theme", currentTheme);
-
-                            using (MySqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    int questionId = Convert.ToInt32(reader["id"]);
-                                    if (!loadedIds.Add(questionId))
-                                        continue;
-
-                                    QuestionAndAnswer qa = new QuestionAndAnswer
-                                    {
-                                        Id = questionId,
-                                        Question = reader.GetString("question"),
-                                        Hint = reader["indice"] != DBNull.Value ? reader["indice"].ToString() : string.Empty,
-                                        Answers = new string[4]
-                                        {
-                                            reader.GetString("choice1"),
-                                            reader.GetString("choice2"),
-                                            reader.GetString("choice3"),
-                                            reader.GetString("choice4")
-                                        },
-                                        CorrectAnswer = reader.GetInt32("correct_choice")
-                                    };
-                                    loadedQuestions.Add(qa);
-                                }
-                            }
-                        }
-
-                        for (int i = loadedQuestions.Count - 1; i > 0; i--)
-                        {
-                            int j = UnityEngine.Random.Range(0, i + 1);
-                            QuestionAndAnswer temp = loadedQuestions[i];
-                            loadedQuestions[i] = loadedQuestions[j];
-                            loadedQuestions[j] = temp;
-                        }
-
-                        int count = Mathf.Min(questionsToLoad, loadedQuestions.Count);
-                        for (int i = 0; i < count; i++)
-                            QnA.Add(loadedQuestions[i]);
-
-                        loaded = true;
-                        break;
-                    }
-                    catch (MySqlException)
-                    {
-                        QnA.Clear();
-                    }
-                }
-
-                if (!loaded)
-                {
-                    Debug.LogError("Aucune requête de chargement des questions n'a fonctionné (vérifie le schéma de la BDD).");
+                    Debug.Log($"[Quiz] Reprise exacte réussie: {QnA.Count} question(s) restaurée(s) pour le thème {themeId}.");
                     return;
                 }
 
-                Debug.Log($"Thème {themeId} : {QnA.Count} questions uniques chargées aléatoirement (max {questionsToLoad})");
+                Debug.LogWarning("[Quiz] Impossible de restaurer l'ordre sauvegardé. Chargement aléatoire appliqué.");
+                QnA.Clear();
             }
-            catch (Exception ex)
+
+            string currentTheme = themes[GameManager.Instance.currentThemeIndex];
+            List<QuestionAndAnswer> loadedQuestions = quizRepository.LoadQuestionsByTheme(themeId, currentTheme);
+
+            if (loadedQuestions.Count == 0)
             {
-                Debug.LogError("Erreur MariaDB : " + ex.Message);
+                Debug.LogError("[Quiz] Aucune question récupérée depuis la base (schéma ou données à vérifier).");
+                return;
             }
+
+            for (int i = loadedQuestions.Count - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                QuestionAndAnswer temp = loadedQuestions[i];
+                loadedQuestions[i] = loadedQuestions[j];
+                loadedQuestions[j] = temp;
+            }
+
+            int count = Mathf.Min(questionsToLoad, loadedQuestions.Count);
+            for (int i = 0; i < count; i++)
+                QnA.Add(loadedQuestions[i]);
+
+            Debug.Log($"[Quiz] Thème {themeId} chargé: {QnA.Count}/{questionsToLoad} question(s) prêtes.");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("[Quiz] Erreur d'accès base de données : " + ex.Message);
         }
     }
 
@@ -754,73 +650,14 @@ public class QuizManager : MonoBehaviour
         return string.Join(",", ids);
     }
 
-    private bool TryLoadQuestionsInExactOrder(MySqlConnection conn, List<int> orderedIds)
+    private bool TryLoadQuestionsInExactOrder(List<int> orderedIds)
     {
-        string[] singleQuestionQueries =
-        {
-            @"SELECT q.id, q.question, q.indice, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
-              FROM quiz_question q
-              JOIN quiz_choices qc ON qc.question_index = q.id
-              WHERE q.id = @id
-              LIMIT 1;",
+        List<QuestionAndAnswer> orderedQuestions = quizRepository.LoadQuestionsByIdsInOrder(orderedIds);
+        if (orderedQuestions.Count != orderedIds.Count)
+            return false;
 
-            @"SELECT q.id, q.question, q.indice, qc.choice1, qc.choice2, qc.choice3, qc.choice4, qc.correct_choice
-              FROM quiz_questions q
-              JOIN quiz_choices qc ON qc.question_index = q.id
-              WHERE q.id = @id
-              LIMIT 1;"
-        };
-
-        for (int i = 0; i < orderedIds.Count; i++)
-        {
-            int id = orderedIds[i];
-            bool found = false;
-
-            for (int q = 0; q < singleQuestionQueries.Length; q++)
-            {
-                try
-                {
-                    using (MySqlCommand cmd = new MySqlCommand(singleQuestionQueries[q], conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id", id);
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                QuestionAndAnswer qa = new QuestionAndAnswer
-                                {
-                                    Id = Convert.ToInt32(reader["id"]),
-                                    Question = reader.GetString("question"),
-                                    Hint = reader["indice"] != DBNull.Value ? reader["indice"].ToString() : string.Empty,
-                                    Answers = new string[4]
-                                    {
-                                        reader.GetString("choice1"),
-                                        reader.GetString("choice2"),
-                                        reader.GetString("choice3"),
-                                        reader.GetString("choice4")
-                                    },
-                                    CorrectAnswer = reader.GetInt32("correct_choice")
-                                };
-
-                                QnA.Add(qa);
-                                found = true;
-                            }
-                        }
-                    }
-                }
-                catch (MySqlException)
-                {
-                }
-
-                if (found)
-                    break;
-            }
-
-            if (!found)
-                return false;
-        }
-
-        return QnA.Count == orderedIds.Count;
+        QnA.AddRange(orderedQuestions);
+        return true;
     }
 
     bool IsBossQuestion()
@@ -858,7 +695,7 @@ public class QuizManager : MonoBehaviour
 
         PlayerPrefs.Save();
 
-        Debug.Log("✅ SAUVEGARDÉ Slot " + slot);
+        Debug.Log($"[Quiz][Save] Sauvegarde effectuée dans le slot {slot} (theme={GameManager.Instance.currentThemeIndex + 1}, question={indexToSave}).");
     }
 
     public void OuvrirChoixSlot()
@@ -923,7 +760,7 @@ public class QuizManager : MonoBehaviour
         questionsAskedThisTheme = GameManager.Instance.questionPerTheme;
         questionIndex = QnA.Count;
 
-        Debug.Log($"[DebugBackdoor] Thème {GameManager.Instance.currentThemeIndex + 1} passé sans points ni historique.");
+        Debug.LogWarning($"[Quiz][Debug] Thème {GameManager.Instance.currentThemeIndex + 1} ignoré (sans points ni historique).");
         GameOver();
     }
 
@@ -931,8 +768,6 @@ public class QuizManager : MonoBehaviour
     {
         if (waitingForNextQuestion)
             return;
-
-        Debug.Log($"[correct()] avant: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
 
         if (currentQuestion >= 0 && currentQuestion < QnA.Count)
             GameManager.Instance.RegisterAnsweredQuestion(QnA[currentQuestion]);
@@ -952,7 +787,6 @@ public class QuizManager : MonoBehaviour
             if (remaining <= 3)
             {
                 GameManager.Instance.AddPointsToCurrentTheme(2);
-                Debug.Log("✅ Question BOSS -> +2 points");
             }
             else
             {
@@ -960,15 +794,11 @@ public class QuizManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"[DevScore] Après réponse correcte: total={GameManager.Instance.GetTotalScore()}, theme={GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]}");
-
         questionsAskedThisTheme++;
         waitingForNextQuestion = true;
         UpdateRoleActionButtonUI();
 
         StartCoroutine(WaitForNext());
-
-        Debug.Log($"[correct()] après: questionIndex={questionIndex}, questionsAsked={questionsAskedThisTheme}");
     }
 
     public void wrong()
@@ -983,8 +813,6 @@ public class QuizManager : MonoBehaviour
         {
             GameManager.Instance.AddPointsToCurrentTheme(-1);
         }
-
-        Debug.Log($"[DevScore] Après réponse fausse: total={GameManager.Instance.GetTotalScore()}, theme={GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]}");
 
         questionsAskedThisTheme++;
         waitingForNextQuestion = true;
@@ -1024,12 +852,10 @@ public class QuizManager : MonoBehaviour
     void generateQuestion()
     {
         waitingForNextQuestion = false;
-        Debug.Log($">>> generateQuestion() appelé, questionIndex={questionIndex} <<<");
-        Debug.Log($"[DevScore] Avant affichage question suivante: total={GameManager.Instance.GetTotalScore()}, theme={GameManager.Instance.themeScores[GameManager.Instance.currentThemeIndex]}, questionsAsked={questionsAskedThisTheme}");
 
         if (questionIndex >= QnA.Count || questionsAskedThisTheme >= GameManager.Instance.questionPerTheme)
         {
-            Debug.Log($"Fin thème {GameManager.Instance.currentThemeIndex + 1}");
+            Debug.Log($"[Quiz] Fin du thème {GameManager.Instance.currentThemeIndex + 1}.");
             GameOver();
             return;
         }
@@ -1117,7 +943,7 @@ public class QuizManager : MonoBehaviour
         multiLanguageUsesThisTheme++;
         UpdateRoleActionButtonUI();
 
-        Debug.Log("🌐 Multi Langage utilisé : question remplacée par question_secoure");
+        Debug.Log("[Quiz][Rôle Multi Language] Question remplacée par une question de secours.");
         return true;
     }
 
@@ -1126,52 +952,21 @@ public class QuizManager : MonoBehaviour
         secoursQuestion = null;
         int themeId = GameManager.Instance.currentThemeIndex + 1;
 
-        using (MySqlConnection conn = new MySqlConnection(connStr))
+        try
         {
-            try
-            {
-                conn.Open();
+            secoursQuestion = quizRepository.LoadSecoursQuestionByTheme(themeId);
+            if (secoursQuestion == null)
+                return false;
 
-                string query = @"SELECT id_theme, question_secoure AS question_text, choice1, choice2, choice3, choice4, correct_choice
-                                 FROM question_secoure
-                                 WHERE id_theme = @themeId
-                                 LIMIT 1;";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@themeId", themeId);
-
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (!reader.Read())
-                            return false;
-
-                        secoursQuestion = new QuestionAndAnswer
-                        {
-                            Question = reader["question_text"] != DBNull.Value ? reader["question_text"].ToString() : string.Empty,
-                            Answers = new string[4]
-                            {
-                                reader["choice1"] != DBNull.Value ? reader["choice1"].ToString() : string.Empty,
-                                reader["choice2"] != DBNull.Value ? reader["choice2"].ToString() : string.Empty,
-                                reader["choice3"] != DBNull.Value ? reader["choice3"].ToString() : string.Empty,
-                                reader["choice4"] != DBNull.Value ? reader["choice4"].ToString() : string.Empty
-                            },
-                            CorrectAnswer = reader["correct_choice"] != DBNull.Value ? Convert.ToInt32(reader["correct_choice"]) : 1,
-                            Hint = string.Empty,
-                            IsDevOpsQuestion = false,
-                            IsCacheQuestion = false
-                        };
-
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Erreur chargement question_secoure : " + ex.Message);
-            }
+            secoursQuestion.Hint = string.Empty;
+            secoursQuestion.IsDevOpsQuestion = false;
+            secoursQuestion.IsCacheQuestion = false;
+            return true;
         }
-
-        return false;
+        catch (Exception ex)
+        {
+            Debug.LogError("[Quiz][Rôle Multi Language] Échec du chargement de la question de secours : " + ex.Message);
+            return false;
+        }
     }
 }
