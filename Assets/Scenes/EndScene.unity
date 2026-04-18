@@ -379,6 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EndGame
   totalScoreText: {fileID: 944075334}
   detailScoreText: {fileID: 886661152}
+  roleText: {fileID: 0}
   downloadPDFButton: {fileID: 671714059}
 --- !u!4 &428117623
 Transform:
@@ -1528,8 +1529,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1153115241}
-        m_TargetAssemblyTypeName: StartOption, Assembly-CSharp
+      - m_Target: {fileID: 428117622}
+        m_TargetAssemblyTypeName: EndGame, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
