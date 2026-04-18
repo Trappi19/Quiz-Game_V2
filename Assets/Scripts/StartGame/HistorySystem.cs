@@ -30,6 +30,6 @@ public static class HistorySystem
         PlayerPrefs.SetInt("History_Count", index);
         PlayerPrefs.Save();
 
-        Debug.Log("✅ Partie ajoutée à l'historique: index=" + index);
+        Debug.Log($"[History] Partie enregistrée dans l'historique (index={index}, joueur={playerName}, score={totalScore}/100).");
     }
 }

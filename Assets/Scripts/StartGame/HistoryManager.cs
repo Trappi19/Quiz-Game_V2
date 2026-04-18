@@ -99,7 +99,7 @@ public class HistoryManager : MonoBehaviour
         RefreshHistory();
         detailPanel.SetActive(false);
 
-        Debug.Log("🗑 Historique vidé");
+        Debug.Log($"[History] Historique vidé ({count} entrée(s) supprimée(s)).");
     }
 
     public void CloseHistoryDetailPanel()

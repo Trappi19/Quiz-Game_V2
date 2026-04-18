@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour
 
         nomJoueurPanel.SetActive(true);
         inputNomJoueur.ActivateInputField();
-        Debug.Log("Nouvelle Partie");
+        Debug.Log("[Menu] Nouvelle partie lancée.");
     }
 
     public void OpenNouveatePanel()
@@ -94,8 +94,6 @@ public class MenuManager : MonoBehaviour
         MenuePanel.SetActive(false);
         RefreshSaves();
         UImenuChargementPanel.SetActive(true);
-
-        Debug.Log(">>> OuvrirMenuChargement appelé");
     }
 
     public void RefreshSaves()
@@ -105,7 +103,7 @@ public class MenuManager : MonoBehaviour
             slot2Text == null || slot2Btn == null ||
             slot3Text == null || slot3Btn == null)
         {
-            Debug.LogError("Un des slots n'est pas assigné dans l'Inspector !");
+            Debug.LogError("[Menu] Slots de sauvegarde non assignés dans l'Inspector.");
             return;
         }
 
@@ -196,7 +194,7 @@ public class MenuManager : MonoBehaviour
             GameManager.Instance.themeScores[i] = PlayerPrefs.GetInt(prefix + "ScoreTheme" + i, 0);
         }
 
-        Debug.Log($"LOAD SAVE slot {slot}: theme={theme}, question={question}, questionsAsked={questionsAsked}, scores=[{string.Join(",", GameManager.Instance.themeScores)}]");
+        Debug.Log($"[Menu][Load] Slot {slot} chargé: theme={theme}, question={question}, questionsRépondues={questionsAsked}.");
 
         PlayerPrefs.SetString("PlayerName", nom);
         PlayerPrefs.SetInt("SelectedRoleId", roleId);
@@ -212,12 +210,20 @@ public class MenuManager : MonoBehaviour
         PlayerPrefs.SetInt("Resume_DevOpsUsesThisTheme", devOpsUsesThisTheme);
         PlayerPrefs.SetInt("Resume_DevOpsQuestionActive", devOpsQuestionActive);
         PlayerPrefs.SetInt("Resume_FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
-        PlayerPrefs.SetInt("Run_FullstackSkipsUsedInRun", fullstackSkipsUsedInRun);
         PlayerPrefs.SetInt("Resume_CompilerHintsUsedThisTheme", compilerHintsUsedThisTheme);
         PlayerPrefs.SetInt("Resume_MultiLanguageUsesThisTheme", multiLanguageUsesThisTheme);
 
         GameManager.Instance.currentThemeIndex = theme - 1;
 
+        Debug.Log($"[Menu][Load] Données de la partie chargée dans PlayerPrefs. Préparation du lancement du thème {theme}.");
+        StartCoroutine(LoadSaveWithAnim(theme));
+    }
+
+    public IEnumerator LoadSaveWithAnim(int theme)
+    {
+        transition.SetTrigger("FadeOut");
+
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Theme" + theme);
     }
 
@@ -250,7 +256,7 @@ public class MenuManager : MonoBehaviour
 
         PlayerPrefs.Save();
 
-        Debug.Log($"❌ Sauvegarde slot {slot} supprimée");
+        Debug.Log($"[Menu][Save] Slot {slot} supprimé.");
 
         // Rafraîchit l'affichage
         RefreshSaves();
@@ -295,7 +301,7 @@ public class MenuManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
-        Debug.Log("Quit Game");
+        Debug.Log("[Menu] Fermeture du jeu demandée.");
     }
 
     public void OpenHistoryPanel()

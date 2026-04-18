@@ -1,4 +1,3 @@
-using MySqlConnector;   // Pense à ajouter le connector .dll
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,15 +30,17 @@ public class RoleSystem : MonoBehaviour
     [SerializeField] private string password = "rootroot";
 
     private List<RoleData> roles = new List<RoleData>();
+    private RoleRepository roleRepository;
     private bool showDescriptions = false;
     private int selectedRoleIndex = -1;
 
     private void Start()
     {
-        if (infoButton == null) Debug.LogError("InfoButton n'est pas assigné !");
-        if (saveButton == null) Debug.LogError("SaveButton n'est pas assigné !");
-        if (roleButtons == null || roleButtons.Count == 0) Debug.LogError("RoleButtons vide !");
+        if (infoButton == null) Debug.LogError("[Role] InfoButton non assigné.");
+        if (saveButton == null) Debug.LogError("[Role] SaveButton non assigné.");
+        if (roleButtons == null || roleButtons.Count == 0) Debug.LogError("[Role] Liste des boutons de rôle vide.");
 
+        roleRepository = new RoleRepository(GetConnectionString());
         LoadRolesFromDatabase();
         BindButtons();
         UpdateButtonsText();
@@ -57,42 +58,14 @@ public class RoleSystem : MonoBehaviour
     {
         roles.Clear();
 
-        using (MySqlConnection conn = new MySqlConnection(GetConnectionString()))
+        try
         {
-            try
-            {
-                conn.Open();
-
-                string query = "SELECT id, role_name, description_role FROM role ORDER BY id ASC;";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-                using (MySqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        int id = 0;
-
-                        // id en int (même si la colonne est BIGINT, on passe par Convert)
-                        object idObj = reader["id"];
-                        if (idObj != null && idObj != System.DBNull.Value)
-                            id = System.Convert.ToInt32(idObj);
-
-                        string name = reader["role_name"] != System.DBNull.Value
-                            ? reader["role_name"].ToString()
-                            : string.Empty;
-
-                        string description = reader["description_role"] != System.DBNull.Value
-                            ? reader["description_role"].ToString()
-                            : string.Empty;
-
-                        roles.Add(new RoleData(id, name, description));
-                    }
-                }
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError("Erreur BDD rôles : " + e.Message);
-            }
+            roles = roleRepository.LoadRoles();
+            Debug.Log($"[Role] {roles.Count} rôle(s) chargé(s) depuis la base.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[Role] Erreur lors du chargement des rôles : " + e.Message);
         }
     }
 
@@ -141,7 +114,7 @@ public class RoleSystem : MonoBehaviour
 
         selectedRoleIndex = index;
         RoleData r = roles[index];
-        Debug.Log("Rôle sélectionné : " + r.name + " (id=" + r.id + ")");
+        Debug.Log($"[Role] Rôle sélectionné: {r.name} (id={r.id}).");
 
         // Ici tu peux par exemple mettre en surbrillance le bouton sélectionné
         // (changer la couleur du Background, etc.)
@@ -151,7 +124,7 @@ public class RoleSystem : MonoBehaviour
     {
         if (selectedRoleIndex < 0 || selectedRoleIndex >= roles.Count)
         {
-            Debug.LogWarning("Aucun rôle sélectionné.");
+            Debug.LogWarning("[Role] Sauvegarde refusée: aucun rôle sélectionné.");
             return;
         }
 
@@ -161,7 +134,7 @@ public class RoleSystem : MonoBehaviour
         PlayerPrefs.SetString("SelectedRoleName", chosen.name ?? string.Empty);
         PlayerPrefs.Save();
 
-        Debug.Log("Rôle sauvegardé : " + chosen.name);
+        Debug.Log($"[Role] Rôle sauvegardé: {chosen.name} (id={chosen.id}).");
 
         if (!string.IsNullOrEmpty(firstThemeSceneName))
             StartCoroutine(LoadSceneWithTransition(firstThemeSceneName));
