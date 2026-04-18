@@ -1,0 +1,202 @@
+|choice1|choice2|choice3|choice4|correct_choice|question_index|
+|-------|-------|-------|-------|--------------|--------------|
+|Berlin|Paris|Londres|Rome|2|1|
+|Or|Oxygène|Hydrogène|Carbone|2|2|
+|6|7|5|8|2|3|
+|Victor Hugo|Antoine de Saint-Exupéry|Molière|Albert Camus|2|4|
+|Mandarin|Anglais|Espagnol|Hindi|1|5|
+|Océan Indien|Océan Pacifique|Océan Atlantique|Océan Arctique|2|6|
+|1979|1991|1989|1969|3|7|
+|5|7|8|6|2|8|
+|Mars|Saturne|Jupiter|Vénus|1|9|
+|Euro|Yen|Won|Dollar|2|10|
+|Raphaël|Monet|Michel-Ange|Léonard de Vinci|4|11|
+|Russie|Canada|États-Unis|Chine|1|12|
+|Melbourne|Sydney|Canberra|Adélaïde|3|13|
+|K2|Everest|Mont Blanc|Kilimandjaro|2|14|
+|1979|1969|1959|1989|2|15|
+|Cu|Ag|Au|Fe|3|16|
+|Balzac|Victor Hugo|Zola|Flaubert|2|17|
+|Mistral|Sirocco|Pétrichor|Alizé|3|18|
+|20|24|27|30|2|19|
+|1940|1950|1955|1960|3|20|
+|Royaume-Uni|France|Espagne|Italie|2|21|
+|Étrier|Fémur|Humérus|Tibia|1|22|
+|Albert Einstein|Isaac Newton|Nikola Tesla|Galilée|2|23|
+|Mars|Saturne|Jupiter|Uranus|3|24|
+|Buenos Aires|Lima|Bogota|Santiago|1|25|
+|Mercure|Plomb|Aluminium|Étain|1|26|
+|Louis Pasteur|Alexander Fleming|Marie Curie|Jonas Salk|2|27|
+|Algérie|Maroc|Tunisie|Égypte|2|28|
+|Éléphant|Baleine bleue|Girafe|Orque|2|29|
+|Liberté et égalité|Unie dans la diversité|In varietate concordia|Paix et unité|2|30|
+|Foie|Pancréas|Rein|Rate|2|31|
+|Fémur|Humérus|Tibia|Péroné|1|32|
+|Claude Monet|Pablo Picasso|Salvador Dalí|Vincent van Gogh|4|33|
+|Sirius|Polaris|Soleil|Alpha du Centaure|3|34|
+|Mer du Nord|Mer Noire|Mer Caspienne|Mer Méditerranée|4|35|
+|Oxygène|Hydrogène|Dioxyde de carbone|Azote|3|36|
+|Oslo|Copenhague|Stockholm|Helsinki|3|37|
+|Hésiode|Homère|Platon|Sophocle|2|38|
+|Silice|Argile|Calcaire|Graphite|1|39|
+|Imprimerie|Machine à vapeur|Boussole|Téléphone|1|40|
+|Nirvana|ACDC|Queen|The Beatles|3|41|
+|Ska|Reggae|Blues|Rock|2|42|
+|Memphis|Dallas|Detroit|Nashville|1|43|
+|Blues|Jazz|Rock|Reggae|4|44|
+|Prince|Michael Jackson|Elvis Presley|Freddie Mercury|2|45|
+|Saxophone|Guitare|Piano|Trompette|2|46|
+|Rihanna|Adele|Beyonce|Lady Gaga|2|47|
+|Rock|Musique improvisee|Pop|Classique|2|48|
+|Bach|Ludwig van Beethoven|Vivaldi|Mozart|2|49|
+|Queen|Nirvana|U2|Muse|2|50|
+|Piano|Violon|Guitare|Flute|2|51|
+|John Lennon|Jim Morrison|David Bowie|Bob Dylan|4|52|
+|Whitney Houston|Aretha Franklin|Adele|Mariah Carey|2|53|
+|Contrebasse|Violon|Guitare|Violoncelle|2|54|
+|Jazz|Rap|Soul|Pop|3|55|
+|Elvis Presley|Prince|Freddie Mercury|Michael Jackson|2|56|
+|Salsa|Tango|Valse|Rock|1|57|
+|Hans Zimmer|John Williams|Ennio Morricone|Howard Shore|2|58|
+|The Rolling Stones|Pink Floyd|The Beatles|The Who|3|59|
+|Beyonce|Rihanna|Lady Gaga|Katy Perry|2|60|
+|Pink Floyd|The Beatles|Led Zeppelin|ACDC|1|61|
+|Prince|Michael Jackson|James Brown|Stevie Wonder|2|62|
+|Piano|Guitare|Batterie|Violon|1|63|
+|Drake|Justin Bieber|The Weeknd|Shawn Mendes|3|64|
+|Coldplay|Radiohead|The Rolling Stones|U2|4|65|
+|Rock|Disco|Jazz|Classique|2|66|
+|Mozart|Beethoven|Traditionnel|Chopin|3|67|
+|Georges Brassens|Jacques Brel|Charles Aznavour|Renaud|2|68|
+|Eagles|Bon Jovi|Journey|Scorpions|1|69|
+|Piano|Guitare|Harpe|Accordeon|1|70|
+|Martin Garrix|David Guetta|DJ Snake|Bob Sinclar|2|71|
+|Brian May|Freddie Mercury|Roger Taylor|John Deacon|2|72|
+|Rock|Musique classique|Rap|Reggae|2|73|
+|ABBA|Roxette|Aqua|Europe|1|74|
+|Trompette|Clarinette|Saxophone|Tuba|3|75|
+|Eminem|Jay Z|Kanye West|50 Cent|1|76|
+|Maitre Gims|Stromae|Orelsan|Soprano|2|77|
+|Violon|Contrebasse|Violoncelle|Alto|1|78|
+|Queen|The Police|U2|Genesis|1|79|
+|Sam Smith|Ed Sheeran|Harry Styles|Lewis Capaldi|2|80|
+|Steven Spielberg|James Cameron|Quentin Tarantino|George Lucas|2|81|
+|Cobb|Bruce|Jack|Maximus|1|82|
+|Gladiator|Forrest Gump|Le Parrain|Titanic|2|83|
+|Gal Gadot|Scarlett Johansson|Emma Watson|Jennifer Lawrence|1|84|
+|Pulp Fiction|Forrest Gump|Braveheart|Shawshank Redemption|2|85|
+|Christopher Nolan|Martin Scorsese|Quentin Tarantino|James Cameron|3|86|
+|Harry Potter|Draco Malfoy|Hermione Granger|Ron Weasley|1|87|
+|Sony Pictures|Pixar|Disney|DreamWorks|2|88|
+|Conjuring|Ca|Shining|Carrie|2|89|
+|Tom Cruise|Johnny Depp|Leonardo DiCaprio|Brad Pitt|2|90|
+|Saw|Le Silence des agneaux|Seven|Inception|2|91|
+|Ratatouille|Toy Story|Cars|Wall E|1|92|
+|Sean Connery|Pierce Brosnan|Daniel Craig|Roger Moore|3|93|
+|Le Roi Lion|Bambi|Shrek|Aladdin|1|94|
+|Chine|Japon|Coree du Sud|Inde|2|95|
+|L Empire contre attaque|Un Nouvel Espoir|La Menace fantome|Le Retour du Jedi|2|96|
+|Russell Crowe|Brad Pitt|Tom Hanks|Matt Damon|1|97|
+|Avatar|The Matrix|Inception|Interstellar|2|98|
+|Steven Spielberg|Christopher Nolan|James Cameron|Ridley Scott|2|99|
+|Forrest Gump|Pulp Fiction|The Shawshank Redemption|Braveheart|1|100|
+|King Kong|Jurassic Park|Godzilla|Le Monde Perdu|2|101|
+|Tom Cruise|Brad Pitt|Keanu Reeves|Leonardo DiCaprio|3|102|
+|Le Monde de Nemo|Les Indestructibles|Cars|Monstres et Cie|1|103|
+|Steven Spielberg|James Cameron|Christopher Nolan|Peter Jackson|4|104|
+|Batman Begins|The Dark Knight|Suicide Squad|Joker|2|105|
+|Ratatouille|Wall E|Toy Story|Le Voyage de Chihiro|2|106|
+|Avatar|Interstellar|Star Wars|Blade Runner|1|107|
+|Divergente|Hunger Games|Le Labyrinthe|Equilibrium|2|108|
+|Seven|Shutter Island|Le Silence des Agneaux|Prisoners|1|109|
+|Oblivion|Minority Report|La Guerre des Mondes|Edge of Tomorrow|4|110|
+|Les Indestructibles|La Reine des Neiges|Les Aristochats|Les Nouveaux Heros|1|111|
+|Le Roi Lion|Bambi|Frere des Ours|Spirit|1|112|
+|Luc Besson|Jean Pierre Jeunet|François Truffaut|Claude Lelouch|1|113|
+|Seul au monde|La Ligne verte|Philadelphia|Capitaine Phillips|1|114|
+|Slumdog Millionaire|Trainspotting|Million Dollar Baby|La Cité de Dieu|1|115|
+|Cars|Planes|Turbo|Speed Racer|1|116|
+|Jurassic Park|Indiana Jones|La Momie|Allan Quatermain|2|117|
+|Inception|Tenet|Interstellar|Le Prestige|1|118|
+|Il faut sauver le soldat Ryan|Dunkerque|1917|Platoon|1|119|
+|Hook|Treasure Island|Peter Pan|Pirates des Caraibes|4|120|
+|Rugby|Football|Handball|Basket|1|121|
+|9|12|11|10|3|122|
+|LeBron James|Michael Jordan|Stephen Curry|Kobe Bryant|1|123|
+|Natation|Course a pied|Boxe|Ski|2|124|
+|France|Italie|Bresil|Allemagne|1|125|
+|Badminton|Golf|Tennis|Squash|3|126|
+|5|7|6|9|1|127|
+|Angleterre|France|Espagne|Italie|1|128|
+|Patinage artistique|Curling|Hockey sur glace|Baseball|3|129|
+|Velo|Tennis|Badminton|Ping pong|3|130|
+|10 km|42.195 km|21 km|5 km|2|131|
+|Gymnastique|Natation|Athletisme|Football|2|132|
+|Basketball|Football|Rugby|Tennis|2|133|
+|Zinedine Zidane|Diego Maradona|Pele|Lionel Messi|2|134|
+|Cricket|Golf|Rugby|Baseball|4|135|
+|Surf|Ski|Skateboard|Snowboard|1|136|
+|Paris|Athenes|Londres|Rome|2|137|
+|Christian Coleman|Justin Gatlin|Carl Lewis|Usain Bolt|4|138|
+|Roland Garros|US Open|Wimbledon|Australian Open|3|139|
+|Coupe Davis|Masters|ATP 250|Jeux Olympiques|2|140|
+|Badminton|Tennis|Football|Handball|2|141|
+|Angleterre|Argentine|Bresil|Portugal|1|142|
+|Surf|Skateboard|Snowboard|Ski|2|143|
+|1|2|3|4|3|144|
+|Iker Casillas|Manuel Neuer|Gianluigi Buffon|Thibaut Courtois|1|145|
+|Chine|Japon|France|Australie|2|146|
+|Golf|Baseball|Cricket|Rugby|1|147|
+|Novak Djokovic|Roger Federer|Rafael Nadal|Andy Murray|2|148|
+|Escrime|Boxe|Lutte|Karate|1|149|
+|Moto GP|Rallye|Formule 1|Speedway|4|150|
+|Luis Suarez|Lionel Messi|Neymar|Angel Di Maria|2|151|
+|Gymnastique artistique|Trampoline|Escalade|Decathlon|1|152|
+|Judo|Boxe|Taekwondo|Lutte|1|153|
+|Euroleague|Ligue 1|NBA|Serie A|3|154|
+|Moto GP|Motocross|Endurance|Rallye raid|2|155|
+|5|6|7|8|2|156|
+|Natation|Athletisme|Triathlon|Decathlon|2|157|
+|Bresil|Allemagne|Italie|Argentine|1|158|
+|Patinage artistique|Hockey sur glace|Short track|Speed skating|1|159|
+|Rugby|Basketball|Football|Handball|2|160|
+|Canberra|Perth|Sydney|Melbourne|1|161|
+|Kalahari|Sahara|Gobi|Desert d Arabie|2|162|
+|Afrique|Amerique du Nord|Europe|Amerique du Sud|4|163|
+|Nil|Mississippi|Amazon|Yangtse|1|164|
+|Ocean Pacifique|Mer Mediterranee|Ocean Atlantique|Ocean Indien|3|165|
+|Rome|Florence|Milan|Naples|1|166|
+|Etats Unis|Russie|Chine|Inde|3|167|
+|30|27|25|35|2|168|
+|K2|Everest|Mont Blanc|Kangchenjunga|2|169|
+|Thailande|Japon|Chine|Coree du Sud|2|170|
+|Paris|Venise|Rome|Athenes|3|171|
+|Mer Rouge|Mer Noire|Mer Egee|Mer Mediterranee|4|172|
+|Algerie|Egypte|Nigeria|Maroc|1|173|
+|Seine|Garonne|Rhone|Loire|1|174|
+|Montreal|Ottawa|Toronto|Vancouver|2|175|
+|Texas|Alaska|Nevada|Californie|2|176|
+|Asie|Afrique|Europe|Amerique|2|177|
+|Pays Bas|Allemagne|Belgique|Danemark|1|178|
+|Amazone|Nil|Yangzi Jiang|Mississippi|1|179|
+|Los Angeles|San Francisco|Sacramento|San Diego|3|180|
+|Berlin|Munich|Hambourg|Francfort|1|181|
+|Afrique|Asie|Europe|Oceanie|2|182|
+|Portugal|France|Espagne|Italie|3|183|
+|Ocean Atlantique|Ocean Indien|Ocean Arctique|Ocean Pacifique|4|184|
+|New Delhi|Mumbai|Calcutta|Bangalore|1|185|
+|Russie|Ukraine|Bielorussie|Kazakhstan|1|186|
+|Afrique|Amerique du Sud|Amerique du Nord|Europe|2|187|
+|Italie|Espagne|France|Portugal|4|188|
+|Pekin|Shanghai|Hong Kong|Canton|1|189|
+|Maroc|Egypte|Tunisie|Algerie|2|190|
+|Lac Tanganika|Lac Victoria|Lac Malawi|Lac Tchad|2|191|
+|Barcelone|Madrid|Seville|Valence|2|192|
+|Suisse|Autriche|Suede|Danemark|1|193|
+|Amerique du Nord|Amerique du Sud|Europe|Asie|1|194|
+|Grece|Turquie|Bulgarie|Georgie|2|195|
+|Athenes|Thessalonique|Patras|Heraklion|1|196|
+|Coree du Nord|Coree du Sud|Japon|Chine|2|197|
+|Desert de Simpson|Desert du Sahara|Desert de Gobi|Desert de Namib|1|198|
+|Norvege|Suede|Finlande|Islande|1|199|
+|Europe|Afrique|Asie|Amerique|2|200|

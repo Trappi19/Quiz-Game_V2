@@ -1,0 +1,202 @@
+|id|theme|question|answer|theme_id|correct_choice|indice|
+|--|-----|--------|------|--------|--------------|------|
+|1|Culture générale|Quelle est la capitale de la France ?|Paris|1|2|Ville lumière traversée par la Seine|
+|2|Culture générale|Quel élément chimique a pour symbole O ?|Oxygène|1|2|Gaz indispensable à la respiration|
+|3|Culture générale|Combien de continents y a-t-il sur Terre ?|7|1|2|On en compte officiellement sept|
+|4|Culture générale|Qui a écrit "Le Petit Prince" ?|Antoine de Saint-Exupéry|1|2|Écrivain et aviateur français|
+|5|Culture générale|Quelle est la langue la plus parlée dans le monde ?|Mandarin|1|1|Langue la plus parlée en Chine|
+|6|Culture générale|Quel est le plus grand océan du monde ?|Océan Pacifique|1|2|Il sépare principalement l'Asie de l'Amérique|
+|7|Culture générale|En quelle année a eu lieu la chute du mur de Berlin ?|1989|1|3|Fin symbolique de la guerre froide|
+|8|Culture générale|Combien de couleurs y a-t-il dans un arc-en-ciel ?|7|1|2|On les apprend souvent avec un moyen mnémotechnique|
+|9|Culture générale|Quelle planète est surnommée la planète rouge ?|Mars|1|1|Planète voisine souvent visée par les missions spatiales|
+|10|Culture générale|Quelle est la monnaie officielle du Japon ?|Yen|1|2|Monnaie dont le symbole ressemble à un Y barré|
+|11|Culture générale|Qui a peint la Joconde ?|Léonard de Vinci|1|4|Tableau emblématique exposé au Louvre|
+|12|Culture générale|Quel est le plus grand pays du monde par superficie ?|Russie|1|1|Il s'étend sur l'Europe et l'Asie|
+|13|Culture générale|Quelle est la capitale de l’Australie ?|Canberra|1|3|Ce n'est ni Sydney ni Melbourne|
+|14|Culture générale|Quel est le nom de la plus haute montagne du monde ?|Everest|1|2|Sommet de plus de 8 000 mètres dans l'Himalaya|
+|15|Culture générale|En quelle année l’homme a-t-il marché sur la Lune pour la première fois ?|1969|1|2|Mission Apollo 11|
+|16|Culture générale|Quel est le symbole chimique de l’or ?|Au|1|3|Abréviation issue du mot latin "aurum"|
+|17|Culture générale|Qui a écrit "Les Misérables" ?|Victor Hugo|1|2|Grand écrivain français du XIXe siècle|
+|18|Culture générale|Quel est le nom du phénomène d’odeur de terre après la pluie ?|Pétrichor|1|3|Nom scientifique de l'odeur après un orage|
+|19|Culture générale|Combien y a‑t‑il de langues officielles dans l’Union européenne (après le Brexit) ?|24|1|2|Un peu plus de vingt mais moins de trente|
+|20|Culture générale|En quelle année Albert Einstein est‑il mort ?|1955|1|3|Décès au milieu des années 1950|
+|21|Culture générale|Quel pays a offert la Statue de la Liberté aux États-Unis ?|France|1|2|Cadeau d’amitié venu d’Europe|
+|22|Culture générale|Quel est le plus petit os du corps humain ?|Étrier|1|3|Il se trouve dans l’oreille|
+|23|Culture générale|Quel scientifique a formulé la loi de la gravitation universelle ?|Isaac Newton|1|1|La légende parle d’une pomme|
+|24|Culture générale|Quelle planète du système solaire est la plus grande ?|Jupiter|1|4|Géante gazeuse célèbre pour sa grande tache rouge|
+|25|Culture générale|Quelle est la capitale de l’Argentine ?|Buenos Aires|1|2|Grande ville d’Amérique du Sud connue pour le tango|
+|26|Culture générale|Quel métal liquide trouve-t-on à température ambiante ?|Mercure|1|1|Élément chimique aussi nommé comme une planète|
+|27|Culture générale|Qui a découvert la pénicilline ?|Alexander Fleming|1|3|Découverte médicale accidentelle en laboratoire|
+|28|Culture générale|Dans quel pays se trouve la ville de Marrakech ?|Maroc|1|2|Pays du Maghreb voisin de l’Algérie|
+|29|Culture générale|Quel est le plus grand mammifère du monde ?|Baleine bleue|1|4|Animal marin géant|
+|30|Culture générale|Quelle est la devise officielle de l’Union européenne ?|Unie dans la diversité|1|1|Elle évoque l’unité malgré les différences|
+|31|Culture générale|Quel organe du corps humain produit l’insuline ?|Pancréas|1|2|Organe lié aussi à la digestion|
+|32|Culture générale|Quel est le plus long os du corps humain ?|Fémur|1|3|Os principal de la cuisse|
+|33|Culture générale|Qui a peint "La Nuit étoilée" ?|Vincent van Gogh|1|2|Peintre néerlandais à l’oreille célèbre|
+|34|Culture générale|Quel est le nom de l’étoile au centre du système solaire ?|Soleil|1|1|Sans elle, pas de jour sur Terre|
+|35|Culture générale|Quelle mer sépare l’Europe de l’Afrique à l’ouest de l’Italie ?|Mer Méditerranée|1|4|Mer intérieure bordée par plusieurs pays du sud|
+|36|Culture générale|Quel gaz les plantes absorbent-elles principalement pour la photosynthèse ?|Dioxyde de carbone|1|2|Gaz rejeté par la respiration humaine|
+|37|Culture générale|Quelle est la capitale de la Suède ?|Stockholm|1|3|Capitale scandinave construite sur des îles|
+|38|Culture générale|Qui a écrit "L’Odyssée" ?|Homère|1|1|Auteur grec antique aussi lié à l’Iliade|
+|39|Culture générale|Quel est le principal composant du verre classique ?|Silice|1|2|On la trouve notamment dans le sable|
+|40|Culture générale|Quelle invention est attribuée à Johannes Gutenberg ?|Imprimerie|1|4|Elle a révolutionné la diffusion des livres|
+|41|Musique|Quel groupe a chanté Bohemian Rhapsody ?|Queen|2|3|Groupe de rock britannique mene par Freddie Mercury|
+|42|Musique|Quel style de musique est originaire de Jamaique ?|Reggae|2|2|Genre tres associe a Bob Marley|
+|43|Musique|Dans quelle ville est ne Elvis Presley ?|Memphis|2|1|Ville du Tennessee aux Etats Unis|
+|44|Musique|Quel style musical est associe a Bob Marley ?|Reggae|2|4|Genre ne en Jamaique dans les annees 60|
+|45|Musique|Qui est surnomme The King of Pop ?|Michael Jackson|2|2|Chanteur de l album Thriller|
+|46|Musique|Quel instrument est joue par un guitariste ?|Guitare|2|2|Instrument a cordes pincees|
+|47|Musique|Quelle chanteuse est connue pour la chanson Hello ?|Adele|2|2|Chanteuse britannique a la voix puissante|
+|48|Musique|Quel genre musical est le jazz ?|Musique improvisee|2|2|Style ne aux Etats Unis tres lie au swing|
+|49|Musique|Quel compositeur est celebre pour ses symphonies et sa 5eme symphonie ?|Ludwig van Beethoven|2|2|Compositeur allemand devenu sourd|
+|50|Musique|Quel groupe a popularise la chanson Smells Like Teen Spirit ?|Nirvana|2|2|Groupe de grunge originaire de Seattle|
+|51|Musique|Quel est le principal instrument d un orchestre classique ?|Violon|2|2|Instrument a cordes joue avec un archet|
+|52|Musique|Qui a chante Like a Rolling Stone ?|Bob Dylan|2|4|Auteur compositeur americain connu pour ses textes|
+|53|Musique|Quelle chanteuse est surnommee The Queen of Soul ?|Aretha Franklin|2|2|Interprette du tube Respect|
+|54|Musique|Quel instrument se joue avec un archet ?|Violon|2|2|Instrument a quatre cordes tres utilise en classique|
+|55|Musique|Quel style musical vient du sud des Etats Unis et melange blues et gospel ?|Soul|2|3|Son nom signifie aussi ame en anglais|
+|56|Musique|Quel est le prenom de l artiste connu sous le nom de Prince ?|Prince|2|2|Il a parfois utilise un symbole comme nom|
+|57|Musique|Quelle danse accompagne souvent la musique salsa ?|Salsa|2|1|Danse latine pratiquee en couple|
+|58|Musique|Quel compositeur est l auteur du theme principal de Jurassic Park ?|John Williams|2|2|Compositeur aussi de Star Wars et Harry Potter|
+|59|Musique|Quel groupe a sorti l album Abbey Road en 1969 ?|The Beatles|2|3|Groupe de rock legendaire de Liverpool|
+|60|Musique|A quelle chanteuse doit on les tubes Dont Stop the Music SM et Disturbia ?|Rihanna|2|2|Chanteuse originaire de la Barbade|
+|61|Musique|Quel groupe a compose l album The Dark Side of the Moon ?|Pink Floyd|2|3|Groupe de rock britannique connu pour ses pochettes psychédeliques|
+|62|Musique|Quel chanteur interprète la chanson Thriller ?|Michael Jackson|2|2|Clip celebre avec des zombies|
+|63|Musique|Quel instrument principal joue un pianiste ?|Piano|2|1|Instrument a touches noires et blanches|
+|64|Musique|Quel chanteur canadien est connu pour la chanson Blinding Lights ?|The Weeknd|2|3|Artiste canadien au pseudo avec un e manque|
+|65|Musique|Quel groupe de rock est originaire de la ville de Dublin ?|U2|2|4|Groupe dont le chanteur est Bono|
+|66|Musique|Quel style de musique est principalement associe aux discotheques des annees 1970 ?|Disco|2|1|Genre represente par le film Saturday Night Fever|
+|67|Musique|Quel compositeur a ecrit la celebre piece Au clair de la lune ?|Traditionnel|2|2|Chanson enfantine d auteur inconnu|
+|68|Musique|Quel artiste francais a interprete la chanson Ne me quitte pas ?|Jacques Brel|2|3|Chanteur belge tres emblematique de la chanson francaise|
+|69|Musique|Quel groupe est connu pour la chanson Hotel California ?|Eagles|2|2|Groupe de rock americain des annees 1970|
+|70|Musique|Quel instrument utilise des pedales et des cordes frappees ?|Piano|2|1|On le trouve souvent dans les salles de concert|
+|71|Musique|Quel DJ francais est connu pour les titres Titanium et Memories ?|David Guetta|2|4|DJ francais tres connu a l international|
+|72|Musique|Quel chanteur du groupe Queen est decede en 1991 ?|Freddie Mercury|2|3|Chanteur au style tres flamboyant|
+|73|Musique|Quel genre musical est principalement interprete par un orchestre symphonique ?|Musique classique|2|2|On l entend souvent dans les salles de concert et au cinema|
+|74|Musique|Quel groupe de pop suedois est connu pour la chanson Dancing Queen ?|ABBA|2|1|Groupe compose de deux hommes et deux femmes|
+|75|Musique|Quel instrument a vent est souvent utilise dans le jazz et les fanfares ?|Saxophone|2|3|Instrument a anche souvent dore|
+|76|Musique|Quel rappeur americain a sorti l album The Marshall Mathers LP ?|Eminem|2|2|Son vrai nom est Marshall Mathers|
+|77|Musique|Quel artiste francais est connu pour la chanson Formidable ?|Stromae|2|4|Chanteur belgo rwandais egalement connu pour Papaoutai|
+|78|Musique|Quel instrument de musique compte generalement quatre cordes et se tient sous le menton ?|Violon|2|1|Instrument phare des orchestres classiques|
+|79|Musique|Quel groupe detient le record du plus grand nombre de concerts au stade Wembley dans les annees 1980 ?|Queen|2|3|Groupe de Freddie Mercury|
+|80|Musique|Quel chanteur britannique est connu pour la chanson Shape of You ?|Ed Sheeran|2|2|Chanteur roux jouant souvent de la guitare|
+|81|Cinema|Qui a realise le film Titanic ?|James Cameron|3|2|Realisateur celebre aussi pour Avatar|
+|82|Cinema|Quel personnage est le heros du film Inception ?|Cobb|3|1|Il partage son nom avec un reveur interprete par Leonardo DiCaprio|
+|83|Cinema|Dans quel film trouve t on le personnage Forrest Gump ?|Forrest Gump|3|2|Film ou le heros repete souvent la vie c est comme une boite de chocolats|
+|84|Cinema|Quelle actrice incarne l heroine dans le film Wonder Woman de 2017 ?|Gal Gadot|3|1|Actrice israélienne egalement mannequin|
+|85|Cinema|Quel film a gagne l Oscar du meilleur film a la ceremonie de 1995 pour les films de 1994 ?|Forrest Gump|3|2|Film realise par Robert Zemeckis|
+|86|Cinema|Quel realisateur est celebre pour les films Pulp Fiction et Kill Bill ?|Quentin Tarantino|3|3|Realisateur aime pour ses dialogues et sa violence stylisee|
+|87|Cinema|Quel est le nom du sorcier principal dans la saga Harry Potter ?|Harry Potter|3|1|Eleve de Poudlard a lunettes|
+|88|Cinema|Quel studio a realise le film d animation Toy Story ?|Pixar|3|2|Studio appartenant a Disney|
+|89|Cinema|Dans quel film apparait le clown malefique appele Pennywise ?|Ca|3|2|Adaptation d un roman de Stephen King|
+|90|Cinema|Quel acteur joue le capitaine Jack Sparrow dans la saga Pirates des Caraibes ?|Johnny Depp|3|2|Acteur americain connu pour de nombreux roles excentriques|
+|91|Cinema|Dans quel film trouve t on le personnage Hannibal Lecter ?|Le Silence des agneaux|3|2|Thriller ou un psychiatre est aussi un tueur en serie|
+|92|Cinema|Quel film d animation raconte l histoire d un rat passionne de cuisine a Paris ?|Ratatouille|3|1|Film Pixar se deroulant dans les cuisines d un restaurant|
+|93|Cinema|Quel acteur incarne James Bond dans le film Casino Royale sorti en 2006 ?|Daniel Craig|3|3|Acteur britannique blond tres reconnu pour ce role|
+|94|Cinema|Quel film d animation met en scene un lion nomme Simba ?|Le Roi Lion|3|1|Classique d animation se deroulant en Afrique|
+|95|Cinema|De quel pays est originaire le realisateur d animation Hayao Miyazaki ?|Japon|3|2|Pays aussi connu pour le studio Ghibli|
+|96|Cinema|Quel est le titre du premier film Star Wars sorti en 1977 ?|Un Nouvel Espoir|3|2|Il s agit du premier film de la saga sorti en salles|
+|97|Cinema|Quel acteur incarne le general Maximus dans le film Gladiator ?|Russell Crowe|3|1|Acteur neozelandais oscarise pour ce role|
+|98|Cinema|Dans quel film de science fiction decouvre t on un monde virtuel appele la Matrice ?|The Matrix|3|2|Film avec Neo comme personnage principal|
+|99|Cinema|Quel realisateur a signe le film Inception sorti en 2010 ?|Christopher Nolan|3|2|Il est aussi le realisateur de la trilogie The Dark Knight|
+|100|Cinema|Quel film a remporte l Oscar du meilleur film parmi ceux suivants pour l annee 1994 ?|Forrest Gump|3|1|Il l a emporte face a Pulp Fiction et The Shawshank Redemption|
+|101|Cinema|Quel film met en scene un parc rempli de dinosaures crees a partir d ADN ?|Jurassic Park|3|2|Film realise par Steven Spielberg|
+|102|Cinema|Quel acteur interprete le personnage de Neo dans le film The Matrix ?|Keanu Reeves|3|3|Acteur connu aussi pour John Wick|
+|103|Cinema|Quel film d animation raconte l histoire d un poisson clown nomme Nemo ?|Le Monde de Nemo|3|1|Film Pixar situe en grande partie dans l ocean|
+|104|Cinema|Quel realisateur est a l origine de la trilogie Le Seigneur des Anneaux ?|Peter Jackson|3|4|Realisateur ne en Nouvelle Zelande|
+|105|Cinema|Dans quel film trouve t on le personnage du Joker interprete par Heath Ledger ?|The Dark Knight|3|2|Film Batman realise par Christopher Nolan|
+|106|Cinema|Quel film d animation met en avant un robot charge de nettoyer la Terre ?|Wall E|3|3|Petite machine seule sur une planete polluee|
+|107|Cinema|Quel film de science fiction met en scene des humains en mission sur la planete Pandora ?|Avatar|3|1|Film celebre pour ses effets speciaux en 3D|
+|108|Cinema|Quel film raconte l histoire d un adolescent qui participe a des jeux mortels televises dans un monde dystopique ?|Hunger Games|3|2|Heroine nommee Katniss Everdeen|
+|109|Cinema|Quel film policier suit la traque d un tueur en serie utilisant les sept peches capitaux ?|Seven|3|3|Film avec Brad Pitt et Morgan Freeman|
+|110|Cinema|Dans quel film un homme revit sans cesse la meme journee de bataille contre des aliens ?|Edge of Tomorrow|3|4|Film avec Tom Cruise et Emily Blunt|
+|111|Cinema|Quel film d animation met en scene une famille de super heros ?|Les Indestructibles|3|1|Film ou le pere est tres fort et porte un costume rouge|
+|112|Cinema|Quel film raconte l histoire d un jeune lionceaux heritier du royaume apres la mort de son pere ?|Le Roi Lion|3|2|Classique d animation situe dans la savane|
+|113|Cinema|Quel realisateur francais est connu pour le film Le Cinquieme Element ?|Luc Besson|3|3|Realisateur francais ayant travaille avec Bruce Willis|
+|114|Cinema|Quel film met en scene un naufrage d avion et un homme seul sur une ile deserte ?|Seul au monde|3|1|Titre original avec Tom Hanks|
+|115|Cinema|Quel film raconte l histoire d un homme dote d une memoire photographique qui participe a un jeu televis?|Slumdog Millionaire|3|4|Film se deroulant en grande partie en Inde|
+|116|Cinema|Quel film d animation suit les aventures d une voiture de course rouge nommee Flash McQueen ?|Cars|3|2|Film Pixar sur le monde de la course automobile|
+|117|Cinema|Dans quel film un professeur d archeologie porte un chapeau et utilise souvent un fouet ?|Indiana Jones|3|3|Personnage creer par George Lucas et Spielberg|
+|118|Cinema|Quel film de Christopher Nolan raconte un braquage a l interieur des reves ?|Inception|3|1|Film ou l on parle de totem pour verifier la realite|
+|119|Cinema|Quel film de guerre suit un groupe de soldats charges de retrouver un parachutiste en France ?|Il faut sauver le soldat Ryan|3|2|Film realise par Steven Spielberg se passant pendant la Seconde Guerre mondiale|
+|120|Cinema|Quel film met en scene un pirate fantasque surnomme Sparrow ?|Pirates des Caraibes|3|4|Personnage interprete par Johnny Depp|
+|121|Sport|Quel sport se joue avec un ballon ovale ?|Rugby|4|1|Sport de contact tres populaire en France et au Royaume Uni|
+|122|Sport|Combien de joueurs compte une equipe de football sur le terrain ?|11|4|3|Nombre de titulaires sans compter les remplaçants|
+|123|Sport|Quel joueur de basket est surnomme King James ?|LeBron James|4|1|Star de la NBA ayant joue pour Cleveland et Los Angeles|
+|124|Sport|Dans quel sport participe t on a un marathon ?|Course a pied|4|2|Epreuve d endurance sur plus de quarante kilometres|
+|125|Sport|Quel pays a remporte la Coupe du Monde de football en 2018 ?|France|4|1|Equipe entrainée par Didier Deschamps|
+|126|Sport|Combien de joueurs y a t il dans une equipe de handball sur le terrain ?|7|4|3|Nombre comprenant le gardien de but|
+|127|Sport|Quel pays est considere comme le berceau du football moderne ?|Angleterre|4|1|Pays ou est nee la Premiere League|
+|128|Sport|Quel sport se joue sur une patinoire avec une crosse et un palet ?|Hockey sur glace|4|3|Sport tres populaire au Canada|
+|129|Sport|Quelle course cycliste est consideree comme la plus prestigieuse au monde ?|Tour de France|4|2|Grande epreuve qui se deroule chaque ete|
+|130|Sport|Quel sport se pratique avec un volant et une raquette legere ?|Badminton|4|3|Sport olympique souvent pratique en salle|
+|131|Sport|Quelle distance officielle parcourt on lors d un marathon ?|42.195 km|4|1|Un peu plus de quarante deux kilometres|
+|132|Sport|Dans quel sport Michael Phelps a t il remporte de nombreux titres olympiques ?|Natation|4|2|Discipline pratiquee en bassin|
+|133|Sport|Quel sport est le plus pratique au monde ?|Football|4|2|On l appelle aussi soccer dans certains pays|
+|134|Sport|Quel joueur a marque le but du siecle en Coupe du Monde 1986 ?|Diego Maradona|4|2|Legende argentine qui a joue a Naples|
+|135|Sport|Dans quel sport utilise t on une batte et une petite balle blanche ou jaune ?|Baseball|4|4|Sport tres populaire aux Etats Unis et au Japon|
+|136|Sport|Quel sport utilise une planche pour glisser sur les vagues ?|Surf|4|1|Pratiquee sur l ocean en general|
+|137|Sport|Dans quelle ville ont eu lieu les premiers Jeux Olympiques modernes en 1896 ?|Athenes|4|2|Capitale d un pays mediterraneen|
+|138|Sport|Quel sportif detient le record du monde du 100 metres masculin ?|Usain Bolt|4|4|Sprinteur jamaicain surnomme la Foudre|
+|139|Sport|Quel tournoi de tennis se joue sur gazon a Londres ?|Wimbledon|4|3|Tournoi du Grand Chelem au Royaume Uni|
+|140|Sport|Quelle competition de tennis regroupe les meilleurs joueurs chaque annee a Londres ou Turin ?|Masters|4|3|Tournoi de fin de saison avec les huit meilleurs|
+|141|Sport|Dans quel sport utilise t on un filet une balle et deux raquettes de chaque cote ?|Tennis|4|2|Se joue souvent sur terre battue ou gazon|
+|142|Sport|Quel pays participe au Tournoi des Six Nations avec la France ?|Angleterre|4|1|Ce pays affronte aussi l Ecosse et le Pays de Galles|
+|143|Sport|Dans quel sport trouve t on la figure appelee ollie ?|Skateboard|4|2|Pratique sur une planche a roulettes|
+|144|Sport|Combien de points vaut un panier derriere la ligne a trois points au basket ?|3|4|3|Valeur maximale pour un tir dans le jeu courant|
+|145|Sport|Quel gardien espagnol est celebre pour son passage au Real Madrid ?|Iker Casillas|4|1|Champion du monde 2010 avec l Espagne|
+|146|Sport|Quel pays a accueilli les Jeux Olympiques d ete en 2021 ?|Japon|4|2|Les epreuves se sont deroulees a Tokyo|
+|147|Sport|Quel sport consiste a frapper une balle sur un parcours avec plusieurs trous ?|Golf|4|1|On y utilise des clubs|
+|148|Sport|Quel joueur suisse a remporte 20 tournois du Grand Chelem ?|Roger Federer|4|2|Joueur celebre pour son elegance sur le court|
+|149|Sport|Dans quel sport utilise t on une cage un gant et un masque de protection ?|Escrime|4|1|Sport de combat avec fleuret sabre ou epee|
+|150|Sport|Quel sport mecanique se pratique sur une piste ovale avec des motos sans freins ?|Speedway|4|4|Courses courtes sur terre battue|
+|151|Sport|Quel joueur argentin est souvent compare a Maradona ?|Lionel Messi|4|2|A longtemps joue au FC Barcelone|
+|152|Sport|Quelle discipline comprend les agrets comme les anneaux la poutre et le sol ?|Gymnastique artistique|4|1|Discipline presente aux Jeux Olympiques|
+|153|Sport|Quel sport de combat se pratique avec un kimono et consiste a projeter l adversaire ?|Judo|4|1|Art martial japonais cree par Jigoro Kano|
+|154|Sport|Dans quelle ligue jouent les Lakers et les Bulls ?|NBA|4|3|Grande ligue nord americaine de basket|
+|155|Sport|Quel sport mecanique se pratique sur deux roues en tout terrain avec des sauts ?|Motocross|4|2|Courses sur circuit terre|
+|156|Sport|Combien de joueurs composent une equipe de volley sur le terrain ?|6|4|2|Trois devant et trois derriere|
+|157|Sport|Dans quel sport pratique t on le lancer de javelot ?|Athletisme|4|2|Discipline de stade avec courses et lancers|
+|158|Sport|Quel pays a remporte le plus de Coupes du Monde de football masculin ?|Bresil|4|1|Equipe portant souvent un maillot jaune|
+|159|Sport|Quel sport se pratique sur glace avec des notes donnees par des juges ?|Patinage artistique|4|1|Discipline olympique en solo ou en couple|
+|160|Sport|Dans quel sport trouve t on un poste appele meneur de jeu ?|Basketball|4|2|Ce joueur organise souvent l attaque|
+|161|Geographie|Quelle est la capitale de l Australie ?|Canberra|5|1|Ce n est ni Sydney ni Melbourne|
+|162|Geographie|Quel est le plus grand desert du monde ?|Sahara|5|2|Il se trouve en grande partie en Afrique du Nord|
+|163|Geographie|Sur quel continent se trouve le Bresil ?|Amerique du Sud|5|4|Pays du football et du carnaval de Rio|
+|164|Geographie|Quel est le plus long fleuve du monde ?|Nil|5|1|Fleuve traversant l Egypte|
+|165|Geographie|Quel ocean borde la cote est des Etats Unis ?|Ocean Atlantique|5|3|Ocean qui separe l Europe et l Amerique|
+|166|Geographie|Quelle est la capitale de l Italie ?|Rome|5|1|Ville ou se trouve le Colisee|
+|167|Geographie|Quel pays a la plus grande population au monde ?|Chine|5|3|Pays tres peuple d Asie de l Est|
+|168|Geographie|Combien y a t il de pays dans l Union europeenne ?|27|5|2|Un peu plus de vingt pays membres|
+|169|Geographie|Quel est le plus haut sommet du monde ?|Everest|5|2|Sommet de plus de 8 000 metres dans l Himalaya|
+|170|Geographie|Quel pays est surnomme le Pays du Soleil Levant ?|Japon|5|2|Archipel situe en Asie de l Est|
+|171|Geographie|Quelle ville est connue sous le nom de Ville Eternelle ?|Rome|5|3|Capitale italienne pleine de monuments antiques|
+|172|Geographie|Quel est le nom de la mer entre l Europe et l Afrique ?|Mer Mediterranee|5|4|Mer bordee par la France l Espagne et l Italie|
+|173|Geographie|Quel pays est le plus grand par superficie en Afrique ?|Algerie|5|1|Pays au nord du continent voisin de la Tunisie|
+|174|Geographie|Quelle riviere traverse Paris ?|Seine|5|1|Fleuve qui passe sous de nombreux ponts parisiens|
+|175|Geographie|Quelle est la capitale du Canada ?|Ottawa|5|2|Ce n est ni Toronto ni Montreal|
+|176|Geographie|Quel est l etat le plus grand des Etats Unis ?|Alaska|5|2|Etat situe a l extreme nord ouest du pays|
+|177|Geographie|Sur quel continent se trouve l Egypte ?|Afrique|5|2|Pays qui possede une partie du desert du Sahara|
+|178|Geographie|Quel pays est celebre pour ses tulipes et ses moulins a vent ?|Pays Bas|5|1|Pays dont la capitale est Amsterdam|
+|179|Geographie|Quel est le plus long fleuve du monde selon la plupart des mesures actuelles ?|Amazone|5|1|Fleuve geant d Amerique du Sud|
+|180|Geographie|Quelle est la capitale de l etat de Californie aux Etats Unis ?|Sacramento|5|3|Ville moins connue que Los Angeles ou San Francisco|
+|181|Geographie|Quelle est la capitale de l Allemagne ?|Berlin|5|1|Ville autrefois partagee en deux pendant la guerre froide|
+|182|Geographie|Sur quel continent se trouve le Japon ?|Asie|5|2|Continent qui comprend aussi la Chine et la Coree|
+|183|Geographie|Quel pays a pour capitale Madrid ?|Espagne|5|3|Pays situe au sud ouest de l Europe|
+|184|Geographie|Quel est le plus grand ocean du monde ?|Ocean Pacifique|5|4|Il separe l Asie de l Amerique|
+|185|Geographie|Quelle est la capitale de l Inde ?|New Delhi|5|1|Ville situee dans le nord du pays|
+|186|Geographie|Quel pays a pour capitale Moscou ?|Russie|5|2|Plus grand pays du monde par superficie|
+|187|Geographie|Sur quel continent se trouve l Argentine ?|Amerique du Sud|5|3|Pays celebre pour le tango et le football|
+|188|Geographie|Quel pays europeen a pour capitale Lisbonne ?|Portugal|5|4|Pays situe a l extreme ouest de l Europe continentale|
+|189|Geographie|Quelle est la capitale de la Chine ?|Pekin|5|1|Grande ville situee dans le nord du pays|
+|190|Geographie|Quel pays africain a pour capitale Le Caire ?|Egypte|5|2|Pays ou l on trouve les pyramides de Gizeh|
+|191|Geographie|Quel est le plus grand lac d Afrique par superficie ?|Lac Victoria|5|3|Il est partage entre plusieurs pays d Afrique de l Est|
+|192|Geographie|Quelle est la capitale de l Espagne ?|Madrid|5|4|Ville situee au centre de la peninsule iberique|
+|193|Geographie|Quel pays a pour capitale Berne ?|Suisse|5|1|Pays connu pour ses montagnes et ses banques|
+|194|Geographie|Sur quel continent se trouve le Canada ?|Amerique du Nord|5|2|Pays situe au dessus des Etats Unis|
+|195|Geographie|Quel pays a pour capitale Ankara ?|Turquie|5|3|Pays a cheval entre Europe et Asie|
+|196|Geographie|Quelle est la capitale de la Grece ?|Athenes|5|4|Ville antique avec l Acropole|
+|197|Geographie|Quel pays d Asie a pour capitale Seoul ?|Coree du Sud|5|1|Pays connu pour la K pop et les jeux video|
+|198|Geographie|Quel desert se trouve en Australie ?|Desert de Simpson|5|2|Grand desert rouge situe dans le centre du pays|
+|199|Geographie|Quel pays a pour capitale Oslo ?|Norvege|5|3|Pays scandinave avec de nombreux fjords|
+|200|Geographie|Sur quel continent se trouve le Maroc ?|Afrique|5|4|Pays du Maghreb au nord ouest du continent|

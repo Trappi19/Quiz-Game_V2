@@ -164,4 +164,3 @@ Minimum requis :
 ## État du projet
 
 Projet en évolution continue, avec ajout progressif de rôles et de fonctionnalités de test/debug.
-```

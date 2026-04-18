@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private InputField inputNomJoueur;
     [SerializeField] private Button btnConfirmer;
     [SerializeField] private GameObject HistoryPanel;
+    [SerializeField] private GameObject NouveautePanel;
 
     [Header("Règles")]
     [SerializeField] private Button btnCancel;
@@ -41,6 +42,7 @@ public class MenuManager : MonoBehaviour
         MenuePanel.SetActive(true);
         HistoryPanel.SetActive(false);
         reglePanel.SetActive(false);
+        NouveautePanel.SetActive(false);
     }
 
     public void NouvellePartie()
@@ -53,6 +55,19 @@ public class MenuManager : MonoBehaviour
         nomJoueurPanel.SetActive(true);
         inputNomJoueur.ActivateInputField();
         Debug.Log("Nouvelle Partie");
+    }
+
+    public void OpenNouveatePanel()
+    {
+        nomJoueurPanel.SetActive(false);
+        MenuePanel.SetActive(false);
+        HistoryPanel.SetActive(false);
+        NouveautePanel.SetActive(true);
+    }
+
+    public void ClodeNouveautePanel() {
+        NouveautePanel.SetActive(false);
+        MenuePanel.SetActive(true);
     }
 
     public void ConfirmerNom()
