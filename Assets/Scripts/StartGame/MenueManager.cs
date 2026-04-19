@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button btnConfirmer;
     [SerializeField] private GameObject HistoryPanel;
     [SerializeField] private GameObject NouveautePanel;
+    [SerializeField] private GameObject PodiumPanel;
 
     [Header("Règles")]
     [SerializeField] private Button btnCancel;
@@ -296,6 +297,7 @@ public class MenuManager : MonoBehaviour
         UImenuChargementPanel.SetActive(false);
         DeleteSavePanel.SetActive(false);
         HistoryPanel.SetActive(false);
+        PodiumPanel.SetActive(false);
     }
 
     public void QuitGame()
@@ -309,5 +311,12 @@ public class MenuManager : MonoBehaviour
         nomJoueurPanel.SetActive(false);
         MenuePanel.SetActive(false);
         HistoryPanel.SetActive(true);
+    }
+
+    public void OpenPodiumPanel()
+    {
+        nomJoueurPanel.SetActive(false);
+        MenuePanel.SetActive(false);
+        PodiumPanel.SetActive(true);
     }
 }

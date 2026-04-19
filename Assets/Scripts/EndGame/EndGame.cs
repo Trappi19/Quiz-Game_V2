@@ -14,6 +14,7 @@ public class EndGame : MonoBehaviour
 
         Debug.Log("Historique enregistré.");
         HistorySystem.AddRunToHistory();
+        PodiumSystem.AddRunToPodium();
 
         int total = GameManager.Instance.GetTotalScore(); // 0..100
         string roleName = PlayerPrefs.GetString("SelectedRoleName", "Aucun rôle");
